@@ -178,7 +178,7 @@ button:focus-visible,a:focus-visible,select:focus-visible{outline:2px solid var(
 <div id="askModal" class="modal"><div class="card"><p id="askTxt" class="m-0"></p><div class="mt-5 flex justify-end gap-2"><button id="askNo" class="btn" data-t="cancel">Cancel</button><button id="askYes" class="btn p" data-t="del">Delete</button></div></div></div>
 
 <script>
-const PROXY_ENDPOINT = "https://YOUR-WORKER.SUBDOMAIN.workers.dev";
+const PROXY_ENDPOINT = "https://orenis-proxy.leezinu1980.workers.dev";
 const LIM = { day: 100, win: 25, winMs: 5 * 3600e3 }, MAXF = 4, MAXB = 10 * 2 ** 20, MAXTOTAL = 14 * 2 ** 20;
 const TEXTEXT = /\.(txt|md|csv|json|js|ts|py|html|css|log|xml|ya?ml)$/i;
 const $ = s => document.querySelector(s), ls = (k, v) => v === undefined ? localStorage.getItem(k) : localStorage.setItem(k, v);
