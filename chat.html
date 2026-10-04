@@ -8,6 +8,9 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#fff;--side:#f7f7f9;--surf:#f3f3f7;--line:#e6e6ec;--tx:#18181b;--mu:#6e6e7a;--acc:#7a4fb8;--grad:linear-gradient(135deg,#5B3A8E,#E8646B);--sh:0 4px 24px #1a102a14}
@@ -27,8 +30,8 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .item:hover{background:var(--surf)}
 .row{display:flex;align-items:center;border-radius:.7rem}.row:hover,.row.on{background:var(--surf)}
 .row>button:first-child{flex:1;min-width:0;padding:.5rem .65rem;text-align:left;font-size:.88rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.row>button:last-child{padding:.4rem .6rem;color:var(--mu);opacity:0}.row:hover>button:last-child,.row.on>button:last-child{opacity:1}
-@media(hover:none){.row>button:last-child{opacity:.7}}
+.row>button+button{padding:.4rem .45rem;color:var(--mu);opacity:0}.row:hover>button+button,.row.on>button+button{opacity:1}
+@media(hover:none){.row>button+button{opacity:.7}}
 .lbl{padding:.9rem .65rem .3rem;font-size:.72rem;font-weight:500;color:var(--mu)}
 .ava{display:grid;place-items:center;width:2rem;height:2rem;border-radius:50%;background:var(--grad);color:#fff;font-weight:600;font-size:.85rem;flex:none}
 .col{flex:1;min-width:0;display:flex;flex-direction:column}
@@ -52,6 +55,17 @@ a.pill:hover,button.pill:hover{background:var(--surf);color:var(--tx)}
 .md h1,.md h2,.md h3{font-weight:600;margin:1.2rem 0 .3rem;line-height:1.3}.md h1{font-size:1.35rem}.md h2{font-size:1.15rem}
 .md table{border-collapse:collapse;font-size:.88rem;display:block;overflow:auto}.md td,.md th{border:1px solid var(--line);padding:.4rem .7rem}
 .md blockquote{border-left:3px solid var(--line);padding-left:.9rem;color:var(--mu);margin:.6rem 0}
+.katex{font-size:1.05em}.katex-display{overflow-x:auto;overflow-y:hidden;padding:.3rem 0;margin:.8rem 0}
+.hljs-keyword,.hljs-literal,.hljs-selector-tag{color:#c2418a}.hljs-string,.hljs-attr{color:#1b8a5a}.hljs-number,.hljs-built_in{color:#b8730a}.hljs-title,.hljs-function{color:#6a3fb0}.hljs-comment{color:var(--mu);font-style:italic}
+[data-theme=dark] .hljs-keyword,[data-theme=dark] .hljs-literal{color:#f08bbd}[data-theme=dark] .hljs-string,[data-theme=dark] .hljs-attr{color:#7ee0a8}[data-theme=dark] .hljs-number,[data-theme=dark] .hljs-built_in{color:#f3b45f}[data-theme=dark] .hljs-title,[data-theme=dark] .hljs-function{color:#b9a1ee}
+.lg{position:absolute;top:.55rem;left:1rem;font-size:.7rem;color:var(--mu)}.md pre{padding-top:2.1rem}
+.sbox{width:100%;margin:.5rem 0 .2rem;background:var(--surf);border:1px solid transparent;border-radius:.7rem;padding:.5rem .7rem;font-size:16px;color:var(--tx)}.sbox:focus{outline:0;border-color:var(--acc)}
+.jump{position:absolute;left:50%;top:-2.9rem;transform:translateX(-50%);width:2.2rem;height:2.2rem;border-radius:50%;background:var(--bg);border:1px solid var(--line);box-shadow:var(--sh);display:grid;place-items:center;z-index:5;color:var(--mu)}
+.edt{flex:1;min-width:0;background:var(--bg);border:1px solid var(--acc);border-radius:.5rem;padding:.3rem .5rem;font:inherit;font-size:.88rem;color:var(--tx);outline:0}
+.hello svg{filter:drop-shadow(0 10px 26px #7a4fb866)}
+.mic.on{color:#e8646b;background:color-mix(in srgb,#e8646b 14%,transparent)}
+.uacts{display:flex;gap:.1rem;justify-content:flex-end;width:100%;opacity:0;transition:opacity .15s}.mu:hover .uacts,.mu:focus-within .uacts{opacity:1}@media(hover:none){.uacts{opacity:1}}
+.err{display:flex;align-items:center;flex-wrap:wrap;gap:.4rem}
 .cp{position:absolute;top:.5rem;right:.5rem;font-size:.72rem;color:var(--mu);border:1px solid var(--line);border-radius:.45rem;padding:.1rem .5rem;background:var(--bg)}
 .srcs{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem;margin-top:.7rem}
 .note{display:inline-flex;align-items:center;gap:.35rem;font-size:.75rem;color:var(--mu);margin-right:.2rem}
@@ -63,7 +77,7 @@ a.pill:hover,button.pill:hover{background:var(--surf);color:var(--tx)}
 .err{max-width:46rem;margin:0 auto 1.5rem;border:1px solid #e8646b66;background:#e8646b14;border-radius:.9rem;padding:.7rem 1rem;font-size:.9rem}
 .hello{text-align:center;padding:0 .5rem}.hello h2{margin:.9rem 0 0;font-size:2.35rem;line-height:1.15;font-weight:600;letter-spacing:-.02em;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
 .hello p{margin:.3rem 0 0;font-size:1.6rem;font-weight:500;color:var(--mu);letter-spacing:-.02em;line-height:1.25}
-.dock{padding:0 1rem calc(1rem + env(safe-area-inset-bottom))}.stage.empty .dock{padding-bottom:0}.wrap{max-width:46rem;margin:0 auto}
+.dock{position:relative;padding:0 1rem calc(1rem + env(safe-area-inset-bottom))}.stage.empty .dock{padding-bottom:0}.wrap{max-width:46rem;margin:0 auto}
 /* One surface only: the composer is the box, the textarea inside is borderless with no focus outline */
 .composer{background:var(--surf);border:1px solid var(--line);border-radius:1.75rem;padding:.8rem .75rem .6rem 1.1rem;box-shadow:var(--sh);transition:border-color .15s,box-shadow .15s}
 .composer:focus-within{border-color:var(--acc);box-shadow:var(--sh),0 0 0 3px color-mix(in srgb,var(--acc) 16%,transparent)}
@@ -101,6 +115,7 @@ button:focus-visible,a:focus-visible,select:focus-visible{outline:2px solid var(
   <aside id="side" class="side">
     <div class="brand"><span data-bloom="24"></span>Orenis</div>
     <button id="newChat" class="item mt-2"><svg class="icon" data-i="plus" viewBox="0 0 24 24"></svg><span data-t="newChat">New chat</span></button>
+    <input id="sq" class="sbox" type="search" data-tp="search" placeholder="Search chats" aria-label="Search chats">
     <nav id="list" class="mt-1 flex-1 overflow-y-auto" aria-label="Chats"></nav>
     <div class="flex items-center gap-3 border-t pt-3" style="border-color:var(--line)">
       <div id="ava" class="ava">?</div>
@@ -115,11 +130,12 @@ button:focus-visible,a:focus-visible,select:focus-visible{outline:2px solid var(
       <button id="menu" class="ibtn" aria-label="Menu"><svg class="icon" data-i="panel" viewBox="0 0 24 24"></svg></button>
       <h1 id="title" class="m-0 min-w-0 flex-1 truncate text-base font-semibold">Orenis</h1>
       <span id="live" class="pill" hidden><span class="dots"><span></span><span></span><span></span></span><span data-t="working">Working</span></span>
+      <button id="export" class="ibtn" hidden data-ta="export" aria-label="Export chat"><svg class="icon" data-i="download" viewBox="0 0 24 24"></svg></button>
       <button id="theme" class="ibtn" aria-label="Theme"><svg class="icon" id="themeIcon" viewBox="0 0 24 24"></svg></button>
     </header>
     <div id="stage" class="stage empty">
       <main id="feed" class="feed" aria-live="polite"></main>
-      <div class="dock"><div class="wrap">
+      <div class="dock"><button id="jump" class="jump" hidden data-ta="down" aria-label="Scroll to bottom"><svg class="icon" data-i="down" viewBox="0 0 24 24"></svg></button><div class="wrap">
         <div class="composer">
           <div id="tray" class="tray"></div>
           <textarea id="input" rows="1" maxlength="8000" data-tp="ph" placeholder="Ask Orenis anything" aria-label="Message"></textarea>
@@ -127,6 +143,7 @@ button:focus-visible,a:focus-visible,select:focus-visible{outline:2px solid var(
             <button id="attach" class="ibtn" data-ta="attach" aria-label="Attach files"><svg class="icon" data-i="clip" viewBox="0 0 24 24"></svg></button>
             <input id="file" type="file" multiple hidden accept="image/*,audio/*,video/*,application/pdf,text/*,.md,.csv,.json,.js,.ts,.py,.html,.css,.txt,.log,.xml,.yaml,.yml">
             <span class="flex-1"></span>
+            <button id="mic" class="ibtn mic" hidden data-ta="mic" aria-label="Voice input"><svg class="icon" data-i="mic" viewBox="0 0 24 24"></svg></button>
             <button id="send" class="send" disabled data-ta="send" aria-label="Send"><svg class="icon" data-i="up" viewBox="0 0 24 24"></svg></button>
           </div>
         </div>
@@ -161,16 +178,17 @@ button:focus-visible,a:focus-visible,select:focus-visible{outline:2px solid var(
 <div id="askModal" class="modal"><div class="card"><p id="askTxt" class="m-0"></p><div class="mt-5 flex justify-end gap-2"><button id="askNo" class="btn" data-t="cancel">Cancel</button><button id="askYes" class="btn p" data-t="del">Delete</button></div></div></div>
 
 <script>
-const PROXY_ENDPOINT = "https://orenis-proxy.leezinu1980.workers.dev";
+const PROXY_ENDPOINT = "https://YOUR-WORKER.SUBDOMAIN.workers.dev";
 const LIM = { day: 100, win: 25, winMs: 5 * 3600e3 }, MAXF = 4, MAXB = 10 * 2 ** 20, MAXTOTAL = 14 * 2 ** 20;
 const TEXTEXT = /\.(txt|md|csv|json|js|ts|py|html|css|log|xml|ya?ml)$/i;
 const $ = s => document.querySelector(s), ls = (k, v) => v === undefined ? localStorage.getItem(k) : localStorage.setItem(k, v);
-let db, chatId = null, busy = false, pending = [];
+let db, chatId = null, busy = false, pending = [], busyChat = null, thEl = null, ctl = null, curSkip = null;
+const uid = () => crypto.randomUUID?.() || Date.now().toString(36) + Math.random().toString(36).slice(2);
 
 /* ---------- i18n: English is the in-code default; other languages live here ---------- */
 const L = {
-ko: { newChat: "새 채팅", today: "오늘", prev: "지난 7일", older: "이전", plan: "무료 플랜", settings: "설정", usage: "남은 사용량", win: "최근 5시간", mem: "개인화 메모리", memd: "다른 최근 대화의 짧은 내용을 공유해 더 개인화된 답변을 받습니다.", ren: "이름 변경", wipe: "이 기기의 모든 대화 삭제", language: "언어", wt: "Orenis에 오신 것을 환영합니다", wq: "어떻게 불러 드릴까요?", wph: "이름", cont: "계속", pt: "내 플랜", pfd: "하루 100개 메시지, 5시간당 25개, 웹 검색과 파일 입력.", pro: "프로 플랜", soon: "출시 예정", ppd: "더 높은 한도와 우선 처리 속도.", unav: "이용 불가", act: "사용 중", cfree: "무료로 계속", cancel: "취소", del: "삭제", ph: "Orenis에게 무엇이든 물어보세요", fine: "Orenis는 베타 버전이며 실수할 수 있습니다. 중요한 정보는 확인하세요.", hello: "안녕하세요, {n}님", how: "무엇을 도와드릴까요?", drop: "파일을 놓아 첨부", copy: "복사", copied: "복사됨", searched: "웹 검색 사용", working: "처리 중", s1: "오늘의 IT 뉴스 요약해줘", s2: "양자 컴퓨팅을 쉽게 설명해줘", s3: "파이썬 스크립트 작성 도와줘", s4: "첨부한 문서를 검토해줘", eDay: "일일 한도에 도달했습니다. {t}에 초기화됩니다.", eWin: "5시간 한도에 도달했습니다. {t}에 한 칸이 풀립니다.", eSize: "첨부 파일이 총 14MB를 넘습니다. 하나를 제거하고 다시 시도하세요.", eStore: "이 브라우저에서는 로컬 저장소를 사용할 수 없어 대화를 저장할 수 없습니다.", eTo: "요청 시간이 초과되었습니다. 다시 시도해 주세요.", eNet: "Orenis에 연결할 수 없습니다. 연결을 확인하고 다시 시도하세요.", e413: "첨부 파일이 너무 큽니다.", e429: "Orenis가 혼잡합니다. 잠시 후 다시 시도해 주세요.", eGen: "지금은 Orenis가 응답할 수 없습니다. 잠시 후 다시 시도해 주세요.", maxf: "메시지당 최대 {n}개 파일", big: "{f}: 10MB 초과", uns: "{f}: 지원하지 않는 형식", delq: "\"{t}\" 대화를 삭제할까요?", wipeq: "이 기기에 저장된 모든 대화를 삭제할까요? 되돌릴 수 없습니다.", resets: "{t}에 초기화 ({z})", slot: "다음 한 칸: {t}", full: "전체 한도 사용 가능", left: "{p}% · {n}개 남음" },
-es: { newChat: "Nuevo chat", today: "Hoy", prev: "Últimos 7 días", older: "Anteriores", plan: "Plan gratuito", settings: "Ajustes", usage: "Uso restante", win: "Últimas 5 horas", mem: "Memoria personalizada", memd: "Comparte fragmentos cortos de tus otros chats recientes para respuestas más personales.", ren: "Cambiar mi nombre", wipe: "Borrar todos los chats de este dispositivo", language: "Idioma", wt: "Te damos la bienvenida a Orenis", wq: "¿Cómo quieres que te llamemos?", wph: "Tu nombre", cont: "Continuar", pt: "Tu plan", pfd: "100 mensajes al día, 25 cada 5 horas, búsqueda web y archivos.", pro: "Plan Pro", soon: "Próximamente", ppd: "Límites más altos y mayor velocidad.", unav: "No disponible", act: "Activo", cfree: "Continuar con el plan gratuito", cancel: "Cancelar", del: "Eliminar", ph: "Pregunta lo que quieras a Orenis", fine: "Orenis está en beta y puede cometer errores. Verifica la información importante.", hello: "Hola, {n}", how: "¿En qué puedo ayudarte hoy?", drop: "Suelta archivos para adjuntar", copy: "Copiar", copied: "Copiado", searched: "Buscó en la web", working: "Trabajando", s1: "Resume las noticias tech de hoy", s2: "Explica la computación cuántica fácil", s3: "Ayúdame con un script de Python", s4: "Revisa un documento que adjuntaré", eDay: "Alcanzaste el límite diario. Se reinicia {t}.", eWin: "Alcanzaste el límite de 5 horas. Se libera un cupo {t}.", eSize: "Los adjuntos superan 14 MB. Quita uno e inténtalo de nuevo.", eStore: "El almacenamiento local no está disponible, así que no se pueden guardar los chats.", eTo: "La solicitud tardó demasiado. Inténtalo de nuevo.", eNet: "No se puede conectar con Orenis. Revisa tu conexión e inténtalo de nuevo.", e413: "Los adjuntos son demasiado grandes.", e429: "Orenis está ocupado. Inténtalo de nuevo en unos minutos.", eGen: "Orenis no pudo responder ahora. Inténtalo de nuevo en breve.", maxf: "Hasta {n} archivos por mensaje", big: "{f} supera 10 MB", uns: "{f}: tipo no compatible", delq: "¿Eliminar \"{t}\"?", wipeq: "¿Borrar todos los chats de este dispositivo? No se puede deshacer.", resets: "Se reinicia {t} ({z})", slot: "Próximo cupo: {t}", full: "Cupo completo disponible", left: "{p}% · quedan {n}" } };
+ko: { newChat: "새 채팅", today: "오늘", prev: "지난 7일", older: "이전", plan: "무료 플랜", settings: "설정", usage: "남은 사용량", win: "최근 5시간", mem: "개인화 메모리", memd: "다른 최근 대화의 짧은 내용을 공유해 더 개인화된 답변을 받습니다.", ren: "이름 변경", wipe: "이 기기의 모든 대화 삭제", language: "언어", wt: "Orenis에 오신 것을 환영합니다", wq: "어떻게 불러 드릴까요?", wph: "이름", cont: "계속", pt: "내 플랜", pfd: "하루 100개 메시지, 5시간당 25개, 웹 검색과 파일 입력.", pro: "프로 플랜", soon: "출시 예정", ppd: "더 높은 한도와 우선 처리 속도.", unav: "이용 불가", act: "사용 중", cfree: "무료로 계속", cancel: "취소", del: "삭제", ph: "Orenis에게 무엇이든 물어보세요", fine: "Orenis는 베타 버전이며 실수할 수 있습니다. 중요한 정보는 확인하세요.", hello: "안녕하세요, {n}님", how: "무엇을 도와드릴까요?", drop: "파일을 놓아 첨부", copy: "복사", copied: "복사됨", searched: "웹 검색 사용", working: "처리 중", s1: "오늘의 IT 뉴스 요약해줘", s2: "양자 컴퓨팅을 쉽게 설명해줘", s3: "파이썬 스크립트 작성 도와줘", s4: "첨부한 문서를 검토해줘", eDay: "일일 한도에 도달했습니다. {t}에 초기화됩니다.", eWin: "5시간 한도에 도달했습니다. {t}에 한 칸이 풀립니다.", eSize: "첨부 파일이 총 14MB를 넘습니다. 하나를 제거하고 다시 시도하세요.", eStore: "이 브라우저에서는 로컬 저장소를 사용할 수 없어 대화를 저장할 수 없습니다.", eTo: "요청 시간이 초과되었습니다. 다시 시도해 주세요.", eNet: "Orenis에 연결할 수 없습니다. 연결을 확인하고 다시 시도하세요.", e413: "첨부 파일이 너무 큽니다.", e429: "Orenis가 혼잡합니다. 잠시 후 다시 시도해 주세요.", eGen: "지금은 Orenis가 응답할 수 없습니다. 잠시 후 다시 시도해 주세요.", maxf: "메시지당 최대 {n}개 파일", big: "{f}: 10MB 초과", uns: "{f}: 지원하지 않는 형식", delq: "\"{t}\" 대화를 삭제할까요?", wipeq: "이 기기에 저장된 모든 대화를 삭제할까요? 되돌릴 수 없습니다.", resets: "{t}에 초기화 ({z})", slot: "다음 한 칸: {t}", full: "전체 한도 사용 가능", left: "{p}% · {n}개 남음", search: "대화 검색", export: "대화 내보내기", regen: "다시 생성", edit: "수정", retry: "다시 시도", mic: "음성 입력", down: "맨 아래로", exported: "대화를 내보냈습니다", stop: "중지", send: "보내기" },
+es: { newChat: "Nuevo chat", today: "Hoy", prev: "Últimos 7 días", older: "Anteriores", plan: "Plan gratuito", settings: "Ajustes", usage: "Uso restante", win: "Últimas 5 horas", mem: "Memoria personalizada", memd: "Comparte fragmentos cortos de tus otros chats recientes para respuestas más personales.", ren: "Cambiar mi nombre", wipe: "Borrar todos los chats de este dispositivo", language: "Idioma", wt: "Te damos la bienvenida a Orenis", wq: "¿Cómo quieres que te llamemos?", wph: "Tu nombre", cont: "Continuar", pt: "Tu plan", pfd: "100 mensajes al día, 25 cada 5 horas, búsqueda web y archivos.", pro: "Plan Pro", soon: "Próximamente", ppd: "Límites más altos y mayor velocidad.", unav: "No disponible", act: "Activo", cfree: "Continuar con el plan gratuito", cancel: "Cancelar", del: "Eliminar", ph: "Pregunta lo que quieras a Orenis", fine: "Orenis está en beta y puede cometer errores. Verifica la información importante.", hello: "Hola, {n}", how: "¿En qué puedo ayudarte hoy?", drop: "Suelta archivos para adjuntar", copy: "Copiar", copied: "Copiado", searched: "Buscó en la web", working: "Trabajando", s1: "Resume las noticias tech de hoy", s2: "Explica la computación cuántica fácil", s3: "Ayúdame con un script de Python", s4: "Revisa un documento que adjuntaré", eDay: "Alcanzaste el límite diario. Se reinicia {t}.", eWin: "Alcanzaste el límite de 5 horas. Se libera un cupo {t}.", eSize: "Los adjuntos superan 14 MB. Quita uno e inténtalo de nuevo.", eStore: "El almacenamiento local no está disponible, así que no se pueden guardar los chats.", eTo: "La solicitud tardó demasiado. Inténtalo de nuevo.", eNet: "No se puede conectar con Orenis. Revisa tu conexión e inténtalo de nuevo.", e413: "Los adjuntos son demasiado grandes.", e429: "Orenis está ocupado. Inténtalo de nuevo en unos minutos.", eGen: "Orenis no pudo responder ahora. Inténtalo de nuevo en breve.", maxf: "Hasta {n} archivos por mensaje", big: "{f} supera 10 MB", uns: "{f}: tipo no compatible", delq: "¿Eliminar \"{t}\"?", wipeq: "¿Borrar todos los chats de este dispositivo? No se puede deshacer.", resets: "Se reinicia {t} ({z})", slot: "Próximo cupo: {t}", full: "Cupo completo disponible", left: "{p}% · quedan {n}", search: "Buscar chats", export: "Exportar chat", regen: "Regenerar", edit: "Editar", retry: "Reintentar", mic: "Entrada de voz", down: "Ir al final", exported: "Chat exportado", stop: "Detener", send: "Enviar" } };
 let lang = ls("orenis_lang") || (/^ko/i.test(navigator.language) ? "ko" : /^es/i.test(navigator.language) ? "es" : "en");
 const T = (k, en, v = {}) => { let s = L[lang]?.[k] ?? en; for (const x in v) s = s.replace("{" + x + "}", v[x]); return s; };
 function applyLang() {
@@ -180,7 +198,7 @@ function applyLang() {
   document.querySelectorAll("[data-ta]").forEach(e => { e.dataset.en ??= e.getAttribute("aria-label"); e.setAttribute("aria-label", L[lang]?.[e.dataset.ta] ?? e.dataset.en); });
 }
 
-const I = { plus: "M12 5v14M5 12h14", up: "M12 19V5M5 12l7-7 7 7", x: "M6 6l12 12M18 6 6 18", copy: "M9 9h10v10H9zM5 15V5h10", check: "M5 12.5l4.5 4.5L19 7", globe: "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18",
+const I = { download: "M12 4v11M7 11l5 5 5-5M5 20h14", mic: "M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3zM5 11a7 7 0 0 0 14 0M12 18v3", stop: "M7 7h10v10H7z", edit: "M4 20h4L19 9l-4-4L4 16zM13.5 6.5l4 4", refresh: "M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7", down: "M6 9l6 6 6-6", plus: "M12 5v14M5 12h14", up: "M12 19V5M5 12l7-7 7 7", x: "M6 6l12 12M18 6 6 18", copy: "M9 9h10v10H9zM5 15V5h10", check: "M5 12.5l4.5 4.5L19 7", globe: "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18",
   panel: "M4 5h16v14H4zM9 5v14", clip: "M21 12.5 12.5 21a5 5 0 0 1-7-7L14 5.5a3.4 3.4 0 0 1 5 5L10.5 19a1.8 1.8 0 0 1-2.5-2.5L15 9.5",
   sliders: "M4 7h9M17 7h3M4 17h3M11 17h9M15 5v4M9 15v4", moon: "M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z", sun: "M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" };
 const ic = n => `<path d="${I[n]}"/>`;
@@ -223,11 +241,30 @@ let tt; const toast = t => { const e = $("#toast"); e.textContent = t; e.classLi
 const ask = text => new Promise(ok => { $("#askTxt").textContent = text; show("#askModal"); $("#askYes").onclick = () => { hide("#askModal"); ok(true); }; $("#askNo").onclick = () => { hide("#askModal"); ok(false); }; });
 const b64 = f => new Promise((ok, no) => { const r = new FileReader(); r.onload = () => ok(r.result.split(",")[1]); r.onerror = no; r.readAsDataURL(f); });
 const isText = f => f.type.startsWith("text/") || TEXTEXT.test(f.name);
-const feed = $("#feed"), scroll = () => feed.scrollTo({ top: feed.scrollHeight, behavior: "smooth" });
+const feed = $("#feed"), nearBottom = () => feed.scrollHeight - feed.scrollTop - feed.clientHeight < 120;
+const scroll = (force = true) => { if (force || nearBottom()) feed.scrollTo({ top: feed.scrollHeight, behavior: "smooth" }); }; // streaming never yanks you away from what you're reading
+feed.addEventListener("scroll", () => { $("#jump").hidden = nearBottom(); });
 const setEmpty = b => $("#stage").classList.toggle("empty", b);
 async function copyText(t) { try { await navigator.clipboard.writeText(t); toast(T("copied", "Copied")); return true; } catch { const a = el("textarea"); a.value = t; document.body.append(a); a.select(); document.execCommand("copy"); a.remove(); toast(T("copied", "Copied")); return true; } }
 DOMPurify.addHook("afterSanitizeAttributes", n => { if (n.tagName === "A") { n.target = "_blank"; n.rel = "noopener noreferrer"; } });
-const md = t => DOMPurify.sanitize(marked.parse(t, { breaks: true }));
+/* Markdown + LaTeX: math is pulled out before markdown runs (so _ and \\ survive), rendered by KaTeX, then put back after sanitizing. Code is left alone. */
+function md(src) {
+  const store = [], keep = (disp, tex) => `@@M${store.push([disp, tex]) - 1}@@`;
+  const s = src.split(/(```[\s\S]*?```|`[^`\n]+`)/).map((seg, i) => i % 2 ? seg : seg
+    .replace(/\$\$([\s\S]+?)\$\$/g, (_, t) => keep(true, t)).replace(/\\\[([\s\S]+?)\\\]/g, (_, t) => keep(true, t))
+    .replace(/\\\(([\s\S]+?)\\\)/g, (_, t) => keep(false, t))
+    .replace(/(?<![\\$\w])\$(?!\s)([^$\n]+?)(?<!\s)\$(?![\d$])/g, (_, t) => keep(false, t))).join("");
+  return DOMPurify.sanitize(marked.parse(s, { breaks: true })).replace(/@@M(\d+)@@/g, (_, i) => {
+    const [d, t] = store[i];
+    try { return katex.renderToString(t.trim(), { displayMode: d, throwOnError: false, output: "htmlAndMathml" }); }
+    catch { return t.replace(/[&<>]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c])); }
+  });
+}
+function plain(node) { // readable copy: math becomes its TeX source, code-copy buttons dropped
+  const c = node.cloneNode(true); c.querySelectorAll(".cp").forEach(x => x.remove());
+  c.querySelectorAll(".katex").forEach(k => { const a = k.querySelector("annotation"); k.replaceWith(a ? a.textContent : k.textContent); });
+  c.style.cssText = "position:fixed;left:-9999px;top:0;width:40rem"; document.body.append(c); const t = c.innerText.trim(); c.remove(); return t;
+}
 function setTheme(t) { document.documentElement.dataset.theme = t; ls("orenis_theme", t); $("#themeIcon").innerHTML = ic(t === "dark" ? "sun" : "moon"); }
 $("#theme").onclick = () => setTheme(document.documentElement.dataset.theme === "dark" ? "light" : "dark");
 
@@ -236,28 +273,56 @@ function fileChip(f) {
   if (f.type.startsWith("image/") && f.blob) { const i = el("img", "thumb"); i.src = URL.createObjectURL(f.blob); i.alt = f.name; return i; }
   return el("span", "fchip", (f.type.startsWith("audio/") ? "🎧 " : f.type.startsWith("video/") ? "🎬 " : "📄 ") + f.name);
 }
-function actBtn(label, icon, fn) { const b = el("button", "act"); b.append(svg(icon), label); b.onclick = fn; return b; }
-function bubble(m) {
+function actBtn(label, icon, fn, aria) { const b = el("button", "act"); b.append(svg(icon), label); if (aria) b.setAttribute("aria-label", aria); b.onclick = fn; return b; }
+/* Typewriter-style reveal of an already-rendered answer (cosmetic). Math renders whole when reached. Returns skip(). */
+function revealText(root, onDone) {
+  const units = [], w = document.createTreeWalker(root, NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_TEXT, { acceptNode: n => n.nodeType === 3 ? (n.parentElement.closest(".katex") ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT) : n.classList.contains("katex") ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP });
+  for (let n; (n = w.nextNode());) units.push(n.nodeType === 3 ? { n, t: n.data } : { n, k: 1 });
+  let done = false, raf, ui = 0, ci = 0;
+  const finish = () => { if (done) return; done = true; cancelAnimationFrame(raf); units.forEach(u => u.k ? u.n.style.visibility = "" : u.n.data = u.t); onDone(); };
+  if (!units.length || matchMedia("(prefers-reduced-motion: reduce)").matches) { finish(); return finish; }
+  units.forEach(u => u.k ? u.n.style.visibility = "hidden" : u.n.data = "");
+  const per = Math.max(2, Math.ceil(units.reduce((a, u) => a + (u.k ? 6 : u.t.length), 0) / 150)); // always done in about 2.5 s
+  const tick = () => {
+    let b = per;
+    while (b > 0 && ui < units.length) { const u = units[ui]; if (u.k) { u.n.style.visibility = ""; ui++; b -= 6; } else { const take = Math.min(b, u.t.length - ci); ci += take; u.n.data = u.t.slice(0, ci); b -= take; if (ci >= u.t.length) { ui++; ci = 0; } } }
+    scroll(false); ui < units.length ? raf = requestAnimationFrame(tick) : finish();
+  };
+  raf = requestAnimationFrame(tick); return finish;
+}
+function bubble(m, o = {}) {
   const row = el("div", "m pop");
-  if (m.role === "user") { row.classList.add("mu"); (m.files || []).forEach(f => row.append(fileChip(f))); if (m.text) row.append(el("div", "ub", m.text)); return row; }
+  if (m.role === "user") {
+    row.classList.add("mu"); (m.files || []).forEach(f => row.append(fileChip(f))); if (m.text) row.append(el("div", "ub", m.text));
+    const ua = el("div", "uacts"); ua.append(actBtn("", "copy", () => copyText(m.text), T("copy", "Copy")), actBtn("", "edit", () => editFrom(m), T("edit", "Edit"))); row.append(ua); return row;
+  }
   row.classList.add("ma"); const lg = bloom(26); lg.style.marginTop = ".2rem"; row.append(lg);
   const body = el("div", "body"), txt = el("div", "md"); txt.innerHTML = md(m.text);
-  txt.querySelectorAll("pre").forEach(p => { const c = p.querySelector("code")?.textContent ?? p.textContent, b = el("button", "cp", T("copy", "Copy")); b.onclick = () => copyText(c); p.append(b); });
-  body.append(txt);
+  txt.querySelectorAll("pre").forEach(p => {
+    const code = p.querySelector("code"), c = code?.textContent ?? p.textContent;
+    if (code) { try { hljs.highlightElement(code); } catch {} const l = (code.className.match(/language-([\w+#-]+)/) || [])[1]; if (l) p.append(el("span", "lg", l)); }
+    const b = el("button", "cp", T("copy", "Copy")); b.onclick = () => copyText(c); p.append(b);
+  });
+  const extra = el("div"); // sources + actions appear once the reveal finishes
   if (m.searched || m.sources?.length) {
     const bar = el("div", "srcs");
     if (m.searched) { const n = el("span", "note"); n.append(svg("globe"), T("searched", "Searched the web")); bar.append(n); }
     (m.sources || []).slice(0, 5).forEach(s => { let h = s.url; try { h = new URL(s.url).hostname.replace(/^www\./, ""); } catch {} const a = el("a", "pill"); a.href = s.url; a.target = "_blank"; a.rel = "noopener noreferrer"; a.title = s.title; a.append(el("span", "dot", h[0]), h); bar.append(a); });
-    body.append(bar);
+    extra.append(bar);
   }
   const acts = el("div", "acts");
-  acts.append(actBtn(T("copy", "Copy"), "copy", () => { // plain text of the rendered answer (code-copy buttons hidden while reading)
-    const cps = [...txt.querySelectorAll(".cp")]; cps.forEach(c => c.hidden = true); const t = txt.innerText.trim(); cps.forEach(c => c.hidden = false); copyText(t); }),
-    actBtn("Markdown", "copy", () => copyText(m.text)));
-  body.append(acts); row.append(body); return row;
+  acts.append(actBtn(T("copy", "Copy"), "copy", () => copyText(plain(txt))), actBtn("Markdown", "copy", () => copyText(m.text)));
+  if (o.isLast) { const r = actBtn(T("regen", "Regenerate"), "refresh", regenerate); r.classList.add("regen"); acts.append(r); }
+  extra.append(acts); body.append(txt, extra); row.append(body);
+  if (o.animate) { extra.hidden = true; row._done = new Promise(res => { row._skip = revealText(txt, () => { extra.hidden = false; res(); }); }); }
+  return row;
 }
 function thinking() { const r = el("div", "m ma pop"), l = bloom(26); l.style.marginTop = ".2rem"; r.append(l); const d = el("div", "dots"); d.style.paddingTop = ".6rem"; d.innerHTML = "<span></span><span></span><span></span>"; r.append(d); return r; }
-function banner(text) { const b = el("div", "err pop", text); b.setAttribute("role", "alert"); feed.append(b); scroll(); }
+function banner(text, retry = false) {
+  const b = el("div", "err pop", text); b.setAttribute("role", "alert");
+  if (retry) { const r = el("button", "act", T("retry", "Retry")); r.style.border = "1px solid var(--line)"; r.onclick = () => { b.remove(); if (!busy && gate()) submit(null, null, true); }; b.append(r); }
+  feed.append(b); scroll();
+}
 function welcome() {
   feed.innerHTML = ""; const w = el("div", "hello pop"); w.append(bloom(44), el("h2", "", ls("orenis_name") ? T("hello", "Hello, {n}", { n: ls("orenis_name") }) : T("hello", "Hello, {n}", { n: "" }).replace(/,?\s*님?\s*$/, "")), el("p", "", T("how", "How can I help you today?"))); feed.append(w);
   const s = $("#sugg"); s.innerHTML = "";
@@ -266,19 +331,27 @@ function welcome() {
 async function openChat(id) {
   chatId = id; feed.innerHTML = "";
   const ms = id ? await msgsOf(id) : [], c = id ? await tx("chats", "readonly", o => o.get(id)) : null;
-  $("#title").textContent = c ? c.title : "Orenis";
-  setEmpty(!ms.length); if (!ms.length) welcome(); else ms.forEach(m => feed.append(bubble(m)));
-  feed.scrollTop = feed.scrollHeight; renderList(); closeSide();
+  $("#title").textContent = c ? c.title : "Orenis"; $("#export").hidden = !ms.length;
+  setEmpty(!ms.length); if (!ms.length) welcome(); else ms.forEach((m, i) => feed.append(bubble(m, { isLast: m.role === "assistant" && i === ms.length - 1 })));
+  if (busy && id === busyChat && thEl) feed.append(thEl); // reply still on its way for this chat
+  feed.scrollTop = feed.scrollHeight; $("#jump").hidden = true; renderList(); closeSide();
 }
 const grp = t => { const d = new Date(); d.setHours(0, 0, 0, 0); const a = d.getTime(); return t >= a ? T("today", "Today") : t >= a - 6 * 864e5 ? T("prev", "Previous 7 days") : T("older", "Older"); };
+function startRename(c, b) {
+  const i = el("input", "edt"); i.value = c.title; b.replaceWith(i); i.focus(); i.select(); let done = false;
+  const end = async ok => { if (done) return; done = true; const t = i.value.trim().slice(0, 60); if (ok && t) { await tx("chats", "readwrite", o => { const g = o.get(c.id); g.onsuccess = () => o.put({ ...g.result, title: t }); }); if (c.id === chatId) $("#title").textContent = t; } renderList(); };
+  i.onkeydown = e => { if (e.key === "Enter") end(true); if (e.key === "Escape") end(false); }; i.onblur = () => end(true);
+}
 async function renderList() {
-  const list = $("#list"); list.innerHTML = ""; let last = "";
-  for (const c of await allChats()) {
+  const list = $("#list"), q = $("#sq").value.trim().toLowerCase(); list.innerHTML = ""; let last = "";
+  for (const c of (await allChats()).filter(c => !q || c.title.toLowerCase().includes(q))) {
     const g = grp(c.updated); if (g !== last) { list.append(el("div", "lbl", g)); last = g; }
-    const r = el("div", "row" + (c.id === chatId ? " on" : "")), b = el("button", "", c.title), x = el("button"); x.append(svg("x")); x.firstChild.style.cssText = "width:.9rem;height:.9rem";
-    b.onclick = () => openChat(c.id); x.setAttribute("aria-label", T("del", "Delete"));
+    const r = el("div", "row" + (c.id === chatId ? " on" : "")), b = el("button", "", c.title), e = el("button"), x = el("button");
+    e.append(svg("edit")); x.append(svg("x")); [e, x].forEach(z => z.firstChild.style.cssText = "width:.9rem;height:.9rem");
+    b.onclick = () => openChat(c.id); e.setAttribute("aria-label", T("renameChat", "Rename")); x.setAttribute("aria-label", T("del", "Delete"));
+    e.onclick = () => startRename(c, b);
     x.onclick = async () => { if (await ask(T("delq", 'Delete "{t}"?', { t: c.title }))) { await delChat(c.id); if (c.id === chatId) openChat(null); else renderList(); } };
-    r.append(b, x); list.append(r);
+    r.append(b, e, x); list.append(r);
   }
 }
 
@@ -297,47 +370,69 @@ function renderTray() {
   pending.forEach((f, i) => { const w = el("div", "pop"); w.style.position = "relative"; w.append(fileChip({ name: f.name, type: f.type, blob: f })); const x = el("button", "rm", "✕"); x.setAttribute("aria-label", "Remove " + f.name); x.onclick = () => { pending.splice(i, 1); renderTray(); }; w.append(x); t.append(w); });
   updSend();
 }
-const updSend = () => { $("#send").disabled = busy || !($("#input").value.trim() || pending.length); };
+const updSend = () => {
+  const b = $("#send"), m = busy ? "stop" : "send"; b.disabled = !busy && !($("#input").value.trim() || pending.length);
+  if (b.dataset.m !== m) { b.dataset.m = m; b.querySelector("svg").innerHTML = ic(busy ? "stop" : "up"); b.setAttribute("aria-label", busy ? T("stop", "Stop") : T("send", "Send")); }
+};
 
 /* ---------- Sending ---------- */
 async function memorySnippet() {
   const out = []; for (const c of (await allChats()).filter(c => c.id !== chatId).slice(0, 5)) (await msgsOf(c.id)).filter(m => m.role === "user" && m.text).slice(-2).forEach(m => out.push("- " + m.text.slice(0, 160)));
   return out.join("\n");
 }
+function gate(files = []) { // quota + size checks shared by send, retry and regenerate
+  const u = usage();
+  if (u.d.length >= LIM.day) return banner(T("eDay", "Daily limit reached. It resets {t}.", { t: fmt(u.dReset) })), false;
+  if (u.w.length >= LIM.win) return banner(T("eWin", "5-hour limit reached. A slot frees {t}.", { t: fmt(u.wReset) })), false;
+  if (files.reduce((a, f) => a + f.size, 0) > MAXTOTAL) return banner(T("eSize", "Attachments total over 14 MB. Remove one and try again.")), false;
+  return true;
+}
 async function send() {
   const text = $("#input").value.trim(); if (busy || (!text && !pending.length)) return;
-  const u = usage();
-  if (u.d.length >= LIM.day) return banner(T("eDay", "Daily limit reached. It resets {t}.", { t: fmt(u.dReset) }));
-  if (u.w.length >= LIM.win) return banner(T("eWin", "5-hour limit reached. A slot frees {t}.", { t: fmt(u.wReset) }));
-  const files = pending.slice(); if (files.reduce((a, f) => a + f.size, 0) > MAXTOTAL) return banner(T("eSize", "Attachments total over 14 MB. Remove one and try again."));
-  busy = true; $("#input").value = ""; pending = []; renderTray(); autosize();
-  const now = Date.now();
-  if (!chatId) { chatId = crypto.randomUUID(); const title = (text || files[0].name).slice(0, 40); await tx("chats", "readwrite", o => o.put({ id: chatId, title, created: now, updated: now })); feed.innerHTML = ""; setEmpty(false); $("#title").textContent = title; }
-  const um = { chatId, role: "user", text, ts: now, files: files.map(f => ({ name: f.name, type: f.type, blob: f })) };
-  await tx("messages", "readwrite", o => o.add(um)); feed.append(bubble(um));
-  const th = thinking(); feed.append(th); scroll();
+  const files = pending.slice(); if (!gate(files)) return;
+  $("#input").value = ""; pending = []; renderTray(); autosize(); await submit(text, files);
+}
+function stop() { if (ctl) { ctl.userAborted = true; ctl.abort(); } else curSkip?.(); } // cancel the request, or finish the reveal instantly
+async function submit(text, files, regen = false) {
+  busy = true; updSend(); const now = Date.now();
+  if (!chatId) { chatId = uid(); const title = (text || files[0].name).slice(0, 40); await tx("chats", "readwrite", o => o.put({ id: chatId, title, created: now, updated: now })); feed.innerHTML = ""; setEmpty(false); $("#title").textContent = title; }
+  const cid = chatId; busyChat = cid; $("#export").hidden = false;
+  feed.querySelectorAll(".err,.regen").forEach(e => e.remove());
+  if (!regen) { const um = { chatId, role: "user", text, ts: now, files: files.map(f => ({ name: f.name, type: f.type, blob: f })) }; um.id = await tx("messages", "readwrite", o => o.add(um)); feed.append(bubble(um)); }
+  thEl = thinking(); feed.append(thEl); scroll();
   ls("orenis_hits", JSON.stringify([...hits(), now])); // counted at send, refunded on failure
-  $("#live").hidden = false;
-  const ac = new AbortController(), to = setTimeout(() => ac.abort(), 90000);
+  $("#live").hidden = false; const c = ctl = new AbortController(), to = setTimeout(() => c.abort(), 90000);
   try {
-    const prior = (await msgsOf(chatId)).slice(-13, -1).map(m => ({ role: m.role, text: m.text, files: (m.files || []).map(f => ({ name: f.name })) }));
-    let t = text, media = [];
-    for (const f of files) { if (isText(f)) t += `\n\n[File: ${f.name}]\n\`\`\`\n${(await f.text()).slice(0, 20000)}\n\`\`\``; else media.push({ name: f.name, mime: f.type, data: await b64(f) }); }
+    const all = await msgsOf(cid), last = all[all.length - 1]; // always rebuilt from storage, so retry and regenerate resend the same message
+    const prior = all.slice(-13, -1).map(m => ({ role: m.role, text: m.text, files: (m.files || []).map(f => ({ name: f.name })) }));
+    let t = last.text, media = [];
+    for (const f of last.files || []) { if (isText(f)) t += `\n\n[File: ${f.name}]\n\`\`\`\n${(await f.blob.text()).slice(0, 20000)}\n\`\`\``; else media.push({ name: f.name, mime: f.type, data: await b64(f.blob) }); }
     const payload = { messages: [...prior, { role: "user", text: t, files: media }], name: ls("orenis_name") };
     if (ls("orenis_mem") === "1") payload.memory = await memorySnippet();
-    const r = await fetch(PROXY_ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload), signal: ac.signal });
-    const d = await r.json().catch(() => ({}));
+    const r = await fetch(PROXY_ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload), signal: c.signal });
+    const d = await r.json().catch(() => ({})); clearTimeout(to); ctl = null;
     if (!r.ok || !d.reply) throw new Error(d.error || (r.status === 413 ? T("e413", "Those attachments are too large.") : r.status === 429 ? T("e429", "Orenis is busy. Please try again in a few minutes.") : T("eGen", "Orenis couldn't respond right now. Please try again shortly.")));
-    const am = { chatId, role: "assistant", text: d.reply, ts: Date.now(), searched: !!d.searched, sources: d.sources || [] };
-    await tx("messages", "readwrite", o => o.add(am)); th.remove(); feed.append(bubble(am)); scroll();
+    const am = { chatId: cid, role: "assistant", text: d.reply, ts: Date.now(), searched: !!d.searched, sources: d.sources || [] };
+    await tx("messages", "readwrite", o => o.add(am));
+    if (chatId === cid) { thEl?.remove(); const row = bubble(am, { animate: true, isLast: true }); feed.append(row); curSkip = row._skip; scroll(); await row._done; } // only paint into the chat that asked
   } catch (e) {
-    ls("orenis_hits", JSON.stringify(hits().filter(x => x !== now))); // failed requests don't use quota
-    th.remove(); banner(e.name === "AbortError" ? T("eTo", "The request timed out. Please try again.") : e instanceof TypeError ? T("eNet", "Can't reach Orenis. Check your connection and try again.") : e.message);
+    ls("orenis_hits", JSON.stringify(hits().filter(x => x !== now))); // failed or stopped requests don't use quota
+    const quiet = e.name === "AbortError" && c.userAborted;
+    if (chatId === cid) { thEl?.remove(); if (!quiet) banner(e.name === "AbortError" ? T("eTo", "The request timed out. Please try again.") : e instanceof TypeError ? T("eNet", "Can't reach Orenis. Check your connection and try again.") : e.message, true); }
   } finally {
-    clearTimeout(to); busy = false; th.remove(); $("#live").hidden = true; updSend();
-    await tx("chats", "readwrite", o => { const g = o.get(chatId); g.onsuccess = () => g.result && o.put({ ...g.result, updated: Date.now() }); });
-    renderList(); renderUsage(); $("#input").focus();
+    clearTimeout(to); busy = false; busyChat = null; thEl = null; ctl = null; curSkip = null; $("#live").hidden = true; updSend();
+    await tx("chats", "readwrite", o => { const g = o.get(cid); g.onsuccess = () => g.result && o.put({ ...g.result, updated: Date.now() }); });
+    renderList(); renderUsage(); if (!mobile()) $("#input").focus();
   }
+}
+async function regenerate() {
+  if (busy || !chatId || !gate()) return; const ms = await msgsOf(chatId), l = ms[ms.length - 1];
+  if (l?.role === "assistant") await tx("messages", "readwrite", o => o.delete(l.id)); await openChat(chatId); submit(null, null, true);
+}
+async function editFrom(m) { // ChatGPT-style edit: drop this message and everything after it, put it back in the composer
+  if (busy || m.id == null) return; const ms = await msgsOf(chatId);
+  await tx("messages", "readwrite", o => ms.filter(x => x.id >= m.id).forEach(x => o.delete(x.id))); await openChat(chatId);
+  $("#input").value = m.text; pending = (m.files || []).map(f => new File([f.blob], f.name, { type: f.type })); renderTray(); autosize(); updSend(); $("#input").focus();
 }
 
 /* ---------- Wiring ---------- */
@@ -349,7 +444,7 @@ function autosize() { const t = $("#input"); t.style.height = "auto"; t.style.he
 $("#input").addEventListener("input", () => { autosize(); updSend(); });
 $("#input").addEventListener("keydown", e => { if (e.key === "Enter" && !e.shiftKey && !e.isComposing) { e.preventDefault(); send(); } });
 $("#input").addEventListener("paste", e => { const f = [...e.clipboardData.files]; if (f.length) { e.preventDefault(); addFiles(f); } });
-$("#send").onclick = send; $("#attach").onclick = () => $("#file").click();
+$("#send").onclick = () => busy ? stop() : send(); $("#attach").onclick = () => $("#file").click();
 $("#file").onchange = e => { addFiles(e.target.files); e.target.value = ""; };
 let dragN = 0;
 addEventListener("dragenter", e => { if (e.dataTransfer?.types.includes("Files")) { dragN++; $("#drop").classList.add("on"); } });
@@ -368,6 +463,26 @@ $("#nameOk").onclick = () => { const n = $("#nameIn").value.trim(); if (!n) retu
 $("#nameIn").addEventListener("keydown", e => { if (e.key === "Enter") $("#nameOk").click(); });
 addEventListener("keydown", e => { if (e.key === "Escape") { $("#drawer").classList.remove("on"); hide("#planModal"); closeSide(); } });
 
+$("#sq").oninput = renderList; $("#jump").onclick = () => scroll();
+$("#export").onclick = async () => {
+  const ms = await msgsOf(chatId), c = (await allChats()).find(x => x.id === chatId), name = ls("orenis_name") || "You";
+  const out = `# ${c?.title || "Orenis"}\n\n` + ms.map(m => `**${m.role === "user" ? name : "Orenis"}:**\n\n${m.text}${m.files?.length ? "\n\n_Attachments: " + m.files.map(f => f.name).join(", ") + "_" : ""}`).join("\n\n---\n\n");
+  const a = el("a"); a.href = URL.createObjectURL(new Blob([out], { type: "text/markdown" })); a.download = (c?.title || "orenis").replace(/[^\p{L}\p{N}]+/gu, "-").slice(0, 40) + ".md"; document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 1500); toast(T("exported", "Chat exported"));
+};
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition; let rec = null;
+if (SR) { $("#mic").hidden = false; $("#mic").onclick = () => {
+  if (rec) return rec.stop();
+  rec = new SR(); rec.lang = { en: "en-US", ko: "ko-KR", es: "es-PE" }[lang]; rec.interimResults = true; rec.continuous = true; const base = $("#input").value;
+  rec.onresult = e => { $("#input").value = (base ? base + " " : "") + [...e.results].map(r => r[0].transcript).join(""); autosize(); updSend(); };
+  rec.onend = () => { rec = null; $("#mic").classList.remove("on"); }; rec.onerror = () => rec && rec.stop(); rec.start(); $("#mic").classList.add("on");
+}; }
+addEventListener("keydown", e => {
+  if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") { e.preventDefault(); openChat(null); $("#input").focus(); }
+  else if (e.key === "/" && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) { e.preventDefault(); $("#input").focus(); }
+});
+if (window.visualViewport) visualViewport.addEventListener("resize", () => { // keep the composer above the iOS keyboard
+  const kb = innerHeight - visualViewport.height > 120 && mobile(); document.querySelector(".app").style.height = kb ? visualViewport.height + "px" : ""; if (kb) scrollTo(0, 0);
+});
 (async () => {
   setTheme(document.documentElement.dataset.theme); setName(); applyLang(); $("#memTog").checked = ls("orenis_mem") === "1";
   try { db = await openDB(); } catch { welcome(); return banner(T("eStore", "Local storage is unavailable in this browser, so chats can't be saved.")); }
