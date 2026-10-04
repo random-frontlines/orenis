@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Orenis</title>
+<script>document.documentElement.dataset.theme=localStorage.getItem("orenis_theme")||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")</script>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fff;--side:#f7f7f9;--surf:#f3f3f7;--line:#e6e6ec;--tx:#18181b;--mu:#6e6e7a;--acc:#7a4fb8;--grad:linear-gradient(135deg,#5B3A8E,#E8646B);--sh:0 4px 24px #1a102a14}
+[data-theme=dark]{--bg:#0f0f12;--side:#141418;--surf:#1b1b21;--line:#2a2a33;--tx:#ececf1;--mu:#9b9ba7;--acc:#b199e8;--sh:0 4px 28px #00000080}
+*{box-sizing:border-box}[hidden]{display:none!important}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--tx);font:15px/1.6 Inter,system-ui,sans-serif;overflow:hidden;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+::-webkit-scrollbar{width:8px}::-webkit-scrollbar-thumb{background:var(--line);border-radius:8px}
+.app{display:flex;height:100dvh}
+.side{width:16.25rem;flex:none;background:var(--side);border-right:1px solid var(--line);display:flex;flex-direction:column;padding:.75rem;z-index:30;transition:margin .2s,transform .2s}
+.side.hide{margin-left:-16.25rem}
+@media(max-width:767px){.side{position:fixed;inset:0 auto 0 0;width:min(18rem,86vw);margin:0!important;transform:translateX(-100%);padding-top:calc(.75rem + env(safe-area-inset-top))}.side.open{transform:none;box-shadow:var(--sh)}}
+.scrim{position:fixed;inset:0;background:#0007;z-index:20;display:none}.scrim.on{display:block}
+.brand{display:flex;align-items:center;gap:.55rem;padding:.35rem .5rem;font-weight:600;font-size:1.05rem}
+.item{display:flex;align-items:center;gap:.6rem;width:100%;padding:.55rem .65rem;border-radius:.7rem;text-align:left;font-size:.9rem}
+.item:hover{background:var(--surf)}
+.row{display:flex;align-items:center;border-radius:.7rem}.row:hover,.row.on{background:var(--surf)}
+.row>button:first-child{flex:1;min-width:0;padding:.5rem .65rem;text-align:left;font-size:.88rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row>button:last-child{padding:.4rem .6rem;color:var(--mu);opacity:0}.row:hover>button:last-child,.row.on>button:last-child{opacity:1}
+@media(hover:none){.row>button:last-child{opacity:.7}}
+.lbl{padding:.9rem .65rem .3rem;font-size:.72rem;font-weight:500;color:var(--mu)}
+.ava{display:grid;place-items:center;width:2rem;height:2rem;border-radius:50%;background:var(--grad);color:#fff;font-weight:600;font-size:.85rem;flex:none}
+.col{flex:1;min-width:0;display:flex;flex-direction:column}
+.top{display:flex;align-items:center;gap:.4rem;padding:calc(.6rem + env(safe-area-inset-top)) .75rem .6rem}
+.ibtn{display:grid;place-items:center;width:2.2rem;height:2.2rem;border-radius:.65rem;color:var(--mu);transition:background .15s,color .15s;flex:none}.ibtn:hover{background:var(--surf);color:var(--tx)}
+.pill{display:inline-flex;align-items:center;gap:.35rem;border:1px solid var(--line);border-radius:999px;padding:.15rem .65rem;font-size:.75rem;color:var(--mu);background:var(--bg)}
+a.pill:hover,button.pill:hover{background:var(--surf);color:var(--tx)}
+.icon{width:1.15rem;height:1.15rem;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.stage{flex:1;min-height:0;display:flex;flex-direction:column}
+.stage.empty{justify-content:center;padding-bottom:8vh}
+.feed{flex:1;overflow-y:auto;padding:1rem 1rem 1.5rem}
+.stage.empty .feed{flex:none;overflow:visible;padding-bottom:1.5rem}
+.m{max-width:46rem;margin:0 auto 1.7rem}
+.mu{display:flex;justify-content:flex-end;flex-wrap:wrap;gap:.5rem}
+.ub{background:var(--surf);padding:.6rem 1rem;border-radius:1.3rem;max-width:85%;white-space:pre-wrap;overflow-wrap:anywhere}
+.ma{display:flex;gap:.85rem}.ma>.body{flex:1;min-width:0}
+.md{overflow-wrap:anywhere}.md>*:first-child{margin-top:0}.md p{margin:.65rem 0}.md ul{list-style:disc;padding-left:1.4rem}.md ol{list-style:decimal;padding-left:1.4rem}.md li{margin:.2rem 0}
+.md a{color:var(--acc);text-decoration:underline;text-underline-offset:2px}
+.md pre{position:relative;background:var(--surf);border:1px solid var(--line);padding:1rem;border-radius:.85rem;overflow:auto;font-size:.84rem;line-height:1.55;margin:.8rem 0}
+.md code{background:var(--surf);padding:.12rem .35rem;border-radius:.35rem;font-size:.87em}.md pre code{background:none;padding:0}
+.md h1,.md h2,.md h3{font-weight:600;margin:1.2rem 0 .3rem;line-height:1.3}.md h1{font-size:1.35rem}.md h2{font-size:1.15rem}
+.md table{border-collapse:collapse;font-size:.88rem;display:block;overflow:auto}.md td,.md th{border:1px solid var(--line);padding:.4rem .7rem}
+.md blockquote{border-left:3px solid var(--line);padding-left:.9rem;color:var(--mu);margin:.6rem 0}
+.cp{position:absolute;top:.5rem;right:.5rem;font-size:.72rem;color:var(--mu);border:1px solid var(--line);border-radius:.45rem;padding:.1rem .5rem;background:var(--bg)}
+.srcs{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem;margin-top:.7rem}
+.note{display:inline-flex;align-items:center;gap:.35rem;font-size:.75rem;color:var(--mu);margin-right:.2rem}
+.dot{display:grid;place-items:center;width:1rem;height:1rem;border-radius:50%;background:var(--surf);font-size:.62rem;font-weight:600;text-transform:uppercase}
+.act{display:inline-flex;align-items:center;gap:.35rem;border-radius:.6rem;padding:.3rem .55rem;font-size:.78rem;color:var(--mu);transition:.15s}.act:hover{background:var(--surf);color:var(--tx)}.act .icon{width:.95rem;height:.95rem}
+.acts{display:flex;flex-wrap:wrap;gap:.15rem;margin:.5rem 0 0 -.55rem}
+.thumb{width:3.4rem;height:3.4rem;border-radius:.7rem;object-fit:cover;border:1px solid var(--line)}
+.fchip{display:inline-flex;align-items:center;gap:.4rem;background:var(--surf);border-radius:.7rem;padding:.4rem .7rem;font-size:.8rem;max-width:13rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.err{max-width:46rem;margin:0 auto 1.5rem;border:1px solid #e8646b66;background:#e8646b14;border-radius:.9rem;padding:.7rem 1rem;font-size:.9rem}
+.hello{text-align:center;padding:0 .5rem}.hello h2{margin:.9rem 0 0;font-size:2.35rem;line-height:1.15;font-weight:600;letter-spacing:-.02em;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hello p{margin:.3rem 0 0;font-size:1.6rem;font-weight:500;color:var(--mu);letter-spacing:-.02em;line-height:1.25}
+.dock{padding:0 1rem calc(1rem + env(safe-area-inset-bottom))}.stage.empty .dock{padding-bottom:0}.wrap{max-width:46rem;margin:0 auto}
+/* One surface only: the composer is the box, the textarea inside is borderless with no focus outline */
+.composer{background:var(--surf);border:1px solid var(--line);border-radius:1.75rem;padding:.8rem .75rem .6rem 1.1rem;box-shadow:var(--sh);transition:border-color .15s,box-shadow .15s}
+.composer:focus-within{border-color:var(--acc);box-shadow:var(--sh),0 0 0 3px color-mix(in srgb,var(--acc) 16%,transparent)}
+.composer textarea{display:block;width:100%;resize:none;background:transparent;border:0;outline:0!important;box-shadow:none;color:var(--tx);font:inherit;font-size:16px;line-height:1.5;max-height:12rem;padding:.1rem 0}
+.composer textarea::placeholder{color:var(--mu)}
+.crow{display:flex;align-items:center;margin-top:.35rem}
+.tray{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:.7rem}.tray:empty{display:none}
+.rm{position:absolute;top:-.4rem;right:-.4rem;width:1.15rem;height:1.15rem;border-radius:50%;background:var(--tx);color:var(--bg);font-size:.6rem;display:grid;place-items:center}
+.send{display:grid;place-items:center;width:2.4rem;height:2.4rem;border-radius:50%;background:var(--grad);color:#fff;transition:opacity .15s,transform .15s}
+.send:disabled{background:var(--line);color:var(--mu);cursor:default}.send:not(:disabled):hover{transform:scale(1.06)}
+.sugg{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem;margin-top:1rem}.stage:not(.empty) .sugg{display:none}
+.sugg button{border:1px solid var(--line);border-radius:999px;padding:.45rem .95rem;font-size:.85rem;color:var(--mu);transition:.15s}.sugg button:hover{background:var(--surf);color:var(--tx)}
+.fine{margin:.7rem 0 0;text-align:center;font-size:.72rem;color:var(--mu)}.stage.empty .fine{display:none}
+.modal{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;padding:1rem;background:#0008}.modal.on{display:flex}
+.card{width:100%;max-width:26rem;background:var(--bg);border:1px solid var(--line);border-radius:1.4rem;padding:1.6rem;box-shadow:var(--sh);max-height:92dvh;overflow:auto}
+.btn{border-radius:.8rem;padding:.65rem 1rem;font-weight:500;font-size:.9rem;border:1px solid var(--line);transition:background .15s}.btn:hover{background:var(--surf)}
+.btn.p{background:var(--grad);color:#fff;border:0}.btn.p:hover{filter:brightness(1.08)}
+.field{width:100%;margin-top:1rem;background:var(--surf);border:1px solid var(--line);border-radius:.8rem;padding:.7rem .9rem;color:var(--tx);font:inherit;font-size:16px}.field:focus{outline:2px solid var(--acc);outline-offset:1px}
+.drawer{position:fixed;inset:0 0 0 auto;z-index:50;width:21rem;max-width:100%;transform:translateX(100%);transition:transform .22s;background:var(--bg);border-left:1px solid var(--line);padding:calc(1.4rem + env(safe-area-inset-top)) 1.4rem 1.4rem;overflow-y:auto}.drawer.on{transform:none;box-shadow:var(--sh)}
+.bar{height:.4rem;border-radius:99px;background:var(--surf);overflow:hidden;margin-top:.35rem}.bar i{display:block;height:100%;background:var(--grad);border-radius:99px;transition:width .4s}
+.small{font-size:.75rem;color:var(--mu)}
+.drop{position:fixed;inset:.8rem;z-index:70;display:none;place-items:center;border:2px dashed var(--acc);border-radius:1.5rem;background:var(--bg);font-size:1.3rem;font-weight:600}.drop.on{display:grid}
+.toast{position:fixed;left:50%;bottom:6rem;z-index:80;transform:translate(-50%,16px);opacity:0;background:var(--tx);color:var(--bg);padding:.5rem 1rem;border-radius:.8rem;font-size:.85rem;transition:.25s;pointer-events:none}.toast.on{opacity:1;transform:translate(-50%,0)}
+button:focus-visible,a:focus-visible,select:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.dots span{display:inline-block;width:.4rem;height:.4rem;margin-right:.25rem;border-radius:50%;background:var(--mu)}
+@media (max-width:640px){.hello h2{font-size:1.8rem}.hello p{font-size:1.2rem}.feed{padding:.75rem .75rem 1rem}.dock{padding-left:.6rem;padding-right:.6rem}.stage.empty{padding-bottom:3vh}.sugg button{font-size:.8rem;padding:.4rem .8rem}.drawer{width:100%}.m{margin-bottom:1.4rem}}
+@media (prefers-reduced-motion:no-preference){.dots span{animation:bl 1.1s infinite}.dots span:nth-child(2){animation-delay:.15s}.dots span:nth-child(3){animation-delay:.3s}@keyframes bl{50%{opacity:.25;transform:translateY(-2px)}}.pop{animation:pop .3s}@keyframes pop{from{opacity:0;transform:translateY(6px)}}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5B3A8E"/><stop offset="1" stop-color="#E8646B"/></linearGradient>
+<symbol id="bloom" viewBox="0 0 32 32"><g fill="url(#g)" fill-opacity=".92"><ellipse cx="16" cy="8" rx="5" ry="7.5"/><ellipse cx="16" cy="24" rx="5" ry="7.5"/><ellipse cx="8" cy="16" rx="7.5" ry="5"/><ellipse cx="24" cy="16" rx="7.5" ry="5"/></g></symbol></defs></svg>
+
+<div class="app">
+  <aside id="side" class="side">
+    <div class="brand"><span data-bloom="24"></span>Orenis</div>
+    <button id="newChat" class="item mt-2"><svg class="icon" data-i="plus" viewBox="0 0 24 24"></svg><span data-t="newChat">New chat</span></button>
+    <nav id="list" class="mt-1 flex-1 overflow-y-auto" aria-label="Chats"></nav>
+    <div class="flex items-center gap-3 border-t pt-3" style="border-color:var(--line)">
+      <div id="ava" class="ava">?</div>
+      <div class="min-w-0 flex-1"><div id="meName" class="truncate text-sm font-medium"></div><button id="planBadge" class="small hover:underline" data-t="plan">Free Plan</button></div>
+      <button id="gear" class="ibtn" data-ta="settings" aria-label="Settings"><svg class="icon" data-i="sliders" viewBox="0 0 24 24"></svg></button>
+    </div>
+  </aside>
+  <div id="scrim" class="scrim"></div>
+
+  <section class="col">
+    <header class="top">
+      <button id="menu" class="ibtn" aria-label="Menu"><svg class="icon" data-i="panel" viewBox="0 0 24 24"></svg></button>
+      <h1 id="title" class="m-0 min-w-0 flex-1 truncate text-base font-semibold">Orenis</h1>
+      <span id="live" class="pill" hidden><span class="dots"><span></span><span></span><span></span></span><span data-t="working">Working</span></span>
+      <button id="theme" class="ibtn" aria-label="Theme"><svg class="icon" id="themeIcon" viewBox="0 0 24 24"></svg></button>
+    </header>
+    <div id="stage" class="stage empty">
+      <main id="feed" class="feed" aria-live="polite"></main>
+      <div class="dock"><div class="wrap">
+        <div class="composer">
+          <div id="tray" class="tray"></div>
+          <textarea id="input" rows="1" maxlength="8000" data-tp="ph" placeholder="Ask Orenis anything" aria-label="Message"></textarea>
+          <div class="crow">
+            <button id="attach" class="ibtn" data-ta="attach" aria-label="Attach files"><svg class="icon" data-i="clip" viewBox="0 0 24 24"></svg></button>
+            <input id="file" type="file" multiple hidden accept="image/*,audio/*,video/*,application/pdf,text/*,.md,.csv,.json,.js,.ts,.py,.html,.css,.txt,.log,.xml,.yaml,.yml">
+            <span class="flex-1"></span>
+            <button id="send" class="send" disabled data-ta="send" aria-label="Send"><svg class="icon" data-i="up" viewBox="0 0 24 24"></svg></button>
+          </div>
+        </div>
+        <div id="sugg" class="sugg"></div>
+        <p class="fine" data-t="fine">Orenis is in beta and can make mistakes. Check important info.</p>
+      </div></div>
+    </div>
+  </section>
+</div>
+
+<div id="drop" class="drop" data-t="drop">Drop files to attach</div><div id="toast" class="toast" role="status"></div>
+
+<aside id="drawer" class="drawer" aria-label="Settings">
+  <div class="flex items-center justify-between"><h2 class="m-0 text-lg font-semibold" data-t="settings">Settings</h2><button id="closeGear" class="ibtn" aria-label="Close"><svg class="icon" data-i="x" viewBox="0 0 24 24"></svg></button></div>
+  <h3 class="mb-0 mt-6 text-sm font-semibold" data-t="usage">Usage remaining</h3>
+  <div class="mt-3 flex justify-between text-sm"><span data-t="today">Today</span><span id="dPct" class="small"></span></div><div class="bar"><i id="dBar"></i></div><p id="dReset" class="small mb-0 mt-1"></p>
+  <div class="mt-4 flex justify-between text-sm"><span data-t="win">Rolling 5 hours</span><span id="wPct" class="small"></span></div><div class="bar"><i id="wBar"></i></div><p id="wReset" class="small mb-0 mt-1"></p>
+  <label class="mt-6 flex items-start gap-3 py-1 text-sm"><input id="memTog" type="checkbox" class="mt-1" style="accent-color:var(--acc)"><span><b data-t="mem">Personalized memory</b><br><span class="small" data-t="memd">Share short snippets of your other recent chats so replies feel more personal.</span></span></label>
+  <label class="mt-4 block text-sm font-semibold" for="lang" data-t="language">Language</label>
+  <select id="lang" class="field !mt-2"><option value="en">English</option><option value="ko">한국어</option><option value="es">Español</option></select>
+  <button id="renameBtn" class="btn mt-5 w-full" data-t="ren">Change my name</button>
+  <button id="wipeBtn" class="btn mt-2 w-full" style="color:#e8646b" data-t="wipe">Delete all chats on this device</button>
+</aside>
+
+<div id="nameModal" class="modal"><div class="card"><span data-bloom="36"></span><h2 class="mb-0 mt-3 text-2xl font-semibold" data-t="wt">Welcome to Orenis</h2><p class="small mt-1 text-sm" data-t="wq">What should we call you?</p>
+  <input id="nameIn" maxlength="40" data-tp="wph" placeholder="Your name" class="field"><button id="nameOk" class="btn p mt-4 w-full" data-t="cont">Continue</button></div></div>
+<div id="planModal" class="modal"><div class="card" style="max-width:34rem"><h2 class="m-0 text-2xl font-semibold" data-t="pt">Your plan</h2>
+  <div class="mt-4 grid gap-3 sm:grid-cols-2">
+    <div class="rounded-2xl p-4" style="border:2px solid var(--acc)"><b data-t="plan">Free Plan</b> <span class="pill ml-1" data-t="act">Active</span><p class="small mb-0 mt-2" data-t="pfd">100 messages a day, 25 per 5 hours, web search and file input.</p></div>
+    <div class="rounded-2xl border p-4" style="border-color:var(--line);opacity:.55"><b data-t="pro">Pro Plan</b> <span class="pill ml-1" data-t="soon">Coming soon</span><p class="small mb-0 mt-2" data-t="ppd">Higher limits and priority speed.</p><button disabled class="btn mt-2 cursor-not-allowed px-2 py-1 text-xs" data-t="unav">Unavailable</button></div></div>
+  <button id="planOk" class="btn p mt-5 w-full" data-t="cfree">Continue with Free</button></div></div>
+<div id="askModal" class="modal"><div class="card"><p id="askTxt" class="m-0"></p><div class="mt-5 flex justify-end gap-2"><button id="askNo" class="btn" data-t="cancel">Cancel</button><button id="askYes" class="btn p" data-t="del">Delete</button></div></div></div>
+
+<script>
+const PROXY_ENDPOINT = "https://orenis-proxy.leezinu1980.workers.dev";
+const LIM = { day: 100, win: 25, winMs: 5 * 3600e3 }, MAXF = 4, MAXB = 10 * 2 ** 20, MAXTOTAL = 14 * 2 ** 20;
+const TEXTEXT = /\.(txt|md|csv|json|js|ts|py|html|css|log|xml|ya?ml)$/i;
+const $ = s => document.querySelector(s), ls = (k, v) => v === undefined ? localStorage.getItem(k) : localStorage.setItem(k, v);
+let db, chatId = null, busy = false, pending = [];
+
+/* ---------- i18n: English is the in-code default; other languages live here ---------- */
+const L = {
+ko: { newChat: "새 채팅", today: "오늘", prev: "지난 7일", older: "이전", plan: "무료 플랜", settings: "설정", usage: "남은 사용량", win: "최근 5시간", mem: "개인화 메모리", memd: "다른 최근 대화의 짧은 내용을 공유해 더 개인화된 답변을 받습니다.", ren: "이름 변경", wipe: "이 기기의 모든 대화 삭제", language: "언어", wt: "Orenis에 오신 것을 환영합니다", wq: "어떻게 불러 드릴까요?", wph: "이름", cont: "계속", pt: "내 플랜", pfd: "하루 100개 메시지, 5시간당 25개, 웹 검색과 파일 입력.", pro: "프로 플랜", soon: "출시 예정", ppd: "더 높은 한도와 우선 처리 속도.", unav: "이용 불가", act: "사용 중", cfree: "무료로 계속", cancel: "취소", del: "삭제", ph: "Orenis에게 무엇이든 물어보세요", fine: "Orenis는 베타 버전이며 실수할 수 있습니다. 중요한 정보는 확인하세요.", hello: "안녕하세요, {n}님", how: "무엇을 도와드릴까요?", drop: "파일을 놓아 첨부", copy: "복사", copied: "복사됨", searched: "웹 검색 사용", working: "처리 중", s1: "오늘의 IT 뉴스 요약해줘", s2: "양자 컴퓨팅을 쉽게 설명해줘", s3: "파이썬 스크립트 작성 도와줘", s4: "첨부한 문서를 검토해줘", eDay: "일일 한도에 도달했습니다. {t}에 초기화됩니다.", eWin: "5시간 한도에 도달했습니다. {t}에 한 칸이 풀립니다.", eSize: "첨부 파일이 총 14MB를 넘습니다. 하나를 제거하고 다시 시도하세요.", eStore: "이 브라우저에서는 로컬 저장소를 사용할 수 없어 대화를 저장할 수 없습니다.", eTo: "요청 시간이 초과되었습니다. 다시 시도해 주세요.", eNet: "Orenis에 연결할 수 없습니다. 연결을 확인하고 다시 시도하세요.", e413: "첨부 파일이 너무 큽니다.", e429: "Orenis가 혼잡합니다. 잠시 후 다시 시도해 주세요.", eGen: "지금은 Orenis가 응답할 수 없습니다. 잠시 후 다시 시도해 주세요.", maxf: "메시지당 최대 {n}개 파일", big: "{f}: 10MB 초과", uns: "{f}: 지원하지 않는 형식", delq: "\"{t}\" 대화를 삭제할까요?", wipeq: "이 기기에 저장된 모든 대화를 삭제할까요? 되돌릴 수 없습니다.", resets: "{t}에 초기화 ({z})", slot: "다음 한 칸: {t}", full: "전체 한도 사용 가능", left: "{p}% · {n}개 남음" },
+es: { newChat: "Nuevo chat", today: "Hoy", prev: "Últimos 7 días", older: "Anteriores", plan: "Plan gratuito", settings: "Ajustes", usage: "Uso restante", win: "Últimas 5 horas", mem: "Memoria personalizada", memd: "Comparte fragmentos cortos de tus otros chats recientes para respuestas más personales.", ren: "Cambiar mi nombre", wipe: "Borrar todos los chats de este dispositivo", language: "Idioma", wt: "Te damos la bienvenida a Orenis", wq: "¿Cómo quieres que te llamemos?", wph: "Tu nombre", cont: "Continuar", pt: "Tu plan", pfd: "100 mensajes al día, 25 cada 5 horas, búsqueda web y archivos.", pro: "Plan Pro", soon: "Próximamente", ppd: "Límites más altos y mayor velocidad.", unav: "No disponible", act: "Activo", cfree: "Continuar con el plan gratuito", cancel: "Cancelar", del: "Eliminar", ph: "Pregunta lo que quieras a Orenis", fine: "Orenis está en beta y puede cometer errores. Verifica la información importante.", hello: "Hola, {n}", how: "¿En qué puedo ayudarte hoy?", drop: "Suelta archivos para adjuntar", copy: "Copiar", copied: "Copiado", searched: "Buscó en la web", working: "Trabajando", s1: "Resume las noticias tech de hoy", s2: "Explica la computación cuántica fácil", s3: "Ayúdame con un script de Python", s4: "Revisa un documento que adjuntaré", eDay: "Alcanzaste el límite diario. Se reinicia {t}.", eWin: "Alcanzaste el límite de 5 horas. Se libera un cupo {t}.", eSize: "Los adjuntos superan 14 MB. Quita uno e inténtalo de nuevo.", eStore: "El almacenamiento local no está disponible, así que no se pueden guardar los chats.", eTo: "La solicitud tardó demasiado. Inténtalo de nuevo.", eNet: "No se puede conectar con Orenis. Revisa tu conexión e inténtalo de nuevo.", e413: "Los adjuntos son demasiado grandes.", e429: "Orenis está ocupado. Inténtalo de nuevo en unos minutos.", eGen: "Orenis no pudo responder ahora. Inténtalo de nuevo en breve.", maxf: "Hasta {n} archivos por mensaje", big: "{f} supera 10 MB", uns: "{f}: tipo no compatible", delq: "¿Eliminar \"{t}\"?", wipeq: "¿Borrar todos los chats de este dispositivo? No se puede deshacer.", resets: "Se reinicia {t} ({z})", slot: "Próximo cupo: {t}", full: "Cupo completo disponible", left: "{p}% · quedan {n}" } };
+let lang = ls("orenis_lang") || (/^ko/i.test(navigator.language) ? "ko" : /^es/i.test(navigator.language) ? "es" : "en");
+const T = (k, en, v = {}) => { let s = L[lang]?.[k] ?? en; for (const x in v) s = s.replace("{" + x + "}", v[x]); return s; };
+function applyLang() {
+  document.documentElement.lang = lang; $("#lang").value = lang;
+  document.querySelectorAll("[data-t]").forEach(e => { e.dataset.en ??= e.textContent; e.textContent = L[lang]?.[e.dataset.t] ?? e.dataset.en; });
+  document.querySelectorAll("[data-tp]").forEach(e => { e.dataset.en ??= e.placeholder; e.placeholder = L[lang]?.[e.dataset.tp] ?? e.dataset.en; });
+  document.querySelectorAll("[data-ta]").forEach(e => { e.dataset.en ??= e.getAttribute("aria-label"); e.setAttribute("aria-label", L[lang]?.[e.dataset.ta] ?? e.dataset.en); });
+}
+
+const I = { plus: "M12 5v14M5 12h14", up: "M12 19V5M5 12l7-7 7 7", x: "M6 6l12 12M18 6 6 18", copy: "M9 9h10v10H9zM5 15V5h10", check: "M5 12.5l4.5 4.5L19 7", globe: "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18",
+  panel: "M4 5h16v14H4zM9 5v14", clip: "M21 12.5 12.5 21a5 5 0 0 1-7-7L14 5.5a3.4 3.4 0 0 1 5 5L10.5 19a1.8 1.8 0 0 1-2.5-2.5L15 9.5",
+  sliders: "M4 7h9M17 7h3M4 17h3M11 17h9M15 5v4M9 15v4", moon: "M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z", sun: "M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" };
+const ic = n => `<path d="${I[n]}"/>`;
+document.querySelectorAll("[data-i]").forEach(e => e.innerHTML = ic(e.dataset.i));
+const bloom = (s = 24) => { const e = document.createElement("span"); e.style.cssText = "display:inline-flex;flex:none"; e.innerHTML = `<svg width="${s}" height="${s}"><use href="#bloom"/></svg>`; return e; };
+document.querySelectorAll("[data-bloom]").forEach(e => e.replaceWith(bloom(+e.dataset.bloom)));
+
+/* ---------- IndexedDB: chats + messages (attachments kept as Blobs) ---------- */
+const openDB = () => new Promise((ok, no) => {
+  const r = indexedDB.open("orenis", 1);
+  r.onupgradeneeded = () => { r.result.createObjectStore("chats", { keyPath: "id" }); r.result.createObjectStore("messages", { keyPath: "id", autoIncrement: true }).createIndex("chatId", "chatId"); };
+  r.onsuccess = () => ok(r.result); r.onerror = () => no(r.error);
+});
+const tx = (s, mode, fn) => new Promise((ok, no) => { const t = db.transaction(s, mode), q = fn(t.objectStore(s)); t.oncomplete = () => ok(q && q.result); t.onerror = () => no(t.error); });
+const msgsOf = id => tx("messages", "readonly", o => o.index("chatId").getAll(id));
+const allChats = async () => (await tx("chats", "readonly", o => o.getAll())).sort((a, b) => b.updated - a.updated);
+const delChat = async id => { const k = await tx("messages", "readonly", o => o.index("chatId").getAllKeys(id)); await tx("messages", "readwrite", o => k.forEach(x => o.delete(x))); await tx("chats", "readwrite", o => o.delete(id)); };
+
+/* ---------- Quota: 100/day (local midnight) + 25 per rolling 5h ---------- */
+const hits = () => JSON.parse(ls("orenis_hits") || "[]").filter(t => t > Date.now() - 2 * 864e5);
+function usage() {
+  const now = Date.now(), mid = new Date(); mid.setHours(0, 0, 0, 0);
+  const h = hits(), d = h.filter(t => t >= mid.getTime()), w = h.filter(t => t > now - LIM.winMs), next = new Date(mid); next.setDate(next.getDate() + 1);
+  return { d, w, dReset: next, wReset: w.length ? new Date(Math.min(...w) + LIM.winMs) : null };
+}
+const fmt = d => d.toLocaleString([lang], { weekday: "short", hour: "numeric", minute: "2-digit" });
+function renderUsage() {
+  const u = usage(), dp = Math.max(0, 100 - Math.round(u.d.length / LIM.day * 100)), wp = Math.max(0, 100 - Math.round(u.w.length / LIM.win * 100));
+  $("#dPct").textContent = T("left", "{p}% · {n} left", { p: dp, n: LIM.day - u.d.length }); $("#dBar").style.width = dp + "%";
+  $("#wPct").textContent = T("left", "{p}% · {n} left", { p: wp, n: LIM.win - u.w.length }); $("#wBar").style.width = wp + "%";
+  $("#dReset").textContent = T("resets", "Resets {t} ({z})", { t: fmt(u.dReset), z: Intl.DateTimeFormat().resolvedOptions().timeZone });
+  $("#wReset").textContent = u.wReset ? T("slot", "Next slot frees {t}", { t: fmt(u.wReset) }) : T("full", "Full allowance available");
+}
+
+/* ---------- Helpers ---------- */
+const el = (tag, cls, txt) => { const e = document.createElement(tag); if (cls) e.className = cls; if (txt !== undefined) e.textContent = txt; return e; };
+const svg = (n, cls = "icon") => { const s = document.createElementNS("http://www.w3.org/2000/svg", "svg"); s.setAttribute("class", cls); s.setAttribute("viewBox", "0 0 24 24"); s.innerHTML = ic(n); return s; };
+const show = id => $(id).classList.add("on"), hide = id => $(id).classList.remove("on");
+let tt; const toast = t => { const e = $("#toast"); e.textContent = t; e.classList.add("on"); clearTimeout(tt); tt = setTimeout(() => e.classList.remove("on"), 1800); };
+const ask = text => new Promise(ok => { $("#askTxt").textContent = text; show("#askModal"); $("#askYes").onclick = () => { hide("#askModal"); ok(true); }; $("#askNo").onclick = () => { hide("#askModal"); ok(false); }; });
+const b64 = f => new Promise((ok, no) => { const r = new FileReader(); r.onload = () => ok(r.result.split(",")[1]); r.onerror = no; r.readAsDataURL(f); });
+const isText = f => f.type.startsWith("text/") || TEXTEXT.test(f.name);
+const feed = $("#feed"), scroll = () => feed.scrollTo({ top: feed.scrollHeight, behavior: "smooth" });
+const setEmpty = b => $("#stage").classList.toggle("empty", b);
+async function copyText(t) { try { await navigator.clipboard.writeText(t); toast(T("copied", "Copied")); return true; } catch { const a = el("textarea"); a.value = t; document.body.append(a); a.select(); document.execCommand("copy"); a.remove(); toast(T("copied", "Copied")); return true; } }
+DOMPurify.addHook("afterSanitizeAttributes", n => { if (n.tagName === "A") { n.target = "_blank"; n.rel = "noopener noreferrer"; } });
+const md = t => DOMPurify.sanitize(marked.parse(t, { breaks: true }));
+function setTheme(t) { document.documentElement.dataset.theme = t; ls("orenis_theme", t); $("#themeIcon").innerHTML = ic(t === "dark" ? "sun" : "moon"); }
+$("#theme").onclick = () => setTheme(document.documentElement.dataset.theme === "dark" ? "light" : "dark");
+
+/* ---------- Rendering ---------- */
+function fileChip(f) {
+  if (f.type.startsWith("image/") && f.blob) { const i = el("img", "thumb"); i.src = URL.createObjectURL(f.blob); i.alt = f.name; return i; }
+  return el("span", "fchip", (f.type.startsWith("audio/") ? "🎧 " : f.type.startsWith("video/") ? "🎬 " : "📄 ") + f.name);
+}
+function actBtn(label, icon, fn) { const b = el("button", "act"); b.append(svg(icon), label); b.onclick = fn; return b; }
+function bubble(m) {
+  const row = el("div", "m pop");
+  if (m.role === "user") { row.classList.add("mu"); (m.files || []).forEach(f => row.append(fileChip(f))); if (m.text) row.append(el("div", "ub", m.text)); return row; }
+  row.classList.add("ma"); const lg = bloom(26); lg.style.marginTop = ".2rem"; row.append(lg);
+  const body = el("div", "body"), txt = el("div", "md"); txt.innerHTML = md(m.text);
+  txt.querySelectorAll("pre").forEach(p => { const c = p.querySelector("code")?.textContent ?? p.textContent, b = el("button", "cp", T("copy", "Copy")); b.onclick = () => copyText(c); p.append(b); });
+  body.append(txt);
+  if (m.searched || m.sources?.length) {
+    const bar = el("div", "srcs");
+    if (m.searched) { const n = el("span", "note"); n.append(svg("globe"), T("searched", "Searched the web")); bar.append(n); }
+    (m.sources || []).slice(0, 5).forEach(s => { let h = s.url; try { h = new URL(s.url).hostname.replace(/^www\./, ""); } catch {} const a = el("a", "pill"); a.href = s.url; a.target = "_blank"; a.rel = "noopener noreferrer"; a.title = s.title; a.append(el("span", "dot", h[0]), h); bar.append(a); });
+    body.append(bar);
+  }
+  const acts = el("div", "acts");
+  acts.append(actBtn(T("copy", "Copy"), "copy", () => { // plain text of the rendered answer (code-copy buttons hidden while reading)
+    const cps = [...txt.querySelectorAll(".cp")]; cps.forEach(c => c.hidden = true); const t = txt.innerText.trim(); cps.forEach(c => c.hidden = false); copyText(t); }),
+    actBtn("Markdown", "copy", () => copyText(m.text)));
+  body.append(acts); row.append(body); return row;
+}
+function thinking() { const r = el("div", "m ma pop"), l = bloom(26); l.style.marginTop = ".2rem"; r.append(l); const d = el("div", "dots"); d.style.paddingTop = ".6rem"; d.innerHTML = "<span></span><span></span><span></span>"; r.append(d); return r; }
+function banner(text) { const b = el("div", "err pop", text); b.setAttribute("role", "alert"); feed.append(b); scroll(); }
+function welcome() {
+  feed.innerHTML = ""; const w = el("div", "hello pop"); w.append(bloom(44), el("h2", "", ls("orenis_name") ? T("hello", "Hello, {n}", { n: ls("orenis_name") }) : T("hello", "Hello, {n}", { n: "" }).replace(/,?\s*님?\s*$/, "")), el("p", "", T("how", "How can I help you today?"))); feed.append(w);
+  const s = $("#sugg"); s.innerHTML = "";
+  [["s1", "Summarize today's tech news"], ["s2", "Explain quantum computing simply"], ["s3", "Help me write a Python script"], ["s4", "Review a document I attach"]].forEach(([k, en]) => { const t = T(k, en), b = el("button", "", t); b.onclick = () => { $("#input").value = t; autosize(); updSend(); $("#input").focus(); }; s.append(b); });
+}
+async function openChat(id) {
+  chatId = id; feed.innerHTML = "";
+  const ms = id ? await msgsOf(id) : [], c = id ? await tx("chats", "readonly", o => o.get(id)) : null;
+  $("#title").textContent = c ? c.title : "Orenis";
+  setEmpty(!ms.length); if (!ms.length) welcome(); else ms.forEach(m => feed.append(bubble(m)));
+  feed.scrollTop = feed.scrollHeight; renderList(); closeSide();
+}
+const grp = t => { const d = new Date(); d.setHours(0, 0, 0, 0); const a = d.getTime(); return t >= a ? T("today", "Today") : t >= a - 6 * 864e5 ? T("prev", "Previous 7 days") : T("older", "Older"); };
+async function renderList() {
+  const list = $("#list"); list.innerHTML = ""; let last = "";
+  for (const c of await allChats()) {
+    const g = grp(c.updated); if (g !== last) { list.append(el("div", "lbl", g)); last = g; }
+    const r = el("div", "row" + (c.id === chatId ? " on" : "")), b = el("button", "", c.title), x = el("button"); x.append(svg("x")); x.firstChild.style.cssText = "width:.9rem;height:.9rem";
+    b.onclick = () => openChat(c.id); x.setAttribute("aria-label", T("del", "Delete"));
+    x.onclick = async () => { if (await ask(T("delq", 'Delete "{t}"?', { t: c.title }))) { await delChat(c.id); if (c.id === chatId) openChat(null); else renderList(); } };
+    r.append(b, x); list.append(r);
+  }
+}
+
+/* ---------- Attachments ---------- */
+function addFiles(list) {
+  for (const f of list) {
+    if (pending.length >= MAXF) return toast(T("maxf", "Up to {n} files per message", { n: MAXF }));
+    if (f.size > MAXB) { toast(T("big", "{f} is over 10 MB", { f: f.name })); continue; }
+    if (!(f.type.startsWith("image/") || f.type.startsWith("audio/") || f.type.startsWith("video/") || f.type === "application/pdf" || isText(f))) { toast(T("uns", "{f}: unsupported type", { f: f.name })); continue; }
+    pending.push(f);
+  }
+  renderTray();
+}
+function renderTray() {
+  const t = $("#tray"); t.innerHTML = "";
+  pending.forEach((f, i) => { const w = el("div", "pop"); w.style.position = "relative"; w.append(fileChip({ name: f.name, type: f.type, blob: f })); const x = el("button", "rm", "✕"); x.setAttribute("aria-label", "Remove " + f.name); x.onclick = () => { pending.splice(i, 1); renderTray(); }; w.append(x); t.append(w); });
+  updSend();
+}
+const updSend = () => { $("#send").disabled = busy || !($("#input").value.trim() || pending.length); };
+
+/* ---------- Sending ---------- */
+async function memorySnippet() {
+  const out = []; for (const c of (await allChats()).filter(c => c.id !== chatId).slice(0, 5)) (await msgsOf(c.id)).filter(m => m.role === "user" && m.text).slice(-2).forEach(m => out.push("- " + m.text.slice(0, 160)));
+  return out.join("\n");
+}
+async function send() {
+  const text = $("#input").value.trim(); if (busy || (!text && !pending.length)) return;
+  const u = usage();
+  if (u.d.length >= LIM.day) return banner(T("eDay", "Daily limit reached. It resets {t}.", { t: fmt(u.dReset) }));
+  if (u.w.length >= LIM.win) return banner(T("eWin", "5-hour limit reached. A slot frees {t}.", { t: fmt(u.wReset) }));
+  const files = pending.slice(); if (files.reduce((a, f) => a + f.size, 0) > MAXTOTAL) return banner(T("eSize", "Attachments total over 14 MB. Remove one and try again."));
+  busy = true; $("#input").value = ""; pending = []; renderTray(); autosize();
+  const now = Date.now();
+  if (!chatId) { chatId = crypto.randomUUID(); const title = (text || files[0].name).slice(0, 40); await tx("chats", "readwrite", o => o.put({ id: chatId, title, created: now, updated: now })); feed.innerHTML = ""; setEmpty(false); $("#title").textContent = title; }
+  const um = { chatId, role: "user", text, ts: now, files: files.map(f => ({ name: f.name, type: f.type, blob: f })) };
+  await tx("messages", "readwrite", o => o.add(um)); feed.append(bubble(um));
+  const th = thinking(); feed.append(th); scroll();
+  ls("orenis_hits", JSON.stringify([...hits(), now])); // counted at send, refunded on failure
+  $("#live").hidden = false;
+  const ac = new AbortController(), to = setTimeout(() => ac.abort(), 90000);
+  try {
+    const prior = (await msgsOf(chatId)).slice(-13, -1).map(m => ({ role: m.role, text: m.text, files: (m.files || []).map(f => ({ name: f.name })) }));
+    let t = text, media = [];
+    for (const f of files) { if (isText(f)) t += `\n\n[File: ${f.name}]\n\`\`\`\n${(await f.text()).slice(0, 20000)}\n\`\`\``; else media.push({ name: f.name, mime: f.type, data: await b64(f) }); }
+    const payload = { messages: [...prior, { role: "user", text: t, files: media }], name: ls("orenis_name") };
+    if (ls("orenis_mem") === "1") payload.memory = await memorySnippet();
+    const r = await fetch(PROXY_ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload), signal: ac.signal });
+    const d = await r.json().catch(() => ({}));
+    if (!r.ok || !d.reply) throw new Error(d.error || (r.status === 413 ? T("e413", "Those attachments are too large.") : r.status === 429 ? T("e429", "Orenis is busy. Please try again in a few minutes.") : T("eGen", "Orenis couldn't respond right now. Please try again shortly.")));
+    const am = { chatId, role: "assistant", text: d.reply, ts: Date.now(), searched: !!d.searched, sources: d.sources || [] };
+    await tx("messages", "readwrite", o => o.add(am)); th.remove(); feed.append(bubble(am)); scroll();
+  } catch (e) {
+    ls("orenis_hits", JSON.stringify(hits().filter(x => x !== now))); // failed requests don't use quota
+    th.remove(); banner(e.name === "AbortError" ? T("eTo", "The request timed out. Please try again.") : e instanceof TypeError ? T("eNet", "Can't reach Orenis. Check your connection and try again.") : e.message);
+  } finally {
+    clearTimeout(to); busy = false; th.remove(); $("#live").hidden = true; updSend();
+    await tx("chats", "readwrite", o => { const g = o.get(chatId); g.onsuccess = () => g.result && o.put({ ...g.result, updated: Date.now() }); });
+    renderList(); renderUsage(); $("#input").focus();
+  }
+}
+
+/* ---------- Wiring ---------- */
+const mobile = () => innerWidth < 768;
+const closeSide = () => { $("#side").classList.remove("open"); $("#scrim").classList.remove("on"); };
+$("#menu").onclick = () => { if (mobile()) { $("#side").classList.toggle("open"); $("#scrim").classList.toggle("on"); } else $("#side").classList.toggle("hide"); };
+$("#scrim").onclick = closeSide;
+function autosize() { const t = $("#input"); t.style.height = "auto"; t.style.height = Math.min(t.scrollHeight, 192) + "px"; }
+$("#input").addEventListener("input", () => { autosize(); updSend(); });
+$("#input").addEventListener("keydown", e => { if (e.key === "Enter" && !e.shiftKey && !e.isComposing) { e.preventDefault(); send(); } });
+$("#input").addEventListener("paste", e => { const f = [...e.clipboardData.files]; if (f.length) { e.preventDefault(); addFiles(f); } });
+$("#send").onclick = send; $("#attach").onclick = () => $("#file").click();
+$("#file").onchange = e => { addFiles(e.target.files); e.target.value = ""; };
+let dragN = 0;
+addEventListener("dragenter", e => { if (e.dataTransfer?.types.includes("Files")) { dragN++; $("#drop").classList.add("on"); } });
+addEventListener("dragleave", () => { if (--dragN <= 0) { dragN = 0; $("#drop").classList.remove("on"); } });
+addEventListener("dragover", e => e.preventDefault());
+addEventListener("drop", e => { e.preventDefault(); dragN = 0; $("#drop").classList.remove("on"); addFiles(e.dataTransfer.files); });
+$("#newChat").onclick = () => openChat(null);
+$("#gear").onclick = () => { renderUsage(); $("#drawer").classList.add("on"); closeSide(); }; $("#closeGear").onclick = () => $("#drawer").classList.remove("on");
+$("#memTog").onchange = e => ls("orenis_mem", e.target.checked ? "1" : "0");
+$("#lang").onchange = e => { lang = e.target.value; ls("orenis_lang", lang); applyLang(); renderUsage(); openChat(chatId); };
+$("#planBadge").onclick = () => show("#planModal"); $("#planOk").onclick = () => { ls("orenis_plan", "free"); hide("#planModal"); };
+$("#renameBtn").onclick = () => { $("#nameIn").value = ls("orenis_name") || ""; show("#nameModal"); $("#nameIn").focus(); };
+$("#wipeBtn").onclick = async () => { if (await ask(T("wipeq", "Delete all chats stored on this device? This can't be undone."))) { for (const c of await allChats()) await delChat(c.id); $("#drawer").classList.remove("on"); openChat(null); } };
+const setName = () => { const n = ls("orenis_name") || ""; $("#meName").textContent = n; $("#ava").textContent = (n[0] || "?").toUpperCase(); };
+$("#nameOk").onclick = () => { const n = $("#nameIn").value.trim(); if (!n) return $("#nameIn").focus(); ls("orenis_name", n); setName(); hide("#nameModal"); if (!ls("orenis_plan")) show("#planModal"); if (!chatId) welcome(); };
+$("#nameIn").addEventListener("keydown", e => { if (e.key === "Enter") $("#nameOk").click(); });
+addEventListener("keydown", e => { if (e.key === "Escape") { $("#drawer").classList.remove("on"); hide("#planModal"); closeSide(); } });
+
+(async () => {
+  setTheme(document.documentElement.dataset.theme); setName(); applyLang(); $("#memTog").checked = ls("orenis_mem") === "1";
+  try { db = await openDB(); } catch { welcome(); return banner(T("eStore", "Local storage is unavailable in this browser, so chats can't be saved.")); }
+  await openChat(null);
+  if (!ls("orenis_name")) show("#nameModal"); else if (!ls("orenis_plan")) show("#planModal");
+})();
+</script>
+</body>
+</html>
