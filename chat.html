@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Orenis</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%235B3A8E'/%3E%3Cstop offset='1' stop-color='%23E8646B'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cg fill='url(%23g)'%3E%3Cellipse cx='16' cy='8' rx='5' ry='7.5'/%3E%3Cellipse cx='16' cy='24' rx='5' ry='7.5'/%3E%3Cellipse cx='8' cy='16' rx='7.5' ry='5'/%3E%3Cellipse cx='24' cy='16' rx='7.5' ry='5'/%3E%3C/g%3E%3C/svg%3E">
+<meta name="theme-color" content="#7a4fb8">
 <script>document.documentElement.dataset.theme=localStorage.getItem("orenis_theme")||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")</script>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
@@ -66,6 +68,28 @@ a.pill:hover,button.pill:hover{background:var(--surf);color:var(--tx)}
 .mic.on{color:#e8646b;background:color-mix(in srgb,#e8646b 14%,transparent)}
 .uacts{display:flex;gap:.1rem;justify-content:flex-end;width:100%;opacity:0;transition:opacity .15s}.mu:hover .uacts,.mu:focus-within .uacts{opacity:1}@media(hover:none){.uacts{opacity:1}}
 .err{display:flex;align-items:center;flex-wrap:wrap;gap:.4rem}
+.set{max-width:34rem;padding:1.3rem 1.4rem 1.4rem}
+.tabs{display:flex;gap:.25rem;margin:1rem 0 0;border-bottom:1px solid var(--line);overflow-x:auto}
+.tab{padding:.5rem .7rem;font-size:.85rem;color:var(--mu);border-bottom:2px solid transparent;white-space:nowrap;margin-bottom:-1px}.tab.on{color:var(--tx);border-color:var(--acc)}
+.pane{display:none;padding-top:1.1rem;min-height:15rem}.pane.on{display:block}.pane .field{margin-top:0}
+.lab{display:block;margin:1.1rem 0 .4rem;font-size:.82rem;font-weight:600}.lab:first-child{margin-top:0}
+.sw{display:flex;align-items:center;gap:1rem;justify-content:space-between;padding:.75rem 0;border-bottom:1px solid var(--line);font-size:.9rem}.pane>.sw:last-child{border:0}
+.sw input{appearance:none;-webkit-appearance:none;width:2.5rem;height:1.45rem;border-radius:99px;background:var(--line);position:relative;cursor:pointer;transition:background .2s;flex:none;margin:0}
+.sw input:after{content:"";position:absolute;top:.17rem;left:.17rem;width:1.1rem;height:1.1rem;border-radius:50%;background:#fff;transition:transform .2s}.sw input:checked{background:var(--grad)}.sw input:checked:after{transform:translateX(1.05rem)}
+textarea.field{resize:vertical;min-height:7rem;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:.4rem;margin:.6rem 0 .3rem}.chips button{border:1px solid var(--line);border-radius:999px;padding:.2rem .7rem;font-size:.78rem;color:var(--mu)}.chips button:hover{background:var(--surf);color:var(--tx)}
+.ctx{position:fixed;z-index:90;min-width:11.5rem;background:var(--bg);border:1px solid var(--line);border-radius:.9rem;padding:.3rem;box-shadow:var(--sh)}
+.ctx button{display:flex;align-items:center;gap:.65rem;width:100%;padding:.5rem .7rem;border-radius:.55rem;font-size:.88rem;text-align:left}.ctx button:hover{background:var(--surf)}.ctx .dg{color:#e8646b}.ctx .icon{width:1rem;height:1rem}
+.row .pn{width:.8rem;height:.8rem;margin-right:.35rem;vertical-align:-.1rem;color:var(--acc)}
+.skchip{display:inline-flex;align-items:center;gap:.4rem;background:color-mix(in srgb,var(--acc) 14%,transparent);color:var(--acc);border-radius:999px;padding:.25rem .55rem .25rem .8rem;font-size:.82rem;font-weight:500}.skchip button{font-size:.65rem;opacity:.7}
+.th{display:flex;gap:.85rem;align-items:flex-start}.steps{padding-top:.2rem;font-size:.92rem;color:var(--mu)}.steps div{line-height:1.75}
+.steps .ok:before{content:"✓ ";color:var(--acc)}
+.steps .now{width:fit-content;background:linear-gradient(90deg,var(--mu),var(--tx),var(--mu));background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent}
+details.thought{margin:0 0 .7rem;font-size:.85rem;color:var(--mu)}details.thought summary{cursor:pointer;list-style:none;display:inline-flex;align-items:center;gap:.35rem}details.thought summary::-webkit-details-marker{display:none}
+details.thought summary:after{content:"›";transition:transform .2s}details.thought[open] summary:after{transform:rotate(90deg)}details.thought div div{padding:.1rem 0 0 .2rem}
+.docc{display:flex;align-items:center;flex-wrap:wrap;gap:.7rem 1rem;justify-content:space-between;border:1px solid var(--line);border-radius:1rem;padding:.75rem 1rem;margin-top:.9rem;background:var(--surf)}
+.dh{display:flex;align-items:center;gap:.7rem;font-weight:500;min-width:0}.dh .icon{color:var(--acc);width:1.4rem;height:1.4rem}.dbs{display:flex;flex-wrap:wrap;gap:.4rem}
+.dbtn{border:1px solid var(--line);border-radius:.6rem;padding:.3rem .7rem;font-size:.8rem;background:var(--bg)}.dbtn:hover{background:var(--surf)}.dbtn.p{background:var(--grad);color:#fff;border:0}
 .cp{position:absolute;top:.5rem;right:.5rem;font-size:.72rem;color:var(--mu);border:1px solid var(--line);border-radius:.45rem;padding:.1rem .5rem;background:var(--bg)}
 .srcs{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem;margin-top:.7rem}
 .note{display:inline-flex;align-items:center;gap:.35rem;font-size:.75rem;color:var(--mu);margin-right:.2rem}
@@ -96,15 +120,14 @@ a.pill:hover,button.pill:hover{background:var(--surf);color:var(--tx)}
 .btn{border-radius:.8rem;padding:.65rem 1rem;font-weight:500;font-size:.9rem;border:1px solid var(--line);transition:background .15s}.btn:hover{background:var(--surf)}
 .btn.p{background:var(--grad);color:#fff;border:0}.btn.p:hover{filter:brightness(1.08)}
 .field{width:100%;margin-top:1rem;background:var(--surf);border:1px solid var(--line);border-radius:.8rem;padding:.7rem .9rem;color:var(--tx);font:inherit;font-size:16px}.field:focus{outline:2px solid var(--acc);outline-offset:1px}
-.drawer{position:fixed;inset:0 0 0 auto;z-index:50;width:21rem;max-width:100%;transform:translateX(100%);transition:transform .22s;background:var(--bg);border-left:1px solid var(--line);padding:calc(1.4rem + env(safe-area-inset-top)) 1.4rem 1.4rem;overflow-y:auto}.drawer.on{transform:none;box-shadow:var(--sh)}
 .bar{height:.4rem;border-radius:99px;background:var(--surf);overflow:hidden;margin-top:.35rem}.bar i{display:block;height:100%;background:var(--grad);border-radius:99px;transition:width .4s}
 .small{font-size:.75rem;color:var(--mu)}
 .drop{position:fixed;inset:.8rem;z-index:70;display:none;place-items:center;border:2px dashed var(--acc);border-radius:1.5rem;background:var(--bg);font-size:1.3rem;font-weight:600}.drop.on{display:grid}
 .toast{position:fixed;left:50%;bottom:6rem;z-index:80;transform:translate(-50%,16px);opacity:0;background:var(--tx);color:var(--bg);padding:.5rem 1rem;border-radius:.8rem;font-size:.85rem;transition:.25s;pointer-events:none}.toast.on{opacity:1;transform:translate(-50%,0)}
 button:focus-visible,a:focus-visible,select:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
 .dots span{display:inline-block;width:.4rem;height:.4rem;margin-right:.25rem;border-radius:50%;background:var(--mu)}
-@media (max-width:640px){.hello h2{font-size:1.8rem}.hello p{font-size:1.2rem}.feed{padding:.75rem .75rem 1rem}.dock{padding-left:.6rem;padding-right:.6rem}.stage.empty{padding-bottom:3vh}.sugg button{font-size:.8rem;padding:.4rem .8rem}.drawer{width:100%}.m{margin-bottom:1.4rem}}
-@media (prefers-reduced-motion:no-preference){.dots span{animation:bl 1.1s infinite}.dots span:nth-child(2){animation-delay:.15s}.dots span:nth-child(3){animation-delay:.3s}@keyframes bl{50%{opacity:.25;transform:translateY(-2px)}}.pop{animation:pop .3s}@keyframes pop{from{opacity:0;transform:translateY(6px)}}}
+@media (max-width:640px){.hello h2{font-size:1.8rem}.hello p{font-size:1.2rem}.feed{padding:.75rem .75rem 1rem}.dock{padding-left:.6rem;padding-right:.6rem}.stage.empty{padding-bottom:3vh}.sugg button{font-size:.8rem;padding:.4rem .8rem}.m{margin-bottom:1.4rem}}
+@media (prefers-reduced-motion:no-preference){.dots span{animation:bl 1.1s infinite}.dots span:nth-child(2){animation-delay:.15s}.dots span:nth-child(3){animation-delay:.3s}@keyframes bl{50%{opacity:.25;transform:translateY(-2px)}}.pop,.modal.on .card{animation:pop .28s}@keyframes pop{from{opacity:0;transform:translateY(6px)}}.lg2{animation:spin 3s linear infinite}.steps .now{animation:shim 1.6s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}@keyframes shim{to{background-position:-200% 0}}}
 </style>
 </head>
 <body>
@@ -141,6 +164,7 @@ button:focus-visible,a:focus-visible,select:focus-visible{outline:2px solid var(
           <textarea id="input" rows="1" maxlength="8000" data-tp="ph" placeholder="Ask Orenis anything" aria-label="Message"></textarea>
           <div class="crow">
             <button id="attach" class="ibtn" data-ta="attach" aria-label="Attach files"><svg class="icon" data-i="clip" viewBox="0 0 24 24"></svg></button>
+            <button id="skillBtn" class="ibtn" data-ta="skills" aria-label="Skills"><svg class="icon" data-i="wand" viewBox="0 0 24 24"></svg></button>
             <input id="file" type="file" multiple hidden accept="image/*,audio/*,video/*,application/pdf,text/*,.md,.csv,.json,.js,.ts,.py,.html,.css,.txt,.log,.xml,.yaml,.yml">
             <span class="flex-1"></span>
             <button id="mic" class="ibtn mic" hidden data-ta="mic" aria-label="Voice input"><svg class="icon" data-i="mic" viewBox="0 0 24 24"></svg></button>
@@ -154,19 +178,31 @@ button:focus-visible,a:focus-visible,select:focus-visible{outline:2px solid var(
   </section>
 </div>
 
-<div id="drop" class="drop" data-t="drop">Drop files to attach</div><div id="toast" class="toast" role="status"></div>
+<div id="drop" class="drop" data-t="drop">Drop files to attach</div><div id="toast" class="toast" role="status"></div><div id="ctx" class="ctx" hidden></div>
 
-<aside id="drawer" class="drawer" aria-label="Settings">
-  <div class="flex items-center justify-between"><h2 class="m-0 text-lg font-semibold" data-t="settings">Settings</h2><button id="closeGear" class="ibtn" aria-label="Close"><svg class="icon" data-i="x" viewBox="0 0 24 24"></svg></button></div>
-  <h3 class="mb-0 mt-6 text-sm font-semibold" data-t="usage">Usage remaining</h3>
-  <div class="mt-3 flex justify-between text-sm"><span data-t="today">Today</span><span id="dPct" class="small"></span></div><div class="bar"><i id="dBar"></i></div><p id="dReset" class="small mb-0 mt-1"></p>
-  <div class="mt-4 flex justify-between text-sm"><span data-t="win">Rolling 5 hours</span><span id="wPct" class="small"></span></div><div class="bar"><i id="wBar"></i></div><p id="wReset" class="small mb-0 mt-1"></p>
-  <label class="mt-6 flex items-start gap-3 py-1 text-sm"><input id="memTog" type="checkbox" class="mt-1" style="accent-color:var(--acc)"><span><b data-t="mem">Personalized memory</b><br><span class="small" data-t="memd">Share short snippets of your other recent chats so replies feel more personal.</span></span></label>
-  <label class="mt-4 block text-sm font-semibold" for="lang" data-t="language">Language</label>
-  <select id="lang" class="field !mt-2"><option value="en">English</option><option value="ko">한국어</option><option value="es">Español</option></select>
-  <button id="renameBtn" class="btn mt-5 w-full" data-t="ren">Change my name</button>
-  <button id="wipeBtn" class="btn mt-2 w-full" style="color:#e8646b" data-t="wipe">Delete all chats on this device</button>
-</aside>
+<div id="setModal" class="modal"><div class="card set" role="dialog" aria-modal="true" aria-labelledby="setT">
+  <div class="flex items-center justify-between"><h2 id="setT" class="m-0 text-xl font-semibold" data-t="settings">Settings</h2><button id="closeGear" class="ibtn" aria-label="Close"><svg class="icon" data-i="x" viewBox="0 0 24 24"></svg></button></div>
+  <div class="tabs" role="tablist"><button class="tab on" data-tab="gen" data-t="tGen">General</button><button class="tab" data-tab="pers" data-t="tPers">Personalization</button><button class="tab" data-tab="skills" data-t="tSkills">Skills</button><button class="tab" data-tab="data" data-t="tData">Usage &amp; data</button></div>
+  <div class="pane on" data-pane="gen">
+    <label class="lab" for="nameEdit" data-t="nameLbl">Name</label><input id="nameEdit" class="field" maxlength="40">
+    <label class="lab" for="lang" data-t="language">Language</label><select id="lang" class="field"><option value="en">English</option><option value="ko">한국어</option><option value="es">Español</option></select>
+  </div>
+  <div class="pane" data-pane="pers">
+    <label class="lab" for="instr" data-t="instr">Custom instructions</label><p class="small" style="margin:0 0 .5rem" data-t="instrD">Tell Orenis how to respond. Applies to every chat.</p>
+    <textarea id="instr" class="field" maxlength="1500" data-tp="instrPh" placeholder="e.g. Use bullet points. Be concise. Say when you're unsure instead of guessing."></textarea>
+    <div class="chips"><button data-pre data-t="pr1">Use bullet points</button><button data-pre data-t="pr2">Be concise</button><button data-pre data-t="pr3">Don't guess, say when unsure</button><button data-pre data-t="pr4">Explain step by step</button></div>
+    <label class="sw" style="margin-top:.8rem"><span><b data-t="mem">Personalized memory</b><br><span class="small" data-t="memd">Share short snippets of your other recent chats so replies feel more personal.</span></span><input id="memTog" type="checkbox"></label>
+  </div>
+  <div class="pane" data-pane="skills">
+    <label class="sw"><span><b data-t="skWeb">Web search</b><br><span class="small" data-t="skWebD">Let Orenis look things up online.</span></span><input id="skWeb" type="checkbox"></label>
+    <label class="sw"><span><b data-t="skDoc">Create documents</b><br><span class="small" data-t="skDocD">Let Orenis make PDF, Word or Markdown files.</span></span><input id="skDoc" type="checkbox"></label>
+  </div>
+  <div class="pane" data-pane="data">
+    <div class="flex justify-between text-sm"><span data-t="today">Today</span><span id="dPct" class="small"></span></div><div class="bar"><i id="dBar"></i></div><p id="dReset" class="small mb-0 mt-1"></p>
+    <div class="mt-4 flex justify-between text-sm"><span data-t="win">Rolling 5 hours</span><span id="wPct" class="small"></span></div><div class="bar"><i id="wBar"></i></div><p id="wReset" class="small mb-0 mt-1"></p>
+    <button id="wipeBtn" class="btn mt-6 w-full" style="color:#e8646b" data-t="wipe">Delete all chats on this device</button>
+  </div>
+</div></div>
 
 <div id="nameModal" class="modal"><div class="card"><span data-bloom="36"></span><h2 class="mb-0 mt-3 text-2xl font-semibold" data-t="wt">Welcome to Orenis</h2><p class="small mt-1 text-sm" data-t="wq">What should we call you?</p>
   <input id="nameIn" maxlength="40" data-tp="wph" placeholder="Your name" class="field"><button id="nameOk" class="btn p mt-4 w-full" data-t="cont">Continue</button></div></div>
@@ -179,16 +215,17 @@ button:focus-visible,a:focus-visible,select:focus-visible{outline:2px solid var(
 
 <script>
 const PROXY_ENDPOINT = "https://orenis-proxy.leezinu1980.workers.dev";
-const LIM = { day: 100, win: 25, winMs: 5 * 3600e3 }, MAXF = 4, MAXB = 10 * 2 ** 20, MAXTOTAL = 14 * 2 ** 20;
+const LIM = { day: 100, win: 25, winMs: 5 * 3600e3 }, MAXF = 4, MAXB = 10 * 2 ** 20, MAXTOTAL = 12 * 2 ** 20; // base64 adds a third; the model API caps a request near 20 MB
+const OKTYPE = /^(image\/(png|jpe?g|webp|heic|heif)|audio\/(wav|x-wav|wave|mpeg|mp3|aiff|x-aiff|aac|ogg|flac|x-flac)|video\/(mp4|mpeg|quicktime|x-msvideo|x-flv|webm|x-ms-wmv|3gpp)|application\/pdf)$/i;
 const TEXTEXT = /\.(txt|md|csv|json|js|ts|py|html|css|log|xml|ya?ml)$/i;
 const $ = s => document.querySelector(s), ls = (k, v) => v === undefined ? localStorage.getItem(k) : localStorage.setItem(k, v);
-let db, chatId = null, busy = false, pending = [], busyChat = null, thEl = null, ctl = null, curSkip = null;
+let db, chatId = null, busy = false, pending = [], busyChat = null, thEl = null, ctl = null, curSkip = null, activeSkill = null;
 const uid = () => crypto.randomUUID?.() || Date.now().toString(36) + Math.random().toString(36).slice(2);
 
 /* ---------- i18n: English is the in-code default; other languages live here ---------- */
 const L = {
-ko: { newChat: "새 채팅", today: "오늘", prev: "지난 7일", older: "이전", plan: "무료 플랜", settings: "설정", usage: "남은 사용량", win: "최근 5시간", mem: "개인화 메모리", memd: "다른 최근 대화의 짧은 내용을 공유해 더 개인화된 답변을 받습니다.", ren: "이름 변경", wipe: "이 기기의 모든 대화 삭제", language: "언어", wt: "Orenis에 오신 것을 환영합니다", wq: "어떻게 불러 드릴까요?", wph: "이름", cont: "계속", pt: "내 플랜", pfd: "하루 100개 메시지, 5시간당 25개, 웹 검색과 파일 입력.", pro: "프로 플랜", soon: "출시 예정", ppd: "더 높은 한도와 우선 처리 속도.", unav: "이용 불가", act: "사용 중", cfree: "무료로 계속", cancel: "취소", del: "삭제", ph: "Orenis에게 무엇이든 물어보세요", fine: "Orenis는 베타 버전이며 실수할 수 있습니다. 중요한 정보는 확인하세요.", hello: "안녕하세요, {n}님", how: "무엇을 도와드릴까요?", drop: "파일을 놓아 첨부", copy: "복사", copied: "복사됨", searched: "웹 검색 사용", working: "처리 중", s1: "오늘의 IT 뉴스 요약해줘", s2: "양자 컴퓨팅을 쉽게 설명해줘", s3: "파이썬 스크립트 작성 도와줘", s4: "첨부한 문서를 검토해줘", eDay: "일일 한도에 도달했습니다. {t}에 초기화됩니다.", eWin: "5시간 한도에 도달했습니다. {t}에 한 칸이 풀립니다.", eSize: "첨부 파일이 총 14MB를 넘습니다. 하나를 제거하고 다시 시도하세요.", eStore: "이 브라우저에서는 로컬 저장소를 사용할 수 없어 대화를 저장할 수 없습니다.", eTo: "요청 시간이 초과되었습니다. 다시 시도해 주세요.", eNet: "Orenis에 연결할 수 없습니다. 연결을 확인하고 다시 시도하세요.", e413: "첨부 파일이 너무 큽니다.", e429: "Orenis가 혼잡합니다. 잠시 후 다시 시도해 주세요.", eGen: "지금은 Orenis가 응답할 수 없습니다. 잠시 후 다시 시도해 주세요.", maxf: "메시지당 최대 {n}개 파일", big: "{f}: 10MB 초과", uns: "{f}: 지원하지 않는 형식", delq: "\"{t}\" 대화를 삭제할까요?", wipeq: "이 기기에 저장된 모든 대화를 삭제할까요? 되돌릴 수 없습니다.", resets: "{t}에 초기화 ({z})", slot: "다음 한 칸: {t}", full: "전체 한도 사용 가능", left: "{p}% · {n}개 남음", search: "대화 검색", export: "대화 내보내기", regen: "다시 생성", edit: "수정", retry: "다시 시도", mic: "음성 입력", down: "맨 아래로", exported: "대화를 내보냈습니다", stop: "중지", send: "보내기" },
-es: { newChat: "Nuevo chat", today: "Hoy", prev: "Últimos 7 días", older: "Anteriores", plan: "Plan gratuito", settings: "Ajustes", usage: "Uso restante", win: "Últimas 5 horas", mem: "Memoria personalizada", memd: "Comparte fragmentos cortos de tus otros chats recientes para respuestas más personales.", ren: "Cambiar mi nombre", wipe: "Borrar todos los chats de este dispositivo", language: "Idioma", wt: "Te damos la bienvenida a Orenis", wq: "¿Cómo quieres que te llamemos?", wph: "Tu nombre", cont: "Continuar", pt: "Tu plan", pfd: "100 mensajes al día, 25 cada 5 horas, búsqueda web y archivos.", pro: "Plan Pro", soon: "Próximamente", ppd: "Límites más altos y mayor velocidad.", unav: "No disponible", act: "Activo", cfree: "Continuar con el plan gratuito", cancel: "Cancelar", del: "Eliminar", ph: "Pregunta lo que quieras a Orenis", fine: "Orenis está en beta y puede cometer errores. Verifica la información importante.", hello: "Hola, {n}", how: "¿En qué puedo ayudarte hoy?", drop: "Suelta archivos para adjuntar", copy: "Copiar", copied: "Copiado", searched: "Buscó en la web", working: "Trabajando", s1: "Resume las noticias tech de hoy", s2: "Explica la computación cuántica fácil", s3: "Ayúdame con un script de Python", s4: "Revisa un documento que adjuntaré", eDay: "Alcanzaste el límite diario. Se reinicia {t}.", eWin: "Alcanzaste el límite de 5 horas. Se libera un cupo {t}.", eSize: "Los adjuntos superan 14 MB. Quita uno e inténtalo de nuevo.", eStore: "El almacenamiento local no está disponible, así que no se pueden guardar los chats.", eTo: "La solicitud tardó demasiado. Inténtalo de nuevo.", eNet: "No se puede conectar con Orenis. Revisa tu conexión e inténtalo de nuevo.", e413: "Los adjuntos son demasiado grandes.", e429: "Orenis está ocupado. Inténtalo de nuevo en unos minutos.", eGen: "Orenis no pudo responder ahora. Inténtalo de nuevo en breve.", maxf: "Hasta {n} archivos por mensaje", big: "{f} supera 10 MB", uns: "{f}: tipo no compatible", delq: "¿Eliminar \"{t}\"?", wipeq: "¿Borrar todos los chats de este dispositivo? No se puede deshacer.", resets: "Se reinicia {t} ({z})", slot: "Próximo cupo: {t}", full: "Cupo completo disponible", left: "{p}% · quedan {n}", search: "Buscar chats", export: "Exportar chat", regen: "Regenerar", edit: "Editar", retry: "Reintentar", mic: "Entrada de voz", down: "Ir al final", exported: "Chat exportado", stop: "Detener", send: "Enviar" } };
+ko: { newChat: "새 채팅", today: "오늘", prev: "지난 7일", older: "이전", plan: "무료 플랜", settings: "설정", usage: "남은 사용량", win: "최근 5시간", mem: "개인화 메모리", memd: "다른 최근 대화의 짧은 내용을 공유해 더 개인화된 답변을 받습니다.", ren: "이름 변경", wipe: "이 기기의 모든 대화 삭제", language: "언어", wt: "Orenis에 오신 것을 환영합니다", wq: "어떻게 불러 드릴까요?", wph: "이름", cont: "계속", pt: "내 플랜", pfd: "하루 100개 메시지, 5시간당 25개, 웹 검색과 파일 입력.", pro: "프로 플랜", soon: "출시 예정", ppd: "더 높은 한도와 우선 처리 속도.", unav: "이용 불가", act: "사용 중", cfree: "무료로 계속", cancel: "취소", del: "삭제", ph: "Orenis에게 무엇이든 물어보세요", fine: "Orenis는 베타 버전이며 실수할 수 있습니다. 중요한 정보는 확인하세요.", hello: "안녕하세요, {n}님", how: "무엇을 도와드릴까요?", drop: "파일을 놓아 첨부", copy: "복사", copied: "복사됨", searched: "웹 검색 사용", working: "처리 중", s1: "오늘의 IT 뉴스 요약해줘", s2: "양자 컴퓨팅을 쉽게 설명해줘", s3: "파이썬 스크립트 작성 도와줘", s4: "첨부한 문서를 검토해줘", eDay: "일일 한도에 도달했습니다. {t}에 초기화됩니다.", eWin: "5시간 한도에 도달했습니다. {t}에 한 칸이 풀립니다.", eSize: "첨부 파일이 총 12MB를 넘습니다. 하나를 제거하고 다시 시도하세요.", eStore: "이 브라우저에서는 로컬 저장소를 사용할 수 없어 대화를 저장할 수 없습니다.", eTo: "요청 시간이 초과되었습니다. 다시 시도해 주세요.", eNet: "Orenis에 연결할 수 없습니다. 연결을 확인하고 다시 시도하세요.", e413: "첨부 파일이 너무 큽니다.", e429: "Orenis가 혼잡합니다. 잠시 후 다시 시도해 주세요.", eGen: "지금은 Orenis가 응답할 수 없습니다. 잠시 후 다시 시도해 주세요.", maxf: "메시지당 최대 {n}개 파일", big: "{f}: 10MB 초과", uns: "{f}: 지원하지 않는 형식", delq: "\"{t}\" 대화를 삭제할까요?", wipeq: "이 기기에 저장된 모든 대화를 삭제할까요? 되돌릴 수 없습니다.", resets: "{t}에 초기화 ({z})", slot: "다음 한 칸: {t}", full: "전체 한도 사용 가능", left: "{p}% · {n}개 남음", search: "대화 검색", export: "대화 내보내기", regen: "다시 생성", edit: "수정", retry: "다시 시도", mic: "음성 입력", down: "맨 아래로", exported: "대화를 내보냈습니다", stop: "중지", send: "보내기", renameChat: "이름 변경", pinned: "고정됨", pin: "고정", unpin: "고정 해제", menu: "옵션", think: "생각하는 중", thought: "{s}초 동안 생각함", writing: "답변 작성 중", searchQ: "검색 중: {q}", reading: "출처 {n}개 읽는 중", drafting: "문서 작성 중", tGen: "일반", tPers: "맞춤 설정", tSkills: "스킬", tData: "사용량·데이터", nameLbl: "이름", instr: "맞춤 지침", instrD: "Orenis가 어떻게 답할지 알려주세요. 모든 대화에 적용됩니다.", instrPh: "예: 글머리 기호를 사용해 줘. 간결하게 답해줘. 모르면 추측하지 말고 모른다고 말해줘.", pr1: "글머리 기호 사용", pr2: "간결하게", pr3: "모르면 모른다고 말하기", pr4: "단계별로 설명", skWeb: "웹 검색", skWebD: "Orenis가 온라인에서 정보를 찾아볼 수 있게 합니다.", skDoc: "문서 만들기", skDocD: "Orenis가 PDF, Word, Markdown 파일을 만들 수 있게 합니다.", sk_search: "웹 검색", sk_pdf: "PDF 만들기", sk_word: "Word 문서 만들기", sk_sum: "요약", sk_tr: "번역", skills: "스킬", pdfTip: "인쇄 창에서 'PDF로 저장'을 선택하세요." },
+es: { newChat: "Nuevo chat", today: "Hoy", prev: "Últimos 7 días", older: "Anteriores", plan: "Plan gratuito", settings: "Ajustes", usage: "Uso restante", win: "Últimas 5 horas", mem: "Memoria personalizada", memd: "Comparte fragmentos cortos de tus otros chats recientes para respuestas más personales.", ren: "Cambiar mi nombre", wipe: "Borrar todos los chats de este dispositivo", language: "Idioma", wt: "Te damos la bienvenida a Orenis", wq: "¿Cómo quieres que te llamemos?", wph: "Tu nombre", cont: "Continuar", pt: "Tu plan", pfd: "100 mensajes al día, 25 cada 5 horas, búsqueda web y archivos.", pro: "Plan Pro", soon: "Próximamente", ppd: "Límites más altos y mayor velocidad.", unav: "No disponible", act: "Activo", cfree: "Continuar con el plan gratuito", cancel: "Cancelar", del: "Eliminar", ph: "Pregunta lo que quieras a Orenis", fine: "Orenis está en beta y puede cometer errores. Verifica la información importante.", hello: "Hola, {n}", how: "¿En qué puedo ayudarte hoy?", drop: "Suelta archivos para adjuntar", copy: "Copiar", copied: "Copiado", searched: "Buscó en la web", working: "Trabajando", s1: "Resume las noticias tech de hoy", s2: "Explica la computación cuántica fácil", s3: "Ayúdame con un script de Python", s4: "Revisa un documento que adjuntaré", eDay: "Alcanzaste el límite diario. Se reinicia {t}.", eWin: "Alcanzaste el límite de 5 horas. Se libera un cupo {t}.", eSize: "Los adjuntos superan 12 MB. Quita uno e inténtalo de nuevo.", eStore: "El almacenamiento local no está disponible, así que no se pueden guardar los chats.", eTo: "La solicitud tardó demasiado. Inténtalo de nuevo.", eNet: "No se puede conectar con Orenis. Revisa tu conexión e inténtalo de nuevo.", e413: "Los adjuntos son demasiado grandes.", e429: "Orenis está ocupado. Inténtalo de nuevo en unos minutos.", eGen: "Orenis no pudo responder ahora. Inténtalo de nuevo en breve.", maxf: "Hasta {n} archivos por mensaje", big: "{f} supera 10 MB", uns: "{f}: tipo no compatible", delq: "¿Eliminar \"{t}\"?", wipeq: "¿Borrar todos los chats de este dispositivo? No se puede deshacer.", resets: "Se reinicia {t} ({z})", slot: "Próximo cupo: {t}", full: "Cupo completo disponible", left: "{p}% · quedan {n}", search: "Buscar chats", export: "Exportar chat", regen: "Regenerar", edit: "Editar", retry: "Reintentar", mic: "Entrada de voz", down: "Ir al final", exported: "Chat exportado", stop: "Detener", send: "Enviar", renameChat: "Renombrar", pinned: "Fijados", pin: "Fijar", unpin: "Desfijar", menu: "Opciones", think: "Pensando", thought: "Pensó {s} s", writing: "Redactando la respuesta", searchQ: "Buscando: {q}", reading: "Leyendo {n} fuentes", drafting: "Redactando el documento", tGen: "General", tPers: "Personalización", tSkills: "Habilidades", tData: "Uso y datos", nameLbl: "Nombre", instr: "Instrucciones personalizadas", instrD: "Dile a Orenis cómo responder. Se aplica a todos los chats.", instrPh: "Ej.: Usa viñetas. Sé conciso. Si no estás seguro, dilo en vez de adivinar.", pr1: "Usar viñetas", pr2: "Ser conciso", pr3: "No adivinar: decir si no sabes", pr4: "Explicar paso a paso", skWeb: "Búsqueda web", skWebD: "Permite que Orenis busque información en línea.", skDoc: "Crear documentos", skDocD: "Permite que Orenis cree archivos PDF, Word o Markdown.", sk_search: "Buscar en la web", sk_pdf: "Crear un PDF", sk_word: "Crear un documento Word", sk_sum: "Resumir", sk_tr: "Traducir", skills: "Habilidades", pdfTip: "En la ventana de impresión, elige «Guardar como PDF»." } };
 let lang = ls("orenis_lang") || (/^ko/i.test(navigator.language) ? "ko" : /^es/i.test(navigator.language) ? "es" : "en");
 const T = (k, en, v = {}) => { let s = L[lang]?.[k] ?? en; for (const x in v) s = s.replace("{" + x + "}", v[x]); return s; };
 function applyLang() {
@@ -198,7 +235,7 @@ function applyLang() {
   document.querySelectorAll("[data-ta]").forEach(e => { e.dataset.en ??= e.getAttribute("aria-label"); e.setAttribute("aria-label", L[lang]?.[e.dataset.ta] ?? e.dataset.en); });
 }
 
-const I = { download: "M12 4v11M7 11l5 5 5-5M5 20h14", mic: "M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3zM5 11a7 7 0 0 0 14 0M12 18v3", stop: "M7 7h10v10H7z", edit: "M4 20h4L19 9l-4-4L4 16zM13.5 6.5l4 4", refresh: "M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7", down: "M6 9l6 6 6-6", plus: "M12 5v14M5 12h14", up: "M12 19V5M5 12l7-7 7 7", x: "M6 6l12 12M18 6 6 18", copy: "M9 9h10v10H9zM5 15V5h10", check: "M5 12.5l4.5 4.5L19 7", globe: "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18",
+const I = { pin: "M12 17v5M9 3h6l-1 7 3 3H7l3-3z", trash: "M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3", dots: "M5 12h.01M12 12h.01M19 12h.01", wand: "M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8zM19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z", file: "M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8zM14 3v5h5", download: "M12 4v11M7 11l5 5 5-5M5 20h14", mic: "M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3zM5 11a7 7 0 0 0 14 0M12 18v3", stop: "M7 7h10v10H7z", edit: "M4 20h4L19 9l-4-4L4 16zM13.5 6.5l4 4", refresh: "M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7", down: "M6 9l6 6 6-6", plus: "M12 5v14M5 12h14", up: "M12 19V5M5 12l7-7 7 7", x: "M6 6l12 12M18 6 6 18", copy: "M9 9h10v10H9zM5 15V5h10", check: "M5 12.5l4.5 4.5L19 7", globe: "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18",
   panel: "M4 5h16v14H4zM9 5v14", clip: "M21 12.5 12.5 21a5 5 0 0 1-7-7L14 5.5a3.4 3.4 0 0 1 5 5L10.5 19a1.8 1.8 0 0 1-2.5-2.5L15 9.5",
   sliders: "M4 7h9M17 7h3M4 17h3M11 17h9M15 5v4M9 15v4", moon: "M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z", sun: "M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" };
 const ic = n => `<path d="${I[n]}"/>`;
@@ -245,6 +282,7 @@ const feed = $("#feed"), nearBottom = () => feed.scrollHeight - feed.scrollTop -
 const scroll = (force = true) => { if (force || nearBottom()) feed.scrollTo({ top: feed.scrollHeight, behavior: "smooth" }); }; // streaming never yanks you away from what you're reading
 feed.addEventListener("scroll", () => { $("#jump").hidden = nearBottom(); });
 const setEmpty = b => $("#stage").classList.toggle("empty", b);
+const setTitle = t => { $("#title").textContent = t; document.title = (t && t !== "Orenis" ? t + " · " : "") + "Orenis"; };
 async function copyText(t) { try { await navigator.clipboard.writeText(t); toast(T("copied", "Copied")); return true; } catch { const a = el("textarea"); a.value = t; document.body.append(a); a.select(); document.execCommand("copy"); a.remove(); toast(T("copied", "Copied")); return true; } }
 DOMPurify.addHook("afterSanitizeAttributes", n => { if (n.tagName === "A") { n.target = "_blank"; n.rel = "noopener noreferrer"; } });
 /* Markdown + LaTeX: math is pulled out before markdown runs (so _ and \\ survive), rendered by KaTeX, then put back after sanitizing. Code is left alone. */
@@ -253,7 +291,9 @@ function md(src) {
   const s = src.split(/(```[\s\S]*?```|`[^`\n]+`)/).map((seg, i) => i % 2 ? seg : seg
     .replace(/\$\$([\s\S]+?)\$\$/g, (_, t) => keep(true, t)).replace(/\\\[([\s\S]+?)\\\]/g, (_, t) => keep(true, t))
     .replace(/\\\(([\s\S]+?)\\\)/g, (_, t) => keep(false, t))
-    .replace(/(?<![\\$\w])\$(?!\s)([^$\n]+?)(?<!\s)\$(?![\d$])/g, (_, t) => keep(false, t))).join("");
+    .replace(/(?<![\\$\w])\$(?!\s)([^$\n]+?)(?<!\s)\$(?![\d$])/g, (_, t) => keep(false, t))
+    .replace(/\*\*(?=\S)([^*\n]+?)(?<=\S)\*\*/g, "<strong>$1</strong>")
+    .replace(/(?<![*\w])\*(?=[^\s*])([^*\n]+?)(?<=[^\s*])\*(?![*\w])/g, "<em>$1</em>")).join("");
   return DOMPurify.sanitize(marked.parse(s, { breaks: true })).replace(/@@M(\d+)@@/g, (_, i) => {
     const [d, t] = store[i];
     try { return katex.renderToString(t.trim(), { displayMode: d, throwOnError: false, output: "htmlAndMathml" }); }
@@ -290,24 +330,52 @@ function revealText(root, onDone) {
   };
   raf = requestAnimationFrame(tick); return finish;
 }
+const esc = t => String(t).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const SK = [["search", "globe", "sk_search", "Search the web"], ["pdf", "file", "sk_pdf", "Create a PDF"], ["word", "file", "sk_word", "Create a Word document"], ["sum", "copy", "sk_sum", "Summarize"], ["tr", "globe", "sk_tr", "Translate"]];
+const skName = id => { const k = SK.find(x => x[0] === id); return k ? T(k[2], k[3]) : id; };
+function saveBlob(name, type, data) { const a = el("a"); a.href = URL.createObjectURL(new Blob([data], { type })); a.download = name; document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 1500); }
+function docHtml(title, body, word) {
+  return `<!doctype html><html lang="${lang}"${word ? ' xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word"' : ""}><head><meta charset="utf-8"><title>${esc(title)}</title>${word ? "" : '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">'}<style>@page{margin:18mm}body{font:11pt/1.6 "Segoe UI",system-ui,"Noto Sans KR","Malgun Gothic",sans-serif;color:#111;max-width:46rem;margin:2rem auto;padding:0 1rem}h1,h2,h3{line-height:1.25}h1{font-size:22pt}h2{font-size:15pt;margin-top:1.4em}table{border-collapse:collapse}td,th{border:1px solid #bbb;padding:4px 8px}pre{background:#f4f4f6;padding:10px;border-radius:6px;white-space:pre-wrap}code{font-family:Consolas,monospace;font-size:.9em}a{color:#5b3a8e}blockquote{border-left:3px solid #ccc;margin-left:0;padding-left:1em;color:#555}</style></head><body><h1>${esc(title)}</h1>${body}</body></html>`;
+}
+function saveDoc(d, fmt) {
+  const base = d.title.replace(/[^\p{L}\p{N}]+/gu, "-").replace(/^-|-$/g, "").slice(0, 50) || "orenis";
+  if (fmt === "markdown") return saveBlob(base + ".md", "text/markdown", `# ${d.title}\n\n${d.markdown}`);
+  const html = docHtml(d.title, md(d.markdown), fmt === "word");
+  if (fmt === "html") return saveBlob(base + ".html", "text/html", html);
+  if (fmt === "word") return saveBlob(base + ".doc", "application/msword", html);
+  const f = el("iframe"); f.style.cssText = "position:fixed;right:0;bottom:0;width:0;height:0;border:0"; f.srcdoc = html; document.body.append(f); // PDF = print a clean copy: selectable text, any language
+  f.onload = () => setTimeout(() => { f.contentWindow.onafterprint = () => f.remove(); f.contentWindow.focus(); f.contentWindow.print(); setTimeout(() => f.remove(), 120000); }, 700);
+  toast(T("pdfTip", "In the print window, choose “Save as PDF”."));
+}
+function docCard(d) {
+  const c = el("div", "docc"), h = el("div", "dh"), b = el("div", "dbs"); h.append(svg("file"), el("span", "", d.title));
+  [["pdf", "PDF"], ["word", "Word"], ["markdown", "Markdown"], ["html", "HTML"]].forEach(([k, n]) => { const x = el("button", "dbtn" + (k === d.format ? " p" : ""), n); x.onclick = () => saveDoc(d, k); b.append(x); });
+  c.append(h, b); return c;
+}
 function bubble(m, o = {}) {
   const row = el("div", "m pop");
   if (m.role === "user") {
-    row.classList.add("mu"); (m.files || []).forEach(f => row.append(fileChip(f))); if (m.text) row.append(el("div", "ub", m.text));
+    row.classList.add("mu"); if (m.skill) row.append(el("span", "fchip", "✦ " + skName(m.skill)));
+    (m.files || []).forEach(f => row.append(fileChip(f))); if (m.text) row.append(el("div", "ub", m.text));
     const ua = el("div", "uacts"); ua.append(actBtn("", "copy", () => copyText(m.text), T("copy", "Copy")), actBtn("", "edit", () => editFrom(m), T("edit", "Edit"))); row.append(ua); return row;
   }
   row.classList.add("ma"); const lg = bloom(26); lg.style.marginTop = ".2rem"; row.append(lg);
   const body = el("div", "body"), txt = el("div", "md"); txt.innerHTML = md(m.text);
+  if (m.steps?.length) { // collapsed "Thought for 4s" with the steps that actually ran
+    const dt = el("details", "thought"), dv = el("div"); dt.append(el("summary", "", T("thought", "Thought for {s}s", { s: m.secs || 1 })));
+    m.steps.forEach(x => dv.append(el("div", "", "✓ " + x))); dt.append(dv); body.append(dt);
+  }
   txt.querySelectorAll("pre").forEach(p => {
     const code = p.querySelector("code"), c = code?.textContent ?? p.textContent;
     if (code) { try { hljs.highlightElement(code); } catch {} const l = (code.className.match(/language-([\w+#-]+)/) || [])[1]; if (l) p.append(el("span", "lg", l)); }
     const b = el("button", "cp", T("copy", "Copy")); b.onclick = () => copyText(c); p.append(b);
   });
-  const extra = el("div"); // sources + actions appear once the reveal finishes
+  const extra = el("div"); // documents, sources and actions appear once the reveal finishes
+  (m.docs || []).forEach(d => extra.append(docCard(d)));
   if (m.searched || m.sources?.length) {
     const bar = el("div", "srcs");
     if (m.searched) { const n = el("span", "note"); n.append(svg("globe"), T("searched", "Searched the web")); bar.append(n); }
-    (m.sources || []).slice(0, 5).forEach(s => { let h = s.url; try { h = new URL(s.url).hostname.replace(/^www\./, ""); } catch {} const a = el("a", "pill"); a.href = s.url; a.target = "_blank"; a.rel = "noopener noreferrer"; a.title = s.title; a.append(el("span", "dot", h[0]), h); bar.append(a); });
+    (m.sources || []).slice(0, 5).forEach(x => { let h = x.url; try { h = new URL(x.url).hostname.replace(/^www\./, ""); } catch {} const a = el("a", "pill"); a.href = x.url; a.target = "_blank"; a.rel = "noopener noreferrer"; a.title = x.title; a.append(el("span", "dot", h[0]), h); bar.append(a); });
     extra.append(bar);
   }
   const acts = el("div", "acts");
@@ -317,7 +385,17 @@ function bubble(m, o = {}) {
   if (o.animate) { extra.hidden = true; row._done = new Promise(res => { row._skip = revealText(txt, () => { extra.hidden = false; res(); }); }); }
   return row;
 }
-function thinking() { const r = el("div", "m ma pop"), l = bloom(26); l.style.marginTop = ".2rem"; r.append(l); const d = el("div", "dots"); d.style.paddingTop = ".6rem"; d.innerHTML = "<span></span><span></span><span></span>"; r.append(d); return r; }
+/* Live thinking indicator: spinning bloom + the real steps as the Worker reports them (label, search, read, write). */
+function thinking() {
+  const r = el("div", "m th pop"), l = bloom(26), st = el("div", "steps"); l.classList.add("lg2"); l.style.marginTop = ".15rem"; r.append(l, st);
+  r._steps = []; r._t0 = Date.now(); r._def = false;
+  r.step = (t, label = false) => {
+    if (label) { if (r._def && r._steps.length === 1) { st.lastChild.textContent = t; r._steps[0] = t; r._def = false; } return; } // the label only replaces the default first line
+    if (r._steps[r._steps.length - 1] === t) return;
+    if (st.lastChild) st.lastChild.className = "ok"; r._steps.push(t); st.append(el("div", "now", t));
+  };
+  r.step(T("think", "Thinking")); r._def = true; return r;
+}
 function banner(text, retry = false) {
   const b = el("div", "err pop", text); b.setAttribute("role", "alert");
   if (retry) { const r = el("button", "act", T("retry", "Retry")); r.style.border = "1px solid var(--line)"; r.onclick = () => { b.remove(); if (!busy && gate()) submit(null, null, true); }; b.append(r); }
@@ -331,28 +409,54 @@ function welcome() {
 async function openChat(id) {
   chatId = id; feed.innerHTML = "";
   const ms = id ? await msgsOf(id) : [], c = id ? await tx("chats", "readonly", o => o.get(id)) : null;
-  $("#title").textContent = c ? c.title : "Orenis"; $("#export").hidden = !ms.length;
+  setTitle(c ? c.title : "Orenis"); $("#export").hidden = !ms.length;
   setEmpty(!ms.length); if (!ms.length) welcome(); else ms.forEach((m, i) => feed.append(bubble(m, { isLast: m.role === "assistant" && i === ms.length - 1 })));
   if (busy && id === busyChat && thEl) feed.append(thEl); // reply still on its way for this chat
   feed.scrollTop = feed.scrollHeight; $("#jump").hidden = true; renderList(); closeSide();
 }
 const grp = t => { const d = new Date(); d.setHours(0, 0, 0, 0); const a = d.getTime(); return t >= a ? T("today", "Today") : t >= a - 6 * 864e5 ? T("prev", "Previous 7 days") : T("older", "Older"); };
-function startRename(c, b) {
+function showCtx(items, x, y, above = false) {
+  const m = $("#ctx"); m.innerHTML = "";
+  items.forEach(it => { const b = el("button", it.danger ? "dg" : ""); b.append(svg(it.icon), it.label); b.onclick = () => { hideCtx(); it.fn(); }; m.append(b); });
+  m.hidden = false; const w = m.offsetWidth, h = m.offsetHeight, top = above ? y - h - 8 : y;
+  m.style.left = Math.max(8, Math.min(x, innerWidth - w - 8)) + "px"; m.style.top = Math.max(8, Math.min(top, innerHeight - h - 8)) + "px";
+}
+function hideCtx() { $("#ctx").hidden = true; }
+const putChat = (id, patch) => tx("chats", "readwrite", o => { const g = o.get(id); g.onsuccess = () => g.result && o.put({ ...g.result, ...patch }); });
+async function togglePin(c) { await putChat(c.id, { pinned: !c.pinned }); renderList(); }
+async function delAsk(c) { if (await ask(T("delq", 'Delete "{t}"?', { t: c.title }))) { await delChat(c.id); if (c.id === chatId) openChat(null); else renderList(); } }
+function startRename(c) {
+  const b = $(`.row[data-id="${c.id}"] .tt`); if (!b) return;
   const i = el("input", "edt"); i.value = c.title; b.replaceWith(i); i.focus(); i.select(); let done = false;
-  const end = async ok => { if (done) return; done = true; const t = i.value.trim().slice(0, 60); if (ok && t) { await tx("chats", "readwrite", o => { const g = o.get(c.id); g.onsuccess = () => o.put({ ...g.result, title: t }); }); if (c.id === chatId) $("#title").textContent = t; } renderList(); };
+  const end = async ok => { if (done) return; done = true; const t = i.value.trim().slice(0, 60); if (ok && t) { await putChat(c.id, { title: t, auto: false }); if (c.id === chatId) setTitle(t); } renderList(); };
   i.onkeydown = e => { if (e.key === "Enter") end(true); if (e.key === "Escape") end(false); }; i.onblur = () => end(true);
 }
+const chatMenu = (c, x, y) => showCtx([
+  { icon: "pin", label: c.pinned ? T("unpin", "Unpin") : T("pin", "Pin"), fn: () => togglePin(c) },
+  { icon: "edit", label: T("renameChat", "Rename"), fn: () => startRename(c) },
+  { icon: "trash", label: T("del", "Delete"), danger: true, fn: () => delAsk(c) }], x, y);
+function chatRow(c) {
+  const r = el("div", "row" + (c.id === chatId ? " on" : "")), b = el("button", "tt"), m = el("button"); r.dataset.id = c.id;
+  if (c.pinned) { const p = svg("pin"); p.classList.add("pn"); b.append(p); } b.append(c.title);
+  m.append(svg("dots")); m.setAttribute("aria-label", T("menu", "Options"));
+  b.onclick = () => openChat(c.id); m.onclick = () => { const k = m.getBoundingClientRect(); chatMenu(c, k.left, k.bottom + 4); };
+  r.oncontextmenu = e => { e.preventDefault(); chatMenu(c, e.clientX, e.clientY); }; // right click; long-press does the same on touch
+  let tm; r.ontouchstart = e => { tm = setTimeout(() => { const t = e.touches[0]; chatMenu(c, t.clientX, t.clientY); }, 520); }; r.ontouchend = r.ontouchmove = () => clearTimeout(tm);
+  r.append(b, m); return r;
+}
 async function renderList() {
-  const list = $("#list"), q = $("#sq").value.trim().toLowerCase(); list.innerHTML = ""; let last = "";
-  for (const c of (await allChats()).filter(c => !q || c.title.toLowerCase().includes(q))) {
-    const g = grp(c.updated); if (g !== last) { list.append(el("div", "lbl", g)); last = g; }
-    const r = el("div", "row" + (c.id === chatId ? " on" : "")), b = el("button", "", c.title), e = el("button"), x = el("button");
-    e.append(svg("edit")); x.append(svg("x")); [e, x].forEach(z => z.firstChild.style.cssText = "width:.9rem;height:.9rem");
-    b.onclick = () => openChat(c.id); e.setAttribute("aria-label", T("renameChat", "Rename")); x.setAttribute("aria-label", T("del", "Delete"));
-    e.onclick = () => startRename(c, b);
-    x.onclick = async () => { if (await ask(T("delq", 'Delete "{t}"?', { t: c.title }))) { await delChat(c.id); if (c.id === chatId) openChat(null); else renderList(); } };
-    r.append(b, e, x); list.append(r);
-  }
+  const list = $("#list"), q = $("#sq").value.trim().toLowerCase(); list.innerHTML = "";
+  const all = (await allChats()).filter(c => !q || c.title.toLowerCase().includes(q)), pins = all.filter(c => c.pinned);
+  if (pins.length) { list.append(el("div", "lbl", T("pinned", "Pinned"))); pins.forEach(c => list.append(chatRow(c))); }
+  let last = ""; for (const c of all.filter(c => !c.pinned)) { const g = grp(c.updated); if (g !== last) { list.append(el("div", "lbl", g)); last = g; } list.append(chatRow(c)); }
+}
+async function autoTitle(cid, user, assistant) { // short topic title in the user's language, e.g. "Initial Greetings"
+  try {
+    const r = await fetch(PROXY_ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ task: "title", user, assistant }) });
+    const { title } = await r.json(); if (!title) return;
+    const c = await tx("chats", "readonly", o => o.get(cid)); if (!c?.auto) return; // renamed by the user in the meantime
+    await putChat(cid, { title }); if (chatId === cid) setTitle(title); renderList();
+  } catch {}
 }
 
 /* ---------- Attachments ---------- */
@@ -360,13 +464,14 @@ function addFiles(list) {
   for (const f of list) {
     if (pending.length >= MAXF) return toast(T("maxf", "Up to {n} files per message", { n: MAXF }));
     if (f.size > MAXB) { toast(T("big", "{f} is over 10 MB", { f: f.name })); continue; }
-    if (!(f.type.startsWith("image/") || f.type.startsWith("audio/") || f.type.startsWith("video/") || f.type === "application/pdf" || isText(f))) { toast(T("uns", "{f}: unsupported type", { f: f.name })); continue; }
+    if (!(OKTYPE.test(f.type) || isText(f))) { toast(T("uns", "{f}: unsupported type", { f: f.name })); continue; }
     pending.push(f);
   }
   renderTray();
 }
 function renderTray() {
   const t = $("#tray"); t.innerHTML = "";
+  if (activeSkill) { const c = el("span", "skchip", "✦ " + skName(activeSkill)), x = el("button", "", "✕"); x.setAttribute("aria-label", "Remove"); x.onclick = () => { activeSkill = null; renderTray(); }; c.append(x); t.append(c); }
   pending.forEach((f, i) => { const w = el("div", "pop"); w.style.position = "relative"; w.append(fileChip({ name: f.name, type: f.type, blob: f })); const x = el("button", "rm", "✕"); x.setAttribute("aria-label", "Remove " + f.name); x.onclick = () => { pending.splice(i, 1); renderTray(); }; w.append(x); t.append(w); });
   updSend();
 }
@@ -384,36 +489,58 @@ function gate(files = []) { // quota + size checks shared by send, retry and reg
   const u = usage();
   if (u.d.length >= LIM.day) return banner(T("eDay", "Daily limit reached. It resets {t}.", { t: fmt(u.dReset) })), false;
   if (u.w.length >= LIM.win) return banner(T("eWin", "5-hour limit reached. A slot frees {t}.", { t: fmt(u.wReset) })), false;
-  if (files.reduce((a, f) => a + f.size, 0) > MAXTOTAL) return banner(T("eSize", "Attachments total over 14 MB. Remove one and try again.")), false;
+  if (files.reduce((a, f) => a + f.size, 0) > MAXTOTAL) return banner(T("eSize", "Attachments total over 12 MB. Remove one and try again.")), false;
   return true;
 }
 async function send() {
   const text = $("#input").value.trim(); if (busy || (!text && !pending.length)) return;
   const files = pending.slice(); if (!gate(files)) return;
-  $("#input").value = ""; pending = []; renderTray(); autosize(); await submit(text, files);
+  const sk = activeSkill; activeSkill = null; $("#input").value = ""; pending = []; renderTray(); autosize(); await submit(text, files, false, sk);
 }
 function stop() { if (ctl) { ctl.userAborted = true; ctl.abort(); } else curSkip?.(); } // cancel the request, or finish the reveal instantly
-async function submit(text, files, regen = false) {
+function onStep(th, ev) { // real progress events streamed by the Worker
+  if (ev.s === "label") th.step(ev.t, true);
+  else if (ev.s === "search") th.step(T("searchQ", "Searching: {q}", { q: ev.t }));
+  else if (ev.s === "read") th.step(T("reading", "Reading {n} sources", { n: ev.t }));
+  else if (ev.s === "doc") th.step(T("drafting", "Drafting the document"));
+  else if (ev.s === "write") th.step(T("writing", "Writing the answer"));
+}
+async function readStream(r, th) {
+  const rd = r.body.getReader(), dec = new TextDecoder(); let buf = "", out = {};
+  for (;;) {
+    const { value, done } = await rd.read(); if (done) break;
+    buf += dec.decode(value, { stream: true }); let i;
+    while ((i = buf.indexOf("\n")) >= 0) {
+      const line = buf.slice(0, i).trim(); buf = buf.slice(i + 1); if (!line) continue;
+      let ev; try { ev = JSON.parse(line); } catch { continue; }
+      if (ev.s) onStep(th, ev); else if (ev.done) out = ev.done; else if (ev.error) out = { error: ev.error, code: ev.code };
+    }
+  }
+  return out;
+}
+async function submit(text, files, regen = false, skill = null) {
   busy = true; updSend(); const now = Date.now();
-  if (!chatId) { chatId = uid(); const title = (text || files[0].name).slice(0, 40); await tx("chats", "readwrite", o => o.put({ id: chatId, title, created: now, updated: now })); feed.innerHTML = ""; setEmpty(false); $("#title").textContent = title; }
+  if (!chatId) { chatId = uid(); const title = (text || files[0].name).slice(0, 40); await tx("chats", "readwrite", o => o.put({ id: chatId, title, created: now, updated: now, auto: true })); feed.innerHTML = ""; setEmpty(false); setTitle(title); }
   const cid = chatId; busyChat = cid; $("#export").hidden = false;
   feed.querySelectorAll(".err,.regen").forEach(e => e.remove());
-  if (!regen) { const um = { chatId, role: "user", text, ts: now, files: files.map(f => ({ name: f.name, type: f.type, blob: f })) }; um.id = await tx("messages", "readwrite", o => o.add(um)); feed.append(bubble(um)); }
-  thEl = thinking(); feed.append(thEl); scroll();
+  if (!regen) { const um = { chatId, role: "user", text, ts: now, skill, files: files.map(f => ({ name: f.name, type: f.type, blob: f })) }; um.id = await tx("messages", "readwrite", o => o.add(um)); feed.append(bubble(um)); }
+  const th = thEl = thinking(); feed.append(th); scroll();
   ls("orenis_hits", JSON.stringify([...hits(), now])); // counted at send, refunded on failure
-  $("#live").hidden = false; const c = ctl = new AbortController(), to = setTimeout(() => c.abort(), 90000);
+  $("#live").hidden = false; const c = ctl = new AbortController(), to = setTimeout(() => c.abort(), 120000);
   try {
     const all = await msgsOf(cid), last = all[all.length - 1]; // always rebuilt from storage, so retry and regenerate resend the same message
     const prior = all.slice(-13, -1).map(m => ({ role: m.role, text: m.text, files: (m.files || []).map(f => ({ name: f.name })) }));
     let t = last.text, media = [];
     for (const f of last.files || []) { if (isText(f)) t += `\n\n[File: ${f.name}]\n\`\`\`\n${(await f.blob.text()).slice(0, 20000)}\n\`\`\``; else media.push({ name: f.name, mime: f.type, data: await b64(f.blob) }); }
-    const payload = { messages: [...prior, { role: "user", text: t, files: media }], name: ls("orenis_name") };
+    const payload = { messages: [...prior, { role: "user", text: t, files: media }], name: ls("orenis_name"), lang, instructions: ls("orenis_instr") || "", skill: last.skill || null, search: ls("orenis_sk_web") !== "0", docs: ls("orenis_sk_doc") !== "0" };
     if (ls("orenis_mem") === "1") payload.memory = await memorySnippet();
     const r = await fetch(PROXY_ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload), signal: c.signal });
-    const d = await r.json().catch(() => ({})); clearTimeout(to); ctl = null;
-    if (!r.ok || !d.reply) throw new Error(d.error || (r.status === 413 ? T("e413", "Those attachments are too large.") : r.status === 429 ? T("e429", "Orenis is busy. Please try again in a few minutes.") : T("eGen", "Orenis couldn't respond right now. Please try again shortly.")));
-    const am = { chatId: cid, role: "assistant", text: d.reply, ts: Date.now(), searched: !!d.searched, sources: d.sources || [] };
+    const d = (r.headers.get("content-type") || "").includes("ndjson") ? await readStream(r, th) : await r.json().catch(() => ({}));
+    clearTimeout(to); ctl = null;
+    if (!d.reply) { const er = new Error((d.error || (r.status === 413 ? T("e413", "Those attachments are too large.") : r.status === 429 ? T("e429", "Orenis is busy. Please try again in a few minutes.") : T("eGen", "Orenis couldn't respond right now. Please try again shortly."))) + (d.code ? ` (${d.code})` : "")); throw er; }
+    const am = { chatId: cid, role: "assistant", text: d.reply, ts: Date.now(), searched: !!d.searched, sources: d.sources || [], docs: d.files || [], steps: th._steps.slice(), secs: Math.max(1, Math.round((Date.now() - th._t0) / 1000)) };
     await tx("messages", "readwrite", o => o.add(am));
+    if (all.length <= 1) autoTitle(cid, last.text || "", d.reply);
     if (chatId === cid) { thEl?.remove(); const row = bubble(am, { animate: true, isLast: true }); feed.append(row); curSkip = row._skip; scroll(); await row._done; } // only paint into the chat that asked
   } catch (e) {
     ls("orenis_hits", JSON.stringify(hits().filter(x => x !== now))); // failed or stopped requests don't use quota
@@ -432,7 +559,7 @@ async function regenerate() {
 async function editFrom(m) { // ChatGPT-style edit: drop this message and everything after it, put it back in the composer
   if (busy || m.id == null) return; const ms = await msgsOf(chatId);
   await tx("messages", "readwrite", o => ms.filter(x => x.id >= m.id).forEach(x => o.delete(x.id))); await openChat(chatId);
-  $("#input").value = m.text; pending = (m.files || []).map(f => new File([f.blob], f.name, { type: f.type })); renderTray(); autosize(); updSend(); $("#input").focus();
+  $("#input").value = m.text; activeSkill = m.skill || null; pending = (m.files || []).map(f => new File([f.blob], f.name, { type: f.type })); renderTray(); autosize(); updSend(); $("#input").focus();
 }
 
 /* ---------- Wiring ---------- */
@@ -452,17 +579,35 @@ addEventListener("dragleave", () => { if (--dragN <= 0) { dragN = 0; $("#drop").
 addEventListener("dragover", e => e.preventDefault());
 addEventListener("drop", e => { e.preventDefault(); dragN = 0; $("#drop").classList.remove("on"); addFiles(e.dataTransfer.files); });
 $("#newChat").onclick = () => openChat(null);
-$("#gear").onclick = () => { renderUsage(); $("#drawer").classList.add("on"); closeSide(); }; $("#closeGear").onclick = () => $("#drawer").classList.remove("on");
+$("#gear").onclick = () => { renderUsage(); $("#nameEdit").value = ls("orenis_name") || ""; $("#setModal").classList.add("on"); closeSide(); }; $("#closeGear").onclick = () => $("#setModal").classList.remove("on");
 $("#memTog").onchange = e => ls("orenis_mem", e.target.checked ? "1" : "0");
 $("#lang").onchange = e => { lang = e.target.value; ls("orenis_lang", lang); applyLang(); renderUsage(); openChat(chatId); };
 $("#planBadge").onclick = () => show("#planModal"); $("#planOk").onclick = () => { ls("orenis_plan", "free"); hide("#planModal"); };
-$("#renameBtn").onclick = () => { $("#nameIn").value = ls("orenis_name") || ""; show("#nameModal"); $("#nameIn").focus(); };
-$("#wipeBtn").onclick = async () => { if (await ask(T("wipeq", "Delete all chats stored on this device? This can't be undone."))) { for (const c of await allChats()) await delChat(c.id); $("#drawer").classList.remove("on"); openChat(null); } };
-const setName = () => { const n = ls("orenis_name") || ""; $("#meName").textContent = n; $("#ava").textContent = (n[0] || "?").toUpperCase(); };
+
+$("#wipeBtn").onclick = async () => { if (await ask(T("wipeq", "Delete all chats stored on this device? This can't be undone."))) { for (const c of await allChats()) await delChat(c.id); $("#setModal").classList.remove("on"); openChat(null); } };
+const setName = () => { const n = ls("orenis_name") || ""; $("#meName").textContent = n; $("#ava").textContent = (n[0] || "?").toUpperCase(); $("#nameEdit").value = n; };
 $("#nameOk").onclick = () => { const n = $("#nameIn").value.trim(); if (!n) return $("#nameIn").focus(); ls("orenis_name", n); setName(); hide("#nameModal"); if (!ls("orenis_plan")) show("#planModal"); if (!chatId) welcome(); };
 $("#nameIn").addEventListener("keydown", e => { if (e.key === "Enter") $("#nameOk").click(); });
-addEventListener("keydown", e => { if (e.key === "Escape") { $("#drawer").classList.remove("on"); hide("#planModal"); closeSide(); } });
+addEventListener("keydown", e => { if (e.key === "Escape") { $("#setModal").classList.remove("on"); hide("#planModal"); closeSide(); } });
 
+document.querySelectorAll(".tab").forEach(t => t.onclick = () => { document.querySelectorAll(".tab").forEach(x => x.classList.toggle("on", x === t)); document.querySelectorAll(".pane").forEach(p => p.classList.toggle("on", p.dataset.pane === t.dataset.tab)); });
+$("#setModal").addEventListener("pointerdown", e => { if (e.target.id === "setModal") $("#setModal").classList.remove("on"); });
+$("#instr").value = ls("orenis_instr") || ""; $("#instr").oninput = e => ls("orenis_instr", e.target.value.slice(0, 1500));
+document.querySelectorAll("[data-pre]").forEach(b => b.onclick = () => { const i = $("#instr"), v = i.value.trim(); i.value = (v ? v + "\n" : "") + "- " + b.textContent; ls("orenis_instr", i.value); });
+[["#skWeb", "orenis_sk_web"], ["#skDoc", "orenis_sk_doc"]].forEach(([id, k]) => { $(id).checked = ls(k) !== "0"; $(id).onchange = e => ls(k, e.target.checked ? "1" : "0"); });
+$("#nameEdit").onchange = e => { const n = e.target.value.trim(); if (!n) return setName(); ls("orenis_name", n); setName(); if (!chatId) welcome(); };
+$("#skillBtn").onclick = e => { const r = e.currentTarget.getBoundingClientRect(); showCtx(SK.map(([id, icon, k, en]) => ({ icon, label: T(k, en), fn: () => { activeSkill = id; renderTray(); $("#input").focus(); } })), r.left, r.top, true); };
+addEventListener("pointerdown", e => { if (!e.target.closest("#ctx")) hideCtx(); }, true);
+addEventListener("keydown", e => { if (e.key === "Escape") hideCtx(); });
+function favicon() { // PNG icon so every browser (Safari included) shows the bloom instead of the default globe
+  try {
+    const c = document.createElement("canvas"); c.width = c.height = 64; const x = c.getContext("2d"), g = x.createLinearGradient(0, 0, 64, 64); g.addColorStop(0, "#5B3A8E"); g.addColorStop(1, "#E8646B"); x.fillStyle = g;
+    [[32, 16, 10, 15], [32, 48, 10, 15], [16, 32, 15, 10], [48, 32, 15, 10]].forEach(([a, b, rx, ry]) => { x.beginPath(); x.ellipse(a, b, rx, ry, 0, 0, 7); x.fill(); });
+    document.querySelectorAll("link[rel~=icon]").forEach(l => l.remove()); const u = c.toDataURL();
+    [["icon", ""], ["apple-touch-icon", ""]].forEach(([rel]) => { const l = document.createElement("link"); l.rel = rel; l.href = u; document.head.append(l); });
+  } catch {}
+}
+favicon();
 $("#sq").oninput = renderList; $("#jump").onclick = () => scroll();
 $("#export").onclick = async () => {
   const ms = await msgsOf(chatId), c = (await allChats()).find(x => x.id === chatId), name = ls("orenis_name") || "You";
