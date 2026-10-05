@@ -51,6 +51,8 @@ footer{border-top:1px solid var(--line);padding:2rem 0 calc(2rem + env(safe-area
 @media(max-width:560px){.links{display:none}.hero{padding-top:2.2rem}.plans{gap:1rem}.plans>div+div{padding-left:1rem}.nav .btn.s{display:none}}
 @media(prefers-reduced-motion:no-preference){.seq{opacity:0;transform:translateY(8px);animation:in .6s forwards}@keyframes in{to{opacity:1;transform:none}}}
 </style>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%235B3A8E'/%3E%3Cstop offset='1' stop-color='%23E8646B'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cg fill='url(%23g)'%3E%3Cellipse cx='16' cy='8' rx='5' ry='7.5'/%3E%3Cellipse cx='16' cy='24' rx='5' ry='7.5'/%3E%3Cellipse cx='8' cy='16' rx='7.5' ry='5'/%3E%3Cellipse cx='24' cy='16' rx='7.5' ry='5'/%3E%3C/g%3E%3C/svg%3E">
+<meta name="theme-color" content="#7a4fb8">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5B3A8E"/><stop offset="1" stop-color="#E8646B"/></linearGradient>
@@ -113,6 +115,7 @@ const P={moon:"M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z",sun:"M12 8a4 4 0 1 
 function setTheme(t){document.documentElement.dataset.theme=t;ls("orenis_theme",t);document.getElementById("ti").innerHTML=`<path d="${P[t==="dark"?"sun":"moon"]}"/>`}
 document.getElementById("theme").onclick=()=>setTheme(document.documentElement.dataset.theme==="dark"?"light":"dark");
 setTheme(document.documentElement.dataset.theme);applyLang();
+(function(){try{const c=document.createElement("canvas");c.width=c.height=64;const x=c.getContext("2d"),g=x.createLinearGradient(0,0,64,64);g.addColorStop(0,"#5B3A8E");g.addColorStop(1,"#E8646B");x.fillStyle=g;[[32,16,10,15],[32,48,10,15],[16,32,15,10],[48,32,15,10]].forEach(([a,b,rx,ry])=>{x.beginPath();x.ellipse(a,b,rx,ry,0,0,7);x.fill()});document.querySelectorAll("link[rel~=icon]").forEach(l=>l.remove());const u=c.toDataURL();["icon","apple-touch-icon"].forEach(rel=>{const l=document.createElement("link");l.rel=rel;l.href=u;document.head.append(l)})}catch(e){}})();
 </script>
 </body>
 </html>
