@@ -3,677 +3,147 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Orenis</title>
+<title>Orenis · Ask once. It researches, reads and creates.</title>
+<meta name="description" content="Orenis by Orencraft Labs: step-by-step research with sources, files in, documents and images out, modes, memory you control, and chats that stay on your device.">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%235B3A8E'/%3E%3Cstop offset='1' stop-color='%23E8646B'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cg fill='url(%23g)'%3E%3Cellipse cx='16' cy='8' rx='5' ry='7.5'/%3E%3Cellipse cx='16' cy='24' rx='5' ry='7.5'/%3E%3Cellipse cx='8' cy='16' rx='7.5' ry='5'/%3E%3Cellipse cx='24' cy='16' rx='7.5' ry='5'/%3E%3C/g%3E%3C/svg%3E">
 <meta name="theme-color" content="#7a4fb8">
 <script>document.documentElement.dataset.theme=localStorage.getItem("orenis_theme")||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")</script>
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#fff;--side:#f7f7f9;--surf:#f3f3f7;--line:#e6e6ec;--tx:#18181b;--mu:#6e6e7a;--acc:#7a4fb8;--grad:linear-gradient(135deg,#5B3A8E,#E8646B);--sh:0 4px 24px #1a102a14}
-[data-theme=dark]{--bg:#0f0f12;--side:#141418;--surf:#1b1b21;--line:#2a2a33;--tx:#ececf1;--mu:#9b9ba7;--acc:#b199e8;--sh:0 4px 28px #00000080}
+:root{--bg:#fff;--surf:#f3f3f7;--line:#e6e6ec;--tx:#18181b;--mu:#6e6e7a;--acc:#7a4fb8;--grad:linear-gradient(135deg,#5B3A8E,#E8646B);--sh:0 20px 60px -20px #3b247033}
+[data-theme=dark]{--bg:#0f0f12;--surf:#1b1b21;--line:#2a2a33;--tx:#ececf1;--mu:#9b9ba7;--acc:#b199e8;--sh:0 20px 60px -20px #000}
 *{box-sizing:border-box}[hidden]{display:none!important}
-html,body{height:100%;margin:0}
-body{background:var(--bg);color:var(--tx);font:15px/1.6 Inter,system-ui,sans-serif;overflow:hidden;-webkit-font-smoothing:antialiased}
-button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
-::-webkit-scrollbar{width:8px}::-webkit-scrollbar-thumb{background:var(--line);border-radius:8px}
-.app{display:flex;height:100dvh}
-.side{width:16.25rem;flex:none;background:var(--side);border-right:1px solid var(--line);display:flex;flex-direction:column;padding:.75rem;z-index:30;transition:margin .2s,transform .2s}
-.side.hide{margin-left:-16.25rem}
-@media(max-width:767px){.side{position:fixed;inset:0 auto 0 0;width:min(18rem,86vw);margin:0!important;transform:translateX(-100%);padding-top:calc(.75rem + env(safe-area-inset-top))}.side.open{transform:none;box-shadow:var(--sh)}}
-.scrim{position:fixed;inset:0;background:#0007;z-index:20;display:none}.scrim.on{display:block}
-.brand{display:flex;align-items:center;gap:.55rem;padding:.35rem .5rem;font-weight:600;font-size:1.05rem}
-.item{display:flex;align-items:center;gap:.6rem;width:100%;padding:.55rem .65rem;border-radius:.7rem;text-align:left;font-size:.9rem}
-.item:hover{background:var(--surf)}
-.row{display:flex;align-items:center;border-radius:.7rem}.row:hover,.row.on{background:var(--surf)}
-.row>button:first-child{flex:1;min-width:0;padding:.5rem .65rem;text-align:left;font-size:.88rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.row>button+button{padding:.4rem .45rem;color:var(--mu);opacity:0}.row:hover>button+button,.row.on>button+button{opacity:1}
-@media(hover:none){.row>button+button{opacity:.7}}
-.lbl{padding:.9rem .65rem .3rem;font-size:.72rem;font-weight:500;color:var(--mu)}
-.ava{display:grid;place-items:center;width:2rem;height:2rem;border-radius:50%;background:var(--grad);color:#fff;font-weight:600;font-size:.85rem;flex:none}
-.col{flex:1;min-width:0;display:flex;flex-direction:column}
-.top{display:flex;align-items:center;gap:.4rem;padding:calc(.6rem + env(safe-area-inset-top)) .75rem .6rem}
-.ibtn{display:grid;place-items:center;width:2.2rem;height:2.2rem;border-radius:.65rem;color:var(--mu);transition:background .15s,color .15s;flex:none}.ibtn:hover{background:var(--surf);color:var(--tx)}
-.pill{display:inline-flex;align-items:center;gap:.35rem;border:1px solid var(--line);border-radius:999px;padding:.15rem .65rem;font-size:.75rem;color:var(--mu);background:var(--bg)}
-a.pill:hover,button.pill:hover{background:var(--surf);color:var(--tx)}
-.icon{width:1.15rem;height:1.15rem;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
-.stage{flex:1;min-height:0;display:flex;flex-direction:column}
-.stage.empty{justify-content:center;padding-bottom:8vh}
-.feed{flex:1;overflow-y:auto;padding:1rem 1rem 1.5rem}
-.stage.empty .feed{flex:none;overflow:visible;padding-bottom:1.5rem}
-.m{max-width:46rem;margin:0 auto 1.7rem}
-.mu{display:flex;justify-content:flex-end;flex-wrap:wrap;gap:.5rem}
-.ub{background:var(--surf);padding:.6rem 1rem;border-radius:1.3rem;max-width:85%;white-space:pre-wrap;overflow-wrap:anywhere}
-.ma{display:flex;gap:.85rem}.ma>.body{flex:1;min-width:0}
-.md{overflow-wrap:anywhere}.md>*:first-child{margin-top:0}.md p{margin:.65rem 0}.md ul{list-style:disc;padding-left:1.4rem}.md ol{list-style:decimal;padding-left:1.4rem}.md li{margin:.2rem 0}
-.md a{color:var(--acc);text-decoration:underline;text-underline-offset:2px}
-.md pre{position:relative;background:var(--surf);border:1px solid var(--line);padding:1rem;border-radius:.85rem;overflow:auto;font-size:.84rem;line-height:1.55;margin:.8rem 0}
-.md code{background:var(--surf);padding:.12rem .35rem;border-radius:.35rem;font-size:.87em}.md pre code{background:none;padding:0}
-.md h1,.md h2,.md h3{font-weight:600;margin:1.2rem 0 .3rem;line-height:1.3}.md h1{font-size:1.35rem}.md h2{font-size:1.15rem}
-.md table{border-collapse:collapse;font-size:.88rem;display:block;overflow:auto}.md td,.md th{border:1px solid var(--line);padding:.4rem .7rem}
-.md blockquote{border-left:3px solid var(--line);padding-left:.9rem;color:var(--mu);margin:.6rem 0}
-.katex{font-size:1.05em}.katex-display{overflow-x:auto;overflow-y:hidden;padding:.3rem 0;margin:.8rem 0}
-.hljs-keyword,.hljs-literal,.hljs-selector-tag{color:#c2418a}.hljs-string,.hljs-attr{color:#1b8a5a}.hljs-number,.hljs-built_in{color:#b8730a}.hljs-title,.hljs-function{color:#6a3fb0}.hljs-comment{color:var(--mu);font-style:italic}
-[data-theme=dark] .hljs-keyword,[data-theme=dark] .hljs-literal{color:#f08bbd}[data-theme=dark] .hljs-string,[data-theme=dark] .hljs-attr{color:#7ee0a8}[data-theme=dark] .hljs-number,[data-theme=dark] .hljs-built_in{color:#f3b45f}[data-theme=dark] .hljs-title,[data-theme=dark] .hljs-function{color:#b9a1ee}
-.lg{position:absolute;top:.55rem;left:1rem;font-size:.7rem;color:var(--mu)}.md pre{padding-top:2.1rem}
-.sbox{width:100%;margin:.5rem 0 .2rem;background:var(--surf);border:1px solid transparent;border-radius:.7rem;padding:.5rem .7rem;font-size:16px;color:var(--tx)}.sbox:focus{outline:0;border-color:var(--acc)}
-.jump{position:absolute;left:50%;top:-2.9rem;transform:translateX(-50%);width:2.2rem;height:2.2rem;border-radius:50%;background:var(--bg);border:1px solid var(--line);box-shadow:var(--sh);display:grid;place-items:center;z-index:5;color:var(--mu)}
-.edt{flex:1;min-width:0;background:var(--bg);border:1px solid var(--acc);border-radius:.5rem;padding:.3rem .5rem;font:inherit;font-size:.88rem;color:var(--tx);outline:0}
-.hello svg{filter:drop-shadow(0 10px 26px #7a4fb866)}
-.mic.on{color:#e8646b;background:color-mix(in srgb,#e8646b 14%,transparent)}
-.uacts{display:flex;gap:.1rem;justify-content:flex-end;width:100%;opacity:0;transition:opacity .15s}.mu:hover .uacts,.mu:focus-within .uacts{opacity:1}@media(hover:none){.uacts{opacity:1}}
-.err{display:flex;align-items:center;flex-wrap:wrap;gap:.4rem}
-.set{max-width:34rem;padding:1.3rem 1.4rem 1.4rem}
-.tabs{display:flex;gap:.25rem;margin:1rem 0 0;border-bottom:1px solid var(--line);overflow-x:auto}
-.tab{padding:.5rem .7rem;font-size:.85rem;color:var(--mu);border-bottom:2px solid transparent;white-space:nowrap;margin-bottom:-1px}.tab.on{color:var(--tx);border-color:var(--acc)}
-.pane{display:none;padding-top:1.1rem;min-height:15rem}.pane.on{display:block}.pane .field{margin-top:0}
-.lab{display:block;margin:1.1rem 0 .4rem;font-size:.82rem;font-weight:600}.lab:first-child{margin-top:0}
-.sw{display:flex;align-items:center;gap:1rem;justify-content:space-between;padding:.75rem 0;border-bottom:1px solid var(--line);font-size:.9rem}.pane>.sw:last-child{border:0}
-.sw input{appearance:none;-webkit-appearance:none;width:2.5rem;height:1.45rem;border-radius:99px;background:var(--line);position:relative;cursor:pointer;transition:background .2s;flex:none;margin:0}
-.sw input:after{content:"";position:absolute;top:.17rem;left:.17rem;width:1.1rem;height:1.1rem;border-radius:50%;background:#fff;transition:transform .2s}.sw input:checked{background:var(--grad)}.sw input:checked:after{transform:translateX(1.05rem)}
-textarea.field{resize:vertical;min-height:7rem;line-height:1.5}
-.chips{display:flex;flex-wrap:wrap;gap:.4rem;margin:.6rem 0 .3rem}.chips button{border:1px solid var(--line);border-radius:999px;padding:.2rem .7rem;font-size:.78rem;color:var(--mu)}.chips button:hover{background:var(--surf);color:var(--tx)}
-.ctx{position:fixed;z-index:90;min-width:11.5rem;background:var(--bg);border:1px solid var(--line);border-radius:.9rem;padding:.3rem;box-shadow:var(--sh)}
-.ctx button{display:flex;align-items:center;gap:.65rem;width:100%;padding:.5rem .7rem;border-radius:.55rem;font-size:.88rem;text-align:left}.ctx button:hover{background:var(--surf)}.ctx .dg{color:#e8646b}.ctx .icon{width:1rem;height:1rem}
-.row .pn{width:.8rem;height:.8rem;margin-right:.35rem;vertical-align:-.1rem;color:var(--acc)}
-.skchip{display:inline-flex;align-items:center;gap:.4rem;background:color-mix(in srgb,var(--acc) 14%,transparent);color:var(--acc);border-radius:999px;padding:.25rem .55rem .25rem .8rem;font-size:.82rem;font-weight:500}.skchip button{font-size:.65rem;opacity:.7}
-.th{display:flex;gap:.85rem;align-items:flex-start}.steps{padding-top:.2rem;font-size:.92rem;color:var(--mu)}.steps div{line-height:1.75}
-.steps .ok:before{content:"✓ ";color:var(--acc)}
-.steps .now{width:fit-content;background:linear-gradient(90deg,var(--mu),var(--tx),var(--mu));background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent}
-details.thought{margin:0 0 .7rem;font-size:.85rem;color:var(--mu)}details.thought summary{cursor:pointer;list-style:none;display:inline-flex;align-items:center;gap:.35rem}details.thought summary::-webkit-details-marker{display:none}
-details.thought summary:after{content:"›";transition:transform .2s}details.thought[open] summary:after{transform:rotate(90deg)}details.thought div div{padding:.1rem 0 0 .2rem}
-.docc{display:flex;align-items:center;flex-wrap:wrap;gap:.7rem 1rem;justify-content:space-between;border:1px solid var(--line);border-radius:1rem;padding:.75rem 1rem;margin-top:.9rem;background:var(--surf)}
-.dh{display:flex;align-items:center;gap:.7rem;font-weight:500;min-width:0}.dh .icon{color:var(--acc);width:1.4rem;height:1.4rem}.dbs{display:flex;flex-wrap:wrap;gap:.4rem}
-.dbtn{border:1px solid var(--line);border-radius:.6rem;padding:.3rem .7rem;font-size:.8rem;background:var(--bg)}.dbtn:hover{background:var(--surf)}.dbtn.p{background:var(--grad);color:#fff;border:0}
-.effort{display:inline-flex;align-items:center;gap:.35rem;border:1px solid var(--line);border-radius:999px;padding:.3rem .75rem .3rem .6rem;font-size:.8rem;color:var(--mu);margin-right:.25rem;transition:.15s}.effort:hover{background:var(--bg);color:var(--tx)}.effort .icon{width:.95rem;height:.95rem}
-.ctx .hd{padding:.45rem .7rem .15rem;font-size:.68rem;color:var(--mu);text-transform:uppercase;letter-spacing:.05em}.ctx small{display:block;color:var(--mu);font-size:.72rem;line-height:1.3}
-details.thought p.tb{margin:.1rem 0 .55rem 1.1rem;font-size:.82rem;opacity:.85;line-height:1.5}
-.cp{position:absolute;top:.5rem;right:.5rem;font-size:.72rem;color:var(--mu);border:1px solid var(--line);border-radius:.45rem;padding:.1rem .5rem;background:var(--bg)}
-.srcs{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem;margin-top:.7rem}
-.note{display:inline-flex;align-items:center;gap:.35rem;font-size:.75rem;color:var(--mu);margin-right:.2rem}
-.dot{display:grid;place-items:center;width:1rem;height:1rem;border-radius:50%;background:var(--surf);font-size:.62rem;font-weight:600;text-transform:uppercase}
-.act{display:inline-flex;align-items:center;gap:.35rem;border-radius:.6rem;padding:.3rem .55rem;font-size:.78rem;color:var(--mu);transition:.15s}.act:hover{background:var(--surf);color:var(--tx)}.act .icon{width:.95rem;height:.95rem}
-.acts{display:flex;flex-wrap:wrap;gap:.15rem;margin:.5rem 0 0 -.55rem}
-.thumb{width:3.4rem;height:3.4rem;border-radius:.7rem;object-fit:cover;border:1px solid var(--line)}
-.fchip{display:inline-flex;align-items:center;gap:.4rem;background:var(--surf);border-radius:.7rem;padding:.4rem .7rem;font-size:.8rem;max-width:13rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.err{max-width:46rem;margin:0 auto 1.5rem;border:1px solid #e8646b66;background:#e8646b14;border-radius:.9rem;padding:.7rem 1rem;font-size:.9rem}
-.hello{text-align:center;padding:0 .5rem}.hello h2{margin:.9rem 0 0;font-size:2.35rem;line-height:1.15;font-weight:600;letter-spacing:-.02em;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
-.hello p{margin:.3rem 0 0;font-size:1.6rem;font-weight:500;color:var(--mu);letter-spacing:-.02em;line-height:1.25}
-.dock{position:relative;padding:0 1rem calc(1rem + env(safe-area-inset-bottom))}.stage.empty .dock{padding-bottom:0}.wrap{max-width:46rem;margin:0 auto}
-/* One surface only: the composer is the box, the textarea inside is borderless with no focus outline */
-.composer{background:var(--surf);border:1px solid var(--line);border-radius:1.75rem;padding:.8rem .75rem .6rem 1.1rem;box-shadow:var(--sh);transition:border-color .15s,box-shadow .15s}
-.composer:focus-within{border-color:var(--acc);box-shadow:var(--sh),0 0 0 3px color-mix(in srgb,var(--acc) 16%,transparent)}
-.composer textarea{display:block;width:100%;resize:none;background:transparent;border:0;outline:0!important;box-shadow:none;color:var(--tx);font:inherit;font-size:16px;line-height:1.5;max-height:12rem;padding:.1rem 0}
-.composer textarea::placeholder{color:var(--mu)}
-.crow{display:flex;align-items:center;margin-top:.35rem}
-.tray{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:.7rem}.tray:empty{display:none}
-.rm{position:absolute;top:-.4rem;right:-.4rem;width:1.15rem;height:1.15rem;border-radius:50%;background:var(--tx);color:var(--bg);font-size:.6rem;display:grid;place-items:center}
-.send{display:grid;place-items:center;width:2.4rem;height:2.4rem;border-radius:50%;background:var(--grad);color:#fff;transition:opacity .15s,transform .15s}
-.send:disabled{background:var(--line);color:var(--mu);cursor:default}.send:not(:disabled):hover{transform:scale(1.06)}
-.sugg{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem;margin-top:1rem}.stage:not(.empty) .sugg{display:none}
-.sugg button{border:1px solid var(--line);border-radius:999px;padding:.45rem .95rem;font-size:.85rem;color:var(--mu);transition:.15s}.sugg button:hover{background:var(--surf);color:var(--tx)}
-.fine{margin:.7rem 0 0;text-align:center;font-size:.72rem;color:var(--mu)}.stage.empty .fine{display:none}
-.modal{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;padding:1rem;background:#0008}.modal.on{display:flex}
-.card{width:100%;max-width:26rem;background:var(--bg);border:1px solid var(--line);border-radius:1.4rem;padding:1.6rem;box-shadow:var(--sh);max-height:92dvh;overflow:auto}
-.btn{border-radius:.8rem;padding:.65rem 1rem;font-weight:500;font-size:.9rem;border:1px solid var(--line);transition:background .15s}.btn:hover{background:var(--surf)}
-.btn.p{background:var(--grad);color:#fff;border:0}.btn.p:hover{filter:brightness(1.08)}
-.field{width:100%;margin-top:1rem;background:var(--surf);border:1px solid var(--line);border-radius:.8rem;padding:.7rem .9rem;color:var(--tx);font:inherit;font-size:16px}.field:focus{outline:2px solid var(--acc);outline-offset:1px}
-.bar{height:.4rem;border-radius:99px;background:var(--surf);overflow:hidden;margin-top:.35rem}.bar i{display:block;height:100%;background:var(--grad);border-radius:99px;transition:width .4s}
-.small{font-size:.75rem;color:var(--mu)}
-.drop{position:fixed;inset:.8rem;z-index:70;display:none;place-items:center;border:2px dashed var(--acc);border-radius:1.5rem;background:var(--bg);font-size:1.3rem;font-weight:600}.drop.on{display:grid}
-.toast{position:fixed;left:50%;bottom:6rem;z-index:80;transform:translate(-50%,16px);opacity:0;background:var(--tx);color:var(--bg);padding:.5rem 1rem;border-radius:.8rem;font-size:.85rem;transition:.25s;pointer-events:none}.toast.on{opacity:1;transform:translate(-50%,0)}
-button:focus-visible,a:focus-visible,select:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
-.dots span{display:inline-block;width:.4rem;height:.4rem;margin-right:.25rem;border-radius:50%;background:var(--mu)}
-@media (max-width:640px){.hello h2{font-size:1.8rem}.hello p{font-size:1.2rem}.feed{padding:.75rem .75rem 1rem}.dock{padding-left:.6rem;padding-right:.6rem}.stage.empty{padding-bottom:3vh}.sugg button{font-size:.8rem;padding:.4rem .8rem}.m{margin-bottom:1.4rem}}
-@media (prefers-reduced-motion:no-preference){.dots span{animation:bl 1.1s infinite}.dots span:nth-child(2){animation-delay:.15s}.dots span:nth-child(3){animation-delay:.3s}@keyframes bl{50%{opacity:.25;transform:translateY(-2px)}}.pop,.modal.on .card{animation:pop .28s}@keyframes pop{from{opacity:0;transform:translateY(6px)}}.lg2{animation:spin 3s linear infinite}.steps .now{animation:shim 1.6s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}@keyframes shim{to{background-position:-200% 0}}}
+html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.6 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}button,select{font:inherit;color:inherit}
+.wrap{max-width:68rem;margin:0 auto;padding:0 1.25rem}
+header{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 85%,transparent);backdrop-filter:blur(12px)}
+.nav{display:flex;align-items:center;gap:.6rem;height:4rem}
+.brand{display:flex;align-items:center;gap:.55rem;font-weight:600;font-size:1.1rem;margin-right:auto}
+.links{display:flex;gap:1.6rem;font-size:.9rem;color:var(--mu);margin-right:1rem}.links a:hover{color:var(--tx)}
+.ibtn{display:grid;place-items:center;width:2.3rem;height:2.3rem;border-radius:.7rem;background:none;border:0;color:var(--mu);cursor:pointer}.ibtn:hover{background:var(--surf);color:var(--tx)}
+.sel{background:var(--surf);border:1px solid var(--line);border-radius:.7rem;padding:.4rem .6rem;font-size:.85rem;cursor:pointer}
+.btn{display:inline-block;border-radius:.9rem;padding:.8rem 1.4rem;font-weight:500;border:1px solid var(--line);transition:background .15s,transform .15s}.btn:hover{background:var(--surf)}
+.btn.p{background:var(--grad);color:#fff;border:0;box-shadow:0 10px 28px -10px #7a4fb899}.btn.p:hover{transform:translateY(-1px);filter:brightness(1.07)}.btn.s{padding:.5rem 1rem;font-size:.88rem}
+.icon{width:1.2rem;height:1.2rem;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+.hero{display:grid;gap:3rem;padding:3.5rem 0 4.5rem;align-items:center}
+@media(min-width:900px){.hero{grid-template-columns:1.05fr 1fr;padding:5.5rem 0 6.5rem}}
+.badge{display:inline-flex;align-items:center;gap:.5rem;border:1px solid var(--line);border-radius:999px;padding:.25rem .8rem;font-size:.8rem;color:var(--mu)}.badge i{width:.45rem;height:.45rem;border-radius:50%;background:#34d399}
+h1{margin:1.1rem 0 0;font-size:clamp(2.3rem,6.2vw,4.1rem);line-height:1.05;letter-spacing:-.035em;font-weight:600;text-wrap:balance}
+.lead{margin:1.4rem 0 0;max-width:34rem;font-size:1.12rem;color:var(--mu)}
+.cta{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:2rem}.fine{margin-top:1rem;font-size:.8rem;color:var(--mu)}
+.mock{background:var(--bg);border:1px solid var(--line);border-radius:1.6rem;padding:1.2rem;box-shadow:var(--sh);font-size:.92rem}
+.ub{margin-left:auto;width:fit-content;max-width:90%;background:var(--surf);border-radius:1.1rem;padding:.55rem .95rem}.file{display:inline-block;margin-bottom:.3rem;font-size:.78rem;color:var(--mu)}
+.as{display:flex;gap:.7rem;margin-top:1.1rem}.as p{margin:0}.steps{font-size:.8rem;color:var(--mu);margin:0 0 .5rem}.steps div:before{content:"✓ ";color:var(--acc)}
+.pills{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.7rem}.pill{border:1px solid var(--line);border-radius:999px;padding:.1rem .65rem;font-size:.74rem;color:var(--mu)}
+.mc{display:flex;align-items:center;gap:.6rem;margin-top:1.3rem;background:var(--surf);border-radius:1.4rem;padding:.65rem .65rem .65rem 1rem;color:var(--mu)}.mc span{flex:1}
+.mc b{display:grid;place-items:center;width:2rem;height:2rem;border-radius:50%;background:var(--grad);color:#fff}
+section{padding:4.5rem 0;border-top:1px solid var(--line)}
+h2{margin:0;font-size:clamp(1.7rem,4vw,2.4rem);letter-spacing:-.025em;line-height:1.15;font-weight:600;max-width:36rem;text-wrap:balance}
+.sub{margin:.8rem 0 0;color:var(--mu);max-width:36rem}
+.cases{display:grid;gap:1rem;margin-top:2.6rem}@media(min-width:700px){.cases{grid-template-columns:1fr 1fr}}@media(min-width:1000px){.cases{grid-template-columns:repeat(3,1fr)}}
+.case{display:flex;flex-direction:column;gap:.4rem;border:1px solid var(--line);border-radius:1.2rem;padding:1.3rem;transition:.15s}.case:hover{background:var(--surf);border-color:color-mix(in srgb,var(--acc) 50%,var(--line));transform:translateY(-2px)}
+.case .icon{color:var(--acc);width:1.5rem;height:1.5rem}.case h3{margin:.5rem 0 0;font-size:1.05rem;font-weight:600}.case p{margin:0;color:var(--mu);font-size:.92rem}.case em{margin-top:auto;padding-top:.8rem;font-style:normal;font-size:.85rem;color:var(--acc);font-weight:500}
+.steps3{display:grid;gap:2rem;margin-top:2.6rem}@media(min-width:800px){.steps3{grid-template-columns:repeat(3,1fr)}}
+.st b{display:grid;place-items:center;width:2.2rem;height:2.2rem;border-radius:50%;background:var(--grad);color:#fff;font-weight:600}.st h3{margin:.9rem 0 .3rem;font-size:1.05rem}.st p{margin:0;color:var(--mu);font-size:.93rem}
+.priv{display:grid;gap:2.5rem}@media(min-width:900px){.priv{grid-template-columns:1.1fr 1fr;align-items:center}}
+.priv ul{margin:0;padding:0;list-style:none;color:var(--mu)}.priv li{margin:.5rem 0}.priv li:before{content:"✓ ";color:var(--acc);font-weight:600}
+.plans{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}.plans>div+div{border-left:1px solid var(--line);padding-left:1.5rem;opacity:.6}
+.plans h3{margin:0;font-size:1rem;font-weight:600}.plans .big{font-size:2.2rem;font-weight:600;letter-spacing:-.03em;margin:.2rem 0 .6rem}.plans p{margin:.2rem 0;font-size:.88rem;color:var(--mu)}
+details.q{border-bottom:1px solid var(--line);padding:1rem 0}details.q summary{cursor:pointer;font-weight:500;list-style:none;display:flex;justify-content:space-between;gap:1rem}details.q summary::-webkit-details-marker{display:none}
+details.q summary:after{content:"+";color:var(--mu);font-size:1.3rem;line-height:1}details.q[open] summary:after{content:"–"}details.q p{margin:.7rem 0 0;color:var(--mu);max-width:42rem}
+.final{text-align:center}.final h2{margin:0 auto}.final .cta{justify-content:center}
+footer{border-top:1px solid var(--line);padding:2rem 0 calc(2rem + env(safe-area-inset-bottom));font-size:.8rem;color:var(--mu)}
+@media(max-width:560px){.links{display:none}.hero{padding-top:2.2rem}.plans{gap:1rem}.plans>div+div{padding-left:1rem}.nav .btn.s{display:none}}
+@media(prefers-reduced-motion:no-preference){.seq{opacity:0;transform:translateY(8px);animation:in .6s forwards}@keyframes in{to{opacity:1;transform:none}}}
 </style>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5B3A8E"/><stop offset="1" stop-color="#E8646B"/></linearGradient>
 <symbol id="bloom" viewBox="0 0 32 32"><g fill="url(#g)" fill-opacity=".92"><ellipse cx="16" cy="8" rx="5" ry="7.5"/><ellipse cx="16" cy="24" rx="5" ry="7.5"/><ellipse cx="8" cy="16" rx="7.5" ry="5"/><ellipse cx="24" cy="16" rx="7.5" ry="5"/></g></symbol></defs></svg>
 
-<div class="app">
-  <aside id="side" class="side">
-    <div class="brand"><span data-bloom="24"></span>Orenis</div>
-    <button id="newChat" class="item mt-2"><svg class="icon" data-i="plus" viewBox="0 0 24 24"></svg><span data-t="newChat">New chat</span></button>
-    <input id="sq" class="sbox" type="search" data-tp="search" placeholder="Search chats" aria-label="Search chats">
-    <nav id="list" class="mt-1 flex-1 overflow-y-auto" aria-label="Chats"></nav>
-    <div class="flex items-center gap-3 border-t pt-3" style="border-color:var(--line)">
-      <div id="ava" class="ava">?</div>
-      <div class="min-w-0 flex-1"><div id="meName" class="truncate text-sm font-medium"></div><button id="planBadge" class="small hover:underline" data-t="plan">Free Plan</button></div>
-      <button id="gear" class="ibtn" data-ta="settings" aria-label="Settings"><svg class="icon" data-i="sliders" viewBox="0 0 24 24"></svg></button>
-    </div>
-  </aside>
-  <div id="scrim" class="scrim"></div>
+<header><div class="wrap nav">
+  <a href="#" class="brand"><svg width="26" height="26"><use href="#bloom"/></svg>Orenis</a>
+  <nav class="links"><a href="#features" data-t="nf">What it does</a><a href="#how" data-t="nh">How it works</a><a href="#faq" data-t="nq">FAQ</a></nav>
+  <select id="lang" class="sel" aria-label="Language"><option value="en">English</option><option value="ko">한국어</option><option value="es">Español</option></select>
+  <button id="theme" class="ibtn" aria-label="Theme"><svg class="icon" id="ti" viewBox="0 0 24 24"></svg></button>
+  <a href="chat.html" class="btn s" data-t="open">Open chat</a>
+</div></header>
 
-  <section class="col">
-    <header class="top">
-      <button id="menu" class="ibtn" aria-label="Menu"><svg class="icon" data-i="panel" viewBox="0 0 24 24"></svg></button>
-      <h1 id="title" class="m-0 min-w-0 flex-1 truncate text-base font-semibold">Orenis</h1>
-      <span id="live" class="pill" hidden><span class="dots"><span></span><span></span><span></span></span><span data-t="working">Working</span></span>
-      <button id="export" class="ibtn" hidden data-ta="export" aria-label="Export chat"><svg class="icon" data-i="download" viewBox="0 0 24 24"></svg></button>
-      <button id="theme" class="ibtn" aria-label="Theme"><svg class="icon" id="themeIcon" viewBox="0 0 24 24"></svg></button>
-    </header>
-    <div id="stage" class="stage empty">
-      <main id="feed" class="feed" aria-live="polite"></main>
-      <div class="dock"><button id="jump" class="jump" hidden data-ta="down" aria-label="Scroll to bottom"><svg class="icon" data-i="down" viewBox="0 0 24 24"></svg></button><div class="wrap">
-        <div class="composer">
-          <div id="tray" class="tray"></div>
-          <textarea id="input" rows="1" maxlength="8000" data-tp="ph" placeholder="Ask Orenis anything" aria-label="Message"></textarea>
-          <div class="crow">
-            <button id="plusBtn" class="ibtn" data-ta="plus" aria-label="Add files and skills"><svg class="icon" data-i="plus" viewBox="0 0 24 24"></svg></button>
-            <input id="file" type="file" multiple hidden accept="image/*,audio/*,video/*,application/pdf,text/*,.md,.csv,.json,.js,.ts,.py,.html,.css,.txt,.log,.xml,.yaml,.yml">
-            <span class="flex-1"></span>
-            <button id="effortBtn" class="effort" data-ta="effort" aria-label="Reasoning effort"><svg class="icon" data-i="bolt" viewBox="0 0 24 24"></svg><span id="effortLbl">Medium</span></button>
-            <button id="mic" class="ibtn mic" hidden data-ta="mic" aria-label="Voice input"><svg class="icon" data-i="mic" viewBox="0 0 24 24"></svg></button>
-            <button id="send" class="send" disabled data-ta="send" aria-label="Send"><svg class="icon" data-i="up" viewBox="0 0 24 24"></svg></button>
-          </div>
-        </div>
-        <div id="sugg" class="sugg"></div>
-        <p class="fine" data-t="fine">Orenis is in beta and can make mistakes. Check important info.</p>
-      </div></div>
-    </div>
-  </section>
+<main>
+<div class="wrap hero">
+  <div>
+    <span class="badge"><i></i><span data-t="badge">Public beta · Free to use</span></span>
+    <h1 data-t="h1">Ask once. Orenis researches, reads and creates.</h1>
+    <p class="lead" data-t="lead">It works step by step, searches the live web, reads your files, writes documents and draws images, and shows its sources. Your chats never leave your device.</p>
+    <div class="cta"><a href="chat.html" class="btn p" data-t="cta">Launch Orenis Chat</a><a href="#features" class="btn" data-t="see">See what it can do</a></div>
+    <p class="fine" data-t="note">No account needed. 100 messages a day on the Free plan.</p>
+  </div>
+  <div class="mock" role="img" aria-label="Preview of an Orenis conversation">
+    <div class="ub seq" style="animation-delay:.3s"><span class="file">📄 q3-report.pdf</span><br>¿Cómo se compara con el último dato oficial de inflación?</div>
+    <div class="as seq" style="animation-delay:1.1s"><svg width="26" height="26" style="flex:none"><use href="#bloom"/></svg><div>
+      <div class="steps"><div>Reading q3-report.pdf</div><div>Searching: inflación Perú último dato</div><div>Cross-checking 3 sources</div></div>
+      <p>Tu informe proyecta un 4,1 % de inflación. El dato oficial más reciente es algo menor, así que tu escenario es conservador [1].</p><div class="pills"><span class="pill">🌐 Searched the web</span><span class="pill">inei.gob.pe</span><span class="pill">bcrp.gob.pe</span></div></div></div>
+    <div class="mc seq" style="animation-delay:1.9s"><svg class="icon" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg><span>Ask Orenis anything</span><b><svg class="icon" viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg></b></div>
+  </div>
 </div>
 
-<div id="drop" class="drop" data-t="drop">Drop files to attach</div><div id="toast" class="toast" role="status"></div><div id="ctx" class="ctx" hidden></div>
+<section id="features"><div class="wrap">
+  <h2 data-t="ft">One assistant, six jobs.</h2><p class="sub" data-t="fs">Tap any card to open Orenis with that request ready to send.</p>
+  <div class="cases">
+    <a class="case" href="chat.html?skill=research&q=Compare%20the%20Samsung%20S26%20Ultra%20and%20the%20Xiaomi%2017%20Ultra%20for%20photography"><svg class="icon" viewBox="0 0 24 24"><path d="M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM21 21l-4.3-4.3"/></svg><h3 data-t="c1t">Deep research</h3><p data-t="c1d">Splits a big question into parts, searches each, cross-checks sources and writes a cited report.</p><em data-t="try">Try it →</em></a>
+    <a class="case" href="chat.html?q=Summarize%20the%20key%20points%20of%20the%20document%20I%27m%20about%20to%20attach%20and%20list%20any%20risks"><svg class="icon" viewBox="0 0 24 24"><path d="M21 12.5 12.5 21a5 5 0 0 1-7-7L14 5.5a3.4 3.4 0 0 1 5 5L10.5 19a1.8 1.8 0 0 1-2.5-2.5L15 9.5"/></svg><h3 data-t="c2t">Read your files</h3><p data-t="c2d">Drop in PDFs, photos, audio, video, text or code, then ask anything about them.</p><em data-t="try">Try it →</em></a>
+    <a class="case" href="chat.html?skill=pdf&q=Write%20a%20one-page%20resume%20for%20a%20junior%20graphic%20designer%20named%20Alex"><svg class="icon" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8zM14 3v5h5"/></svg><h3 data-t="c3t">Create documents</h3><p data-t="c3d">Get a ready PDF or Word file: resumes, reports, letters, study guides.</p><em data-t="try">Try it →</em></a>
+    <a class="case" href="chat.html?skill=image&q=A%20watercolor%20fox%20reading%20a%20book%20under%20a%20paper%20lantern%2C%20soft%20evening%20light"><svg class="icon" viewBox="0 0 24 24"><path d="M4 5h16v14H4zM4 15l5-5 4 4 3-3 4 4M9 9h.01"/></svg><h3 data-t="c4t">Create images</h3><p data-t="c4d">Describe it and get it. Download in one click.</p><em data-t="try">Try it →</em></a>
+    <a class="case" href="chat.html?mode=study&q=Teach%20me%20how%20compound%20interest%20works%2C%20then%20quiz%20me"><svg class="icon" viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2zM4 21V5M9 7h6"/></svg><h3 data-t="c5t">Modes for every job</h3><p data-t="c5d">Study buddy, Coder, Writer, Planner, Researcher, or one you design yourself.</p><em data-t="try">Try it →</em></a>
+    <a class="case" href="chat.html?q=Remember%20that%20I%20prefer%20short%20answers%20with%20bullet%20points"><svg class="icon" viewBox="0 0 24 24"><path d="M9 4a3 3 0 0 0-3 3 3 3 0 0 0-2 5 3 3 0 0 0 3 5 3 3 0 0 0 5 0V4a3 3 0 0 0-3 0zM15 4a3 3 0 0 1 3 3 3 3 0 0 1 2 5 3 3 0 0 1-3 5 3 3 0 0 1-5 0"/></svg><h3 data-t="c6t">Memory you control</h3><p data-t="c6d">Tell it once. Review, edit or delete every memory whenever you like.</p><em data-t="try">Try it →</em></a>
+  </div>
+</div></section>
 
-<div id="setModal" class="modal"><div class="card set" role="dialog" aria-modal="true" aria-labelledby="setT">
-  <div class="flex items-center justify-between"><h2 id="setT" class="m-0 text-xl font-semibold" data-t="settings">Settings</h2><button id="closeGear" class="ibtn" aria-label="Close"><svg class="icon" data-i="x" viewBox="0 0 24 24"></svg></button></div>
-  <div class="tabs" role="tablist"><button class="tab on" data-tab="gen" data-t="tGen">General</button><button class="tab" data-tab="pers" data-t="tPers">Personalization</button><button class="tab" data-tab="skills" data-t="tSkills">Skills</button><button class="tab" data-tab="data" data-t="tData">Usage &amp; data</button></div>
-  <div class="pane on" data-pane="gen">
-    <label class="lab" for="nameEdit" data-t="nameLbl">Name</label><input id="nameEdit" class="field" maxlength="40">
-    <label class="lab" for="lang" data-t="language">Language</label><select id="lang" class="field"><option value="en">English</option><option value="ko">한국어</option><option value="es">Español</option></select>
+<section id="how"><div class="wrap">
+  <h2 data-t="ht">You see the work, not just the answer.</h2>
+  <div class="steps3">
+    <div class="st"><b>1</b><h3 data-t="s1t">Ask in any language</h3><p data-t="s1d">Type, talk or drop a file. Pick how hard it should think: Medium, High or Max.</p></div>
+    <div class="st"><b>2</b><h3 data-t="s2t">Watch it work</h3><p data-t="s2d">Each step appears live: searching, reading, cross-checking. Stop or redo any time.</p></div>
+    <div class="st"><b>3</b><h3 data-t="s3t">Check the answer</h3><p data-t="s3d">Citations and source links come with it, so you can verify what matters.</p></div>
   </div>
-  <div class="pane" data-pane="pers">
-    <label class="lab" for="instr" data-t="instr">Custom instructions</label><p class="small" style="margin:0 0 .5rem" data-t="instrD">Tell Orenis how to respond. Applies to every chat.</p>
-    <textarea id="instr" class="field" maxlength="1500" data-tp="instrPh" placeholder="e.g. Use bullet points. Be concise. Say when you're unsure instead of guessing."></textarea>
-    <div class="chips"><button data-pre data-t="pr1">Use bullet points</button><button data-pre data-t="pr2">Be concise</button><button data-pre data-t="pr3">Don't guess, say when unsure</button><button data-pre data-t="pr4">Explain step by step</button></div>
-    <label class="sw" style="margin-top:.8rem"><span><b data-t="mem">Personalized memory</b><br><span class="small" data-t="memd">Share short snippets of your other recent chats so replies feel more personal.</span></span><input id="memTog" type="checkbox"></label>
-  </div>
-  <div class="pane" data-pane="skills">
-    <label class="sw"><span><b data-t="skWeb">Web search</b><br><span class="small" data-t="skWebD">Let Orenis look things up online.</span></span><input id="skWeb" type="checkbox"></label>
-    <label class="sw"><span><b data-t="skDoc">Create documents</b><br><span class="small" data-t="skDocD">Let Orenis make PDF, Word or Markdown files.</span></span><input id="skDoc" type="checkbox"></label>
-  </div>
-  <div class="pane" data-pane="data">
-    <div class="flex justify-between text-sm"><span data-t="today">Today</span><span id="dPct" class="small"></span></div><div class="bar"><i id="dBar"></i></div><p id="dReset" class="small mb-0 mt-1"></p>
-    <div class="mt-4 flex justify-between text-sm"><span data-t="win">Rolling 5 hours</span><span id="wPct" class="small"></span></div><div class="bar"><i id="wBar"></i></div><p id="wReset" class="small mb-0 mt-1"></p>
-    <button id="wipeBtn" class="btn mt-6 w-full" style="color:#e8646b" data-t="wipe">Delete all chats on this device</button>
-  </div>
-</div></div>
+</div></section>
 
-<div id="nameModal" class="modal"><div class="card"><span data-bloom="36"></span><h2 class="mb-0 mt-3 text-2xl font-semibold" data-t="wt">Welcome to Orenis</h2><p class="small mt-1 text-sm" data-t="wq">What should we call you?</p>
-  <input id="nameIn" maxlength="40" data-tp="wph" placeholder="Your name" class="field"><button id="nameOk" class="btn p mt-4 w-full" data-t="cont">Continue</button></div></div>
-<div id="planModal" class="modal"><div class="card" style="max-width:34rem"><h2 class="m-0 text-2xl font-semibold" data-t="pt">Your plan</h2>
-  <div class="mt-4 grid gap-3 sm:grid-cols-2">
-    <div class="rounded-2xl p-4" style="border:2px solid var(--acc)"><b data-t="plan">Free Plan</b> <span class="pill ml-1" data-t="act">Active</span><p class="small mb-0 mt-2" data-t="pfd">100 messages a day, 25 per 5 hours, web search and file input.</p></div>
-    <div class="rounded-2xl border p-4" style="border-color:var(--line);opacity:.55"><b data-t="pro">Pro Plan</b> <span class="pill ml-1" data-t="soon">Coming soon</span><p class="small mb-0 mt-2" data-t="ppd">Higher limits and priority speed.</p><button disabled class="btn mt-2 cursor-not-allowed px-2 py-1 text-xs" data-t="unav">Unavailable</button></div></div>
-  <button id="planOk" class="btn p mt-5 w-full" data-t="cfree">Continue with Free</button></div></div>
-<div id="askModal" class="modal"><div class="card"><p id="askTxt" class="m-0"></p><div class="mt-5 flex justify-end gap-2"><button id="askNo" class="btn" data-t="cancel">Cancel</button><button id="askYes" class="btn p" data-t="del">Delete</button></div></div></div>
+<section id="beta"><div class="wrap priv">
+  <div><span class="badge" style="color:var(--acc)">★ <span data-t="bb">Official Beta Tester</span></span>
+    <h2 style="margin-top:1rem" data-t="pt">Private by design. Free while in beta.</h2>
+    <ul style="margin-top:1.2rem"><li data-t="p1">Chats and files stay in your browser, not on our servers</li><li data-t="p2">No account, no sign-up</li><li data-t="p3">Back up or move everything with one click</li><li data-t="p4">Early say in what Pro includes</li></ul>
+    <div class="cta"><a href="chat.html" class="btn p" data-t="cta">Launch Orenis Chat</a></div></div>
+  <div class="plans"><div><h3 data-t="free">Free</h3><div class="big">$0</div><p data-t="f1">100 messages / day</p><p data-t="f2">25 per 5 hours</p><p data-t="f3">Search, files, documents, images</p></div>
+    <div><h3>Pro</h3><div class="big" data-t="soon">Soon</div><p data-t="q1">Higher limits</p><p data-t="q2">Priority speed</p><p data-t="q3">Larger files</p></div></div>
+</div></section>
+
+<section id="faq"><div class="wrap">
+  <h2 data-t="qt">Questions, answered straight.</h2>
+  <div style="margin-top:2rem;max-width:46rem">
+    <details class="q"><summary data-t="a1q">Is it really free?</summary><p data-t="a1">Yes during the beta: 100 messages a day, up to 25 in any 5-hour window. A paid Pro plan with higher limits is planned.</p></details>
+    <details class="q"><summary data-t="a2q">Where are my chats stored?</summary><p data-t="a2">Only in your browser on this device. Clearing browser data erases them, so use Settings → Usage &amp; data to export a backup.</p></details>
+    <details class="q"><summary data-t="a3q">Can it be wrong?</summary><p data-t="a3">Yes. Like any AI it can make mistakes. It cites its sources so you can check, but verify anything important.</p></details>
+    <details class="q"><summary data-t="a4q">What can't it do yet?</summary><p data-t="a4">No accounts or sync between devices, and no voice conversations. Image creation depends on availability and may occasionally be unavailable.</p></details>
+  </div>
+</div></section>
+
+<section class="final"><div class="wrap"><h2 data-t="fin">Give it a real question.</h2><div class="cta"><a href="chat.html" class="btn p" data-t="cta">Launch Orenis Chat</a></div></div></section>
+</main>
+<footer><div class="wrap" data-t="foot">© Orencraft Labs · Focused, user-centric AI tools. Beta software: answers may contain errors, so check anything important.</div></footer>
 
 <script>
-const PROXY_ENDPOINT = "https://orenis-proxy.leezinu1980.workers.dev";
-const LIM = { day: 100, win: 25, winMs: 5 * 3600e3 }, MAXF = 4, MAXB = 10 * 2 ** 20, MAXTOTAL = 12 * 2 ** 20; // base64 adds a third; the model API caps a request near 20 MB
-const OKTYPE = /^(image\/(png|jpe?g|webp|heic|heif)|audio\/(wav|x-wav|wave|mpeg|mp3|aiff|x-aiff|aac|ogg|flac|x-flac)|video\/(mp4|mpeg|quicktime|x-msvideo|x-flv|webm|x-ms-wmv|3gpp)|application\/pdf)$/i;
-const TEXTEXT = /\.(txt|md|csv|json|js|ts|py|html|css|log|xml|ya?ml)$/i;
-const $ = s => document.querySelector(s), ls = (k, v) => v === undefined ? localStorage.getItem(k) : localStorage.setItem(k, v);
-let db, chatId = null, busy = false, pending = [], busyChat = null, thEl = null, ctl = null, curSkip = null, activeSkill = null, effort = ["medium", "high", "max"].includes(ls("orenis_effort")) ? ls("orenis_effort") : "medium";
-const sleep = ms => new Promise(r => setTimeout(r, ms));
-const EFF = [["medium", "effM", "Medium", "effMd", "Balanced speed and quality"], ["high", "effH", "High", "effHd", "Thinks deeper, step by step"], ["max", "effX", "Max", "effXd", "Most thorough, slowest"]];
-const effName = id => { const e = EFF.find(x => x[0] === id); return T(e[1], e[2]); };
-const uid = () => crypto.randomUUID?.() || Date.now().toString(36) + Math.random().toString(36).slice(2);
-
-/* ---------- i18n: English is the in-code default; other languages live here ---------- */
-const L = {
-ko: { newChat: "새 채팅", today: "오늘", prev: "지난 7일", older: "이전", plan: "무료 플랜", settings: "설정", usage: "남은 사용량", win: "최근 5시간", mem: "개인화 메모리", memd: "다른 최근 대화의 짧은 내용을 공유해 더 개인화된 답변을 받습니다.", ren: "이름 변경", wipe: "이 기기의 모든 대화 삭제", language: "언어", wt: "Orenis에 오신 것을 환영합니다", wq: "어떻게 불러 드릴까요?", wph: "이름", cont: "계속", pt: "내 플랜", pfd: "하루 100개 메시지, 5시간당 25개, 웹 검색과 파일 입력.", pro: "프로 플랜", soon: "출시 예정", ppd: "더 높은 한도와 우선 처리 속도.", unav: "이용 불가", act: "사용 중", cfree: "무료로 계속", cancel: "취소", del: "삭제", ph: "Orenis에게 무엇이든 물어보세요", fine: "Orenis는 베타 버전이며 실수할 수 있습니다. 중요한 정보는 확인하세요.", hello: "안녕하세요, {n}님", how: "무엇을 도와드릴까요?", drop: "파일을 놓아 첨부", copy: "복사", copied: "복사됨", searched: "웹 검색 사용", working: "처리 중", s1: "오늘의 IT 뉴스 요약해줘", s2: "양자 컴퓨팅을 쉽게 설명해줘", s3: "파이썬 스크립트 작성 도와줘", s4: "첨부한 문서를 검토해줘", eDay: "일일 한도에 도달했습니다. {t}에 초기화됩니다.", eWin: "5시간 한도에 도달했습니다. {t}에 한 칸이 풀립니다.", eSize: "첨부 파일이 총 12MB를 넘습니다. 하나를 제거하고 다시 시도하세요.", eStore: "이 브라우저에서는 로컬 저장소를 사용할 수 없어 대화를 저장할 수 없습니다.", eTo: "요청 시간이 초과되었습니다. 다시 시도해 주세요.", eNet: "Orenis에 연결할 수 없습니다. 연결을 확인하고 다시 시도하세요.", e413: "첨부 파일이 너무 큽니다.", e429: "Orenis가 혼잡합니다. 잠시 후 다시 시도해 주세요.", eGen: "지금은 Orenis가 응답할 수 없습니다. 잠시 후 다시 시도해 주세요.", maxf: "메시지당 최대 {n}개 파일", big: "{f}: 10MB 초과", uns: "{f}: 지원하지 않는 형식", delq: "\"{t}\" 대화를 삭제할까요?", wipeq: "이 기기에 저장된 모든 대화를 삭제할까요? 되돌릴 수 없습니다.", resets: "{t}에 초기화 ({z})", slot: "다음 한 칸: {t}", full: "전체 한도 사용 가능", left: "{p}% · {n}개 남음", search: "대화 검색", export: "대화 내보내기", regen: "다시 생성", edit: "수정", retry: "다시 시도", mic: "음성 입력", down: "맨 아래로", exported: "대화를 내보냈습니다", stop: "중지", send: "보내기", renameChat: "이름 변경", pinned: "고정됨", pin: "고정", unpin: "고정 해제", menu: "옵션", think: "생각하는 중", thought: "{s}초 동안 생각함", writing: "답변 작성 중", searchQ: "검색 중: {q}", reading: "출처 {n}개 읽는 중", drafting: "문서 작성 중", tGen: "일반", tPers: "맞춤 설정", tSkills: "스킬", tData: "사용량·데이터", nameLbl: "이름", instr: "맞춤 지침", instrD: "Orenis가 어떻게 답할지 알려주세요. 모든 대화에 적용됩니다.", instrPh: "예: 글머리 기호를 사용해 줘. 간결하게 답해줘. 모르면 추측하지 말고 모른다고 말해줘.", pr1: "글머리 기호 사용", pr2: "간결하게", pr3: "모르면 모른다고 말하기", pr4: "단계별로 설명", skWeb: "웹 검색", skWebD: "Orenis가 온라인에서 정보를 찾아볼 수 있게 합니다.", skDoc: "문서 만들기", skDocD: "Orenis가 PDF, Word, Markdown 파일을 만들 수 있게 합니다.", sk_search: "웹 검색", sk_pdf: "PDF 만들기", sk_word: "Word 문서 만들기", sk_sum: "요약", sk_tr: "번역", skills: "스킬", plus: "파일·스킬 추가", addFiles: "사진·파일 추가", effort: "추론 강도", effM: "보통", effH: "높음", effX: "최대", effMd: "속도와 품질의 균형", effHd: "단계별로 더 깊이 생각", effXd: "가장 철저하게, 가장 느림", analyzing: "결과 분석 중", searching: "웹 검색 중", retrying: "다시 시도하는 중", offline: "오프라인입니다", online: "다시 연결되었습니다", pdfTip: "인쇄 창에서 'PDF로 저장'을 선택하세요." },
-es: { newChat: "Nuevo chat", today: "Hoy", prev: "Últimos 7 días", older: "Anteriores", plan: "Plan gratuito", settings: "Ajustes", usage: "Uso restante", win: "Últimas 5 horas", mem: "Memoria personalizada", memd: "Comparte fragmentos cortos de tus otros chats recientes para respuestas más personales.", ren: "Cambiar mi nombre", wipe: "Borrar todos los chats de este dispositivo", language: "Idioma", wt: "Te damos la bienvenida a Orenis", wq: "¿Cómo quieres que te llamemos?", wph: "Tu nombre", cont: "Continuar", pt: "Tu plan", pfd: "100 mensajes al día, 25 cada 5 horas, búsqueda web y archivos.", pro: "Plan Pro", soon: "Próximamente", ppd: "Límites más altos y mayor velocidad.", unav: "No disponible", act: "Activo", cfree: "Continuar con el plan gratuito", cancel: "Cancelar", del: "Eliminar", ph: "Pregunta lo que quieras a Orenis", fine: "Orenis está en beta y puede cometer errores. Verifica la información importante.", hello: "Hola, {n}", how: "¿En qué puedo ayudarte hoy?", drop: "Suelta archivos para adjuntar", copy: "Copiar", copied: "Copiado", searched: "Buscó en la web", working: "Trabajando", s1: "Resume las noticias tech de hoy", s2: "Explica la computación cuántica fácil", s3: "Ayúdame con un script de Python", s4: "Revisa un documento que adjuntaré", eDay: "Alcanzaste el límite diario. Se reinicia {t}.", eWin: "Alcanzaste el límite de 5 horas. Se libera un cupo {t}.", eSize: "Los adjuntos superan 12 MB. Quita uno e inténtalo de nuevo.", eStore: "El almacenamiento local no está disponible, así que no se pueden guardar los chats.", eTo: "La solicitud tardó demasiado. Inténtalo de nuevo.", eNet: "No se puede conectar con Orenis. Revisa tu conexión e inténtalo de nuevo.", e413: "Los adjuntos son demasiado grandes.", e429: "Orenis está ocupado. Inténtalo de nuevo en unos minutos.", eGen: "Orenis no pudo responder ahora. Inténtalo de nuevo en breve.", maxf: "Hasta {n} archivos por mensaje", big: "{f} supera 10 MB", uns: "{f}: tipo no compatible", delq: "¿Eliminar \"{t}\"?", wipeq: "¿Borrar todos los chats de este dispositivo? No se puede deshacer.", resets: "Se reinicia {t} ({z})", slot: "Próximo cupo: {t}", full: "Cupo completo disponible", left: "{p}% · quedan {n}", search: "Buscar chats", export: "Exportar chat", regen: "Regenerar", edit: "Editar", retry: "Reintentar", mic: "Entrada de voz", down: "Ir al final", exported: "Chat exportado", stop: "Detener", send: "Enviar", renameChat: "Renombrar", pinned: "Fijados", pin: "Fijar", unpin: "Desfijar", menu: "Opciones", think: "Pensando", thought: "Pensó {s} s", writing: "Redactando la respuesta", searchQ: "Buscando: {q}", reading: "Leyendo {n} fuentes", drafting: "Redactando el documento", tGen: "General", tPers: "Personalización", tSkills: "Habilidades", tData: "Uso y datos", nameLbl: "Nombre", instr: "Instrucciones personalizadas", instrD: "Dile a Orenis cómo responder. Se aplica a todos los chats.", instrPh: "Ej.: Usa viñetas. Sé conciso. Si no estás seguro, dilo en vez de adivinar.", pr1: "Usar viñetas", pr2: "Ser conciso", pr3: "No adivinar: decir si no sabes", pr4: "Explicar paso a paso", skWeb: "Búsqueda web", skWebD: "Permite que Orenis busque información en línea.", skDoc: "Crear documentos", skDocD: "Permite que Orenis cree archivos PDF, Word o Markdown.", sk_search: "Buscar en la web", sk_pdf: "Crear un PDF", sk_word: "Crear un documento Word", sk_sum: "Resumir", sk_tr: "Traducir", skills: "Habilidades", plus: "Añadir archivos y habilidades", addFiles: "Añadir fotos y archivos", effort: "Esfuerzo de razonamiento", effM: "Media", effH: "Alta", effX: "Máxima", effMd: "Equilibrio entre velocidad y calidad", effHd: "Razona paso a paso con más profundidad", effXd: "Lo más exhaustivo, más lento", analyzing: "Analizando los resultados", searching: "Buscando en la web", retrying: "Reintentando", offline: "Sin conexión", online: "De nuevo en línea", pdfTip: "En la ventana de impresión, elige «Guardar como PDF»." } };
-let lang = ls("orenis_lang") || (/^ko/i.test(navigator.language) ? "ko" : /^es/i.test(navigator.language) ? "es" : "en");
-const T = (k, en, v = {}) => { let s = L[lang]?.[k] ?? en; for (const x in v) s = s.replace("{" + x + "}", v[x]); return s; };
-function applyLang() {
-  document.documentElement.lang = lang; $("#lang").value = lang;
-  document.querySelectorAll("[data-t]").forEach(e => { e.dataset.en ??= e.textContent; e.textContent = L[lang]?.[e.dataset.t] ?? e.dataset.en; });
-  document.querySelectorAll("[data-tp]").forEach(e => { e.dataset.en ??= e.placeholder; e.placeholder = L[lang]?.[e.dataset.tp] ?? e.dataset.en; });
-  document.querySelectorAll("[data-ta]").forEach(e => { e.dataset.en ??= e.getAttribute("aria-label"); e.setAttribute("aria-label", L[lang]?.[e.dataset.ta] ?? e.dataset.en); });
-}
-
-const I = { bolt: "M13 2 4 14h7l-1 8 9-12h-7z", pin: "M12 17v5M9 3h6l-1 7 3 3H7l3-3z", trash: "M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3", dots: "M5 12h.01M12 12h.01M19 12h.01", wand: "M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8zM19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z", file: "M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8zM14 3v5h5", download: "M12 4v11M7 11l5 5 5-5M5 20h14", mic: "M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3zM5 11a7 7 0 0 0 14 0M12 18v3", stop: "M7 7h10v10H7z", edit: "M4 20h4L19 9l-4-4L4 16zM13.5 6.5l4 4", refresh: "M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7", down: "M6 9l6 6 6-6", plus: "M12 5v14M5 12h14", up: "M12 19V5M5 12l7-7 7 7", x: "M6 6l12 12M18 6 6 18", copy: "M9 9h10v10H9zM5 15V5h10", check: "M5 12.5l4.5 4.5L19 7", globe: "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18",
-  panel: "M4 5h16v14H4zM9 5v14", clip: "M21 12.5 12.5 21a5 5 0 0 1-7-7L14 5.5a3.4 3.4 0 0 1 5 5L10.5 19a1.8 1.8 0 0 1-2.5-2.5L15 9.5",
-  sliders: "M4 7h9M17 7h3M4 17h3M11 17h9M15 5v4M9 15v4", moon: "M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z", sun: "M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" };
-const ic = n => `<path d="${I[n]}"/>`;
-document.querySelectorAll("[data-i]").forEach(e => e.innerHTML = ic(e.dataset.i));
-const bloom = (s = 24) => { const e = document.createElement("span"); e.style.cssText = "display:inline-flex;flex:none"; e.innerHTML = `<svg width="${s}" height="${s}"><use href="#bloom"/></svg>`; return e; };
-document.querySelectorAll("[data-bloom]").forEach(e => e.replaceWith(bloom(+e.dataset.bloom)));
-
-/* ---------- IndexedDB: chats + messages (attachments kept as Blobs) ---------- */
-const openDB = () => new Promise((ok, no) => {
-  const r = indexedDB.open("orenis", 1);
-  r.onupgradeneeded = () => { r.result.createObjectStore("chats", { keyPath: "id" }); r.result.createObjectStore("messages", { keyPath: "id", autoIncrement: true }).createIndex("chatId", "chatId"); };
-  r.onsuccess = () => ok(r.result); r.onerror = () => no(r.error);
-});
-const tx = (s, mode, fn) => new Promise((ok, no) => { const t = db.transaction(s, mode), q = fn(t.objectStore(s)); t.oncomplete = () => ok(q && q.result); t.onerror = () => no(t.error); });
-const msgsOf = id => tx("messages", "readonly", o => o.index("chatId").getAll(id));
-const allChats = async () => (await tx("chats", "readonly", o => o.getAll())).sort((a, b) => b.updated - a.updated);
-const delChat = async id => { const k = await tx("messages", "readonly", o => o.index("chatId").getAllKeys(id)); await tx("messages", "readwrite", o => k.forEach(x => o.delete(x))); await tx("chats", "readwrite", o => o.delete(id)); };
-
-/* ---------- Quota: 100/day (local midnight) + 25 per rolling 5h ---------- */
-const hits = () => JSON.parse(ls("orenis_hits") || "[]").filter(t => t > Date.now() - 2 * 864e5);
-function usage() {
-  const now = Date.now(), mid = new Date(); mid.setHours(0, 0, 0, 0);
-  const h = hits(), d = h.filter(t => t >= mid.getTime()), w = h.filter(t => t > now - LIM.winMs), next = new Date(mid); next.setDate(next.getDate() + 1);
-  return { d, w, dReset: next, wReset: w.length ? new Date(Math.min(...w) + LIM.winMs) : null };
-}
-const fmt = d => d.toLocaleString([lang], { weekday: "short", hour: "numeric", minute: "2-digit" });
-function renderUsage() {
-  const u = usage(), dp = Math.max(0, 100 - Math.round(u.d.length / LIM.day * 100)), wp = Math.max(0, 100 - Math.round(u.w.length / LIM.win * 100));
-  $("#dPct").textContent = T("left", "{p}% · {n} left", { p: dp, n: LIM.day - u.d.length }); $("#dBar").style.width = dp + "%";
-  $("#wPct").textContent = T("left", "{p}% · {n} left", { p: wp, n: LIM.win - u.w.length }); $("#wBar").style.width = wp + "%";
-  $("#dReset").textContent = T("resets", "Resets {t} ({z})", { t: fmt(u.dReset), z: Intl.DateTimeFormat().resolvedOptions().timeZone });
-  $("#wReset").textContent = u.wReset ? T("slot", "Next slot frees {t}", { t: fmt(u.wReset) }) : T("full", "Full allowance available");
-}
-
-/* ---------- Helpers ---------- */
-const el = (tag, cls, txt) => { const e = document.createElement(tag); if (cls) e.className = cls; if (txt !== undefined) e.textContent = txt; return e; };
-const svg = (n, cls = "icon") => { const s = document.createElementNS("http://www.w3.org/2000/svg", "svg"); s.setAttribute("class", cls); s.setAttribute("viewBox", "0 0 24 24"); s.innerHTML = ic(n); return s; };
-const show = id => $(id).classList.add("on"), hide = id => $(id).classList.remove("on");
-let tt; const toast = t => { const e = $("#toast"); e.textContent = t; e.classList.add("on"); clearTimeout(tt); tt = setTimeout(() => e.classList.remove("on"), 1800); };
-const ask = text => new Promise(ok => { $("#askTxt").textContent = text; show("#askModal"); $("#askYes").onclick = () => { hide("#askModal"); ok(true); }; $("#askNo").onclick = () => { hide("#askModal"); ok(false); }; });
-const b64 = f => new Promise((ok, no) => { const r = new FileReader(); r.onload = () => ok(r.result.split(",")[1]); r.onerror = no; r.readAsDataURL(f); });
-const isText = f => f.type.startsWith("text/") || TEXTEXT.test(f.name);
-const feed = $("#feed"), nearBottom = () => feed.scrollHeight - feed.scrollTop - feed.clientHeight < 120;
-const scroll = (force = true) => { if (force || nearBottom()) feed.scrollTo({ top: feed.scrollHeight, behavior: "smooth" }); }; // streaming never yanks you away from what you're reading
-feed.addEventListener("scroll", () => { $("#jump").hidden = nearBottom(); });
-const setEmpty = b => $("#stage").classList.toggle("empty", b);
-const setTitle = t => { $("#title").textContent = t; document.title = (t && t !== "Orenis" ? t + " · " : "") + "Orenis"; };
-async function copyText(t) { try { await navigator.clipboard.writeText(t); toast(T("copied", "Copied")); return true; } catch { const a = el("textarea"); a.value = t; document.body.append(a); a.select(); document.execCommand("copy"); a.remove(); toast(T("copied", "Copied")); return true; } }
-DOMPurify.addHook("afterSanitizeAttributes", n => { if (n.tagName === "A") { n.target = "_blank"; n.rel = "noopener noreferrer"; } });
-/* Markdown + LaTeX: math is pulled out before markdown runs (so _ and \\ survive), rendered by KaTeX, then put back after sanitizing. Code is left alone. */
-function md(src) {
-  const store = [], keep = (disp, tex) => `@@M${store.push([disp, tex]) - 1}@@`;
-  const s = src.split(/(```[\s\S]*?```|`[^`\n]+`)/).map((seg, i) => i % 2 ? seg : seg
-    .replace(/\$\$([\s\S]+?)\$\$/g, (_, t) => keep(true, t)).replace(/\\\[([\s\S]+?)\\\]/g, (_, t) => keep(true, t))
-    .replace(/\\\(([\s\S]+?)\\\)/g, (_, t) => keep(false, t))
-    .replace(/(?<![\\$\w])\$(?!\s)([^$\n]+?)(?<!\s)\$(?![\d$])/g, (_, t) => keep(false, t))
-    .replace(/\*\*(?=\S)([^*\n]+?)(?<=\S)\*\*/g, "<strong>$1</strong>")
-    .replace(/(?<![*\w])\*(?=[^\s*])([^*\n]+?)(?<=[^\s*])\*(?![*\w])/g, "<em>$1</em>")).join("");
-  return DOMPurify.sanitize(marked.parse(s, { breaks: true })).replace(/@@M(\d+)@@/g, (_, i) => {
-    const [d, t] = store[i];
-    try { return katex.renderToString(t.trim(), { displayMode: d, throwOnError: false, output: "htmlAndMathml" }); }
-    catch { return t.replace(/[&<>]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c])); }
-  });
-}
-function plain(node) { // readable copy: math becomes its TeX source, code-copy buttons dropped
-  const c = node.cloneNode(true); c.querySelectorAll(".cp").forEach(x => x.remove());
-  c.querySelectorAll(".katex").forEach(k => { const a = k.querySelector("annotation"); k.replaceWith(a ? a.textContent : k.textContent); });
-  c.style.cssText = "position:fixed;left:-9999px;top:0;width:40rem"; document.body.append(c); const t = c.innerText.trim(); c.remove(); return t;
-}
-function setTheme(t) { document.documentElement.dataset.theme = t; ls("orenis_theme", t); $("#themeIcon").innerHTML = ic(t === "dark" ? "sun" : "moon"); }
-$("#theme").onclick = () => setTheme(document.documentElement.dataset.theme === "dark" ? "light" : "dark");
-
-/* ---------- Rendering ---------- */
-function fileChip(f) {
-  if (f.type.startsWith("image/") && f.blob) { const i = el("img", "thumb"); i.src = URL.createObjectURL(f.blob); i.alt = f.name; return i; }
-  return el("span", "fchip", (f.type.startsWith("audio/") ? "🎧 " : f.type.startsWith("video/") ? "🎬 " : "📄 ") + f.name);
-}
-function actBtn(label, icon, fn, aria) { const b = el("button", "act"); b.append(svg(icon), label); if (aria) b.setAttribute("aria-label", aria); b.onclick = fn; return b; }
-/* Typewriter-style reveal of an already-rendered answer (cosmetic). Math renders whole when reached. Returns skip(). */
-function revealText(root, onDone) {
-  const BLK = "li,pre,blockquote,table,th,td", ATOM = ".katex,hr,img";
-  const units = [], w = document.createTreeWalker(root, NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_TEXT, { acceptNode: n => n.nodeType === 3 ? (n.parentElement.closest(".katex") ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT) : n.matches(ATOM) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP });
-  const blocks = n => { const b = []; for (let p = n.parentElement; p && p !== root; p = p.parentElement) if (p.matches(BLK)) b.push(p); return b; };
-  for (let n; (n = w.nextNode());) units.push(n.nodeType === 3 ? { n, t: n.data, b: blocks(n) } : { n, k: 1, b: blocks(n) });
-  const hide = [...root.querySelectorAll(BLK)]; let done = false, raf, ui = 0, ci = 0;
-  const finish = () => { if (done) return; done = true; cancelAnimationFrame(raf); units.forEach(u => u.k ? u.n.style.visibility = "" : u.n.data = u.t); hide.forEach(x => x.style.visibility = ""); onDone(); };
-  if (!units.length || matchMedia("(prefers-reduced-motion: reduce)").matches) { finish(); return finish; }
-  hide.forEach(x => x.style.visibility = "hidden"); units.forEach(u => u.k ? u.n.style.visibility = "hidden" : u.n.data = ""); // markers, bars and boxes stay hidden until their text is reached
-  const per = Math.max(2, Math.ceil(units.reduce((a, u) => a + (u.k ? 6 : u.t.length), 0) / 150)); // always done in about 2.5 s
-  const tick = () => {
-    let b = per;
-    while (b > 0 && ui < units.length) {
-      const u = units[ui]; u.b.forEach(x => x.style.visibility = "");
-      if (u.k) { u.n.style.visibility = ""; ui++; b -= 6; } else { const take = Math.min(b, u.t.length - ci); ci += take; u.n.data = u.t.slice(0, ci); b -= take; if (ci >= u.t.length) { ui++; ci = 0; } }
-    }
-    scroll(false); ui < units.length ? raf = requestAnimationFrame(tick) : finish();
-  };
-  raf = requestAnimationFrame(tick); return finish;
-}
-const esc = t => String(t).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-const SK = [["search", "globe", "sk_search", "Search the web"], ["pdf", "file", "sk_pdf", "Create a PDF"], ["word", "file", "sk_word", "Create a Word document"], ["sum", "copy", "sk_sum", "Summarize"], ["tr", "globe", "sk_tr", "Translate"]];
-const skName = id => { const k = SK.find(x => x[0] === id); return k ? T(k[2], k[3]) : id; };
-function saveBlob(name, type, data) { const a = el("a"); a.href = URL.createObjectURL(new Blob([data], { type })); a.download = name; document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 1500); }
-function docHtml(title, body, word) {
-  return `<!doctype html><html lang="${lang}"${word ? ' xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word"' : ""}><head><meta charset="utf-8"><title>${esc(title)}</title>${word ? "" : '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">'}<style>@page{margin:18mm}body{font:11pt/1.6 "Segoe UI",system-ui,"Noto Sans KR","Malgun Gothic",sans-serif;color:#111;max-width:46rem;margin:2rem auto;padding:0 1rem}h1,h2,h3{line-height:1.25}h1{font-size:22pt}h2{font-size:15pt;margin-top:1.4em}table{border-collapse:collapse}td,th{border:1px solid #bbb;padding:4px 8px}pre{background:#f4f4f6;padding:10px;border-radius:6px;white-space:pre-wrap}code{font-family:Consolas,monospace;font-size:.9em}a{color:#5b3a8e}blockquote{border-left:3px solid #ccc;margin-left:0;padding-left:1em;color:#555}</style></head><body><h1>${esc(title)}</h1>${body}</body></html>`;
-}
-function saveDoc(d, fmt) {
-  const base = d.title.replace(/[^\p{L}\p{N}]+/gu, "-").replace(/^-|-$/g, "").slice(0, 50) || "orenis";
-  if (fmt === "markdown") return saveBlob(base + ".md", "text/markdown", `# ${d.title}\n\n${d.markdown}`);
-  const html = docHtml(d.title, md(d.markdown), fmt === "word");
-  if (fmt === "html") return saveBlob(base + ".html", "text/html", html);
-  if (fmt === "word") return saveBlob(base + ".doc", "application/msword", html);
-  const f = el("iframe"); f.style.cssText = "position:fixed;right:0;bottom:0;width:0;height:0;border:0"; f.srcdoc = html; document.body.append(f); // PDF = print a clean copy: selectable text, any language
-  f.onload = () => setTimeout(() => { f.contentWindow.onafterprint = () => f.remove(); f.contentWindow.focus(); f.contentWindow.print(); setTimeout(() => f.remove(), 120000); }, 700);
-  toast(T("pdfTip", "In the print window, choose “Save as PDF”."));
-}
-function docCard(d) {
-  const c = el("div", "docc"), h = el("div", "dh"), b = el("div", "dbs"); h.append(svg("file"), el("span", "", d.title));
-  [["pdf", "PDF"], ["word", "Word"], ["markdown", "Markdown"], ["html", "HTML"]].forEach(([k, n]) => { const x = el("button", "dbtn" + (k === d.format ? " p" : ""), n); x.onclick = () => saveDoc(d, k); b.append(x); });
-  c.append(h, b); return c;
-}
-function bubble(m, o = {}) {
-  const row = el("div", "m pop");
-  if (m.role === "user") {
-    row.classList.add("mu"); if (m.skill) row.append(el("span", "fchip", "✦ " + skName(m.skill)));
-    (m.files || []).forEach(f => row.append(fileChip(f))); if (m.text) row.append(el("div", "ub", m.text));
-    const ua = el("div", "uacts"); ua.append(actBtn("", "copy", () => copyText(m.text), T("copy", "Copy")), actBtn("", "edit", () => editFrom(m), T("edit", "Edit"))); row.append(ua); return row;
-  }
-  row.classList.add("ma"); const lg = bloom(26); lg.style.marginTop = ".2rem"; row.append(lg);
-  const body = el("div", "body"), txt = el("div", "md"); txt.innerHTML = md(m.text);
-  if (m.steps?.length) { // collapsed "Thought for 4s" with the steps that actually ran
-    const dt = el("details", "thought"), dv = el("div"); dt.append(el("summary", "", T("thought", "Thought for {s}s", { s: m.secs || 1 })));
-    m.steps.forEach(x => { const o = typeof x === "string" ? { t: x } : x; dv.append(el("div", "", "✓ " + o.t)); }); dt.append(dv); body.append(dt);
-  }
-  txt.querySelectorAll("pre").forEach(p => {
-    const code = p.querySelector("code"), c = code?.textContent ?? p.textContent;
-    if (code) { try { hljs.highlightElement(code); } catch {} const l = (code.className.match(/language-([\w+#-]+)/) || [])[1]; if (l) p.append(el("span", "lg", l)); }
-    const b = el("button", "cp", T("copy", "Copy")); b.onclick = () => copyText(c); p.append(b);
-  });
-  const extra = el("div"); // documents, sources and actions appear once the reveal finishes
-  (m.docs || []).forEach(d => extra.append(docCard(d)));
-  if (m.searched || m.sources?.length) {
-    const bar = el("div", "srcs");
-    if (m.searched) { const n = el("span", "note"); n.append(svg("globe"), T("searched", "Searched the web")); bar.append(n); }
-    (m.sources || []).slice(0, 5).forEach(x => { let h = x.url; try { h = new URL(x.url).hostname.replace(/^www\./, ""); } catch {} const a = el("a", "pill"); a.href = x.url; a.target = "_blank"; a.rel = "noopener noreferrer"; a.title = x.title; a.append(el("span", "dot", h[0]), h); bar.append(a); });
-    extra.append(bar);
-  }
-  const acts = el("div", "acts");
-  acts.append(actBtn(T("copy", "Copy"), "copy", () => copyText(plain(txt))), actBtn("Markdown", "copy", () => copyText(m.text)));
-  if (o.isLast) { const r = actBtn(T("regen", "Regenerate"), "refresh", regenerate); r.classList.add("regen"); acts.append(r); }
-  extra.append(acts); body.append(txt, extra); row.append(body);
-  if (o.animate) { extra.hidden = true; row._done = new Promise(res => { row._skip = revealText(txt, () => { extra.hidden = false; res(); }); }); }
-  return row;
-}
-/* Live thinking indicator: spinning bloom + the real steps as the Worker reports them (thought summaries, searches, reads). */
-function thinking() {
-  const r = el("div", "m th pop"), l = bloom(26), st = el("div", "steps"); l.classList.add("lg2"); l.style.marginTop = ".15rem"; r.append(l, st);
-  r._steps = []; r._t0 = Date.now(); r._def = false;
-  r.step = (t, label = false) => {
-    t = String(t || "").trim(); if (!t) return;
-    if (label) { if (r._def && r._steps.length === 1) { st.lastChild.textContent = t; r._steps[0].t = t; r._def = false; } return; } // the optional label only replaces the default first line
-    const last = r._steps[r._steps.length - 1];
-    if (last && last.t === t) return;
-    r._def = false; if (st.lastChild) st.lastChild.className = "ok"; r._steps.push({ t }); st.append(el("div", "now", t));
-    while (st.children.length > 5) st.firstChild.remove(); // live view shows the latest steps; the full list is kept for "Thought for Ns"
-  };
-  r.step(T("think", "Thinking")); r._def = true; return r;
-}
-function banner(text, retry = false) {
-  const b = el("div", "err pop", text); b.setAttribute("role", "alert");
-  if (retry) { const r = el("button", "act", T("retry", "Retry")); r.style.border = "1px solid var(--line)"; r.onclick = () => { b.remove(); if (!busy && gate()) submit(null, null, true); }; b.append(r); }
-  feed.append(b); scroll();
-}
-function welcome() {
-  feed.innerHTML = ""; const w = el("div", "hello pop"); w.append(bloom(44), el("h2", "", ls("orenis_name") ? T("hello", "Hello, {n}", { n: ls("orenis_name") }) : T("hello", "Hello, {n}", { n: "" }).replace(/,?\s*님?\s*$/, "")), el("p", "", T("how", "How can I help you today?"))); feed.append(w);
-  const s = $("#sugg"); s.innerHTML = "";
-  [["s1", "Summarize today's tech news"], ["s2", "Explain quantum computing simply"], ["s3", "Help me write a Python script"], ["s4", "Review a document I attach"]].forEach(([k, en]) => { const t = T(k, en), b = el("button", "", t); b.onclick = () => { $("#input").value = t; autosize(); updSend(); $("#input").focus(); }; s.append(b); });
-}
-async function openChat(id) {
-  chatId = id; feed.innerHTML = "";
-  const ms = id ? await msgsOf(id) : [], c = id ? await tx("chats", "readonly", o => o.get(id)) : null;
-  setTitle(c ? c.title : "Orenis"); $("#export").hidden = !ms.length;
-  setEmpty(!ms.length); if (!ms.length) welcome(); else ms.forEach((m, i) => feed.append(bubble(m, { isLast: m.role === "assistant" && i === ms.length - 1 })));
-  if (busy && id === busyChat && thEl) feed.append(thEl); // reply still on its way for this chat
-  feed.scrollTop = feed.scrollHeight; $("#jump").hidden = true; renderList(); closeSide();
-}
-const grp = t => { const d = new Date(); d.setHours(0, 0, 0, 0); const a = d.getTime(); return t >= a ? T("today", "Today") : t >= a - 6 * 864e5 ? T("prev", "Previous 7 days") : T("older", "Older"); };
-function showCtx(items, x, y, above = false) {
-  const m = $("#ctx"); m.innerHTML = "";
-  items.forEach(it => {
-    if (it.head) return m.append(el("div", "hd", it.head));
-    const b = el("button", it.danger ? "dg" : ""), t = el("span"); t.append(el("span", "", it.label)); if (it.desc) t.append(el("small", "", it.desc));
-    b.append(svg(it.icon), t); if (it.on) { const c = svg("check"); c.style.marginLeft = "auto"; b.append(c); }
-    b.onclick = () => { hideCtx(); it.fn(); }; m.append(b);
-  });
-  m.hidden = false; const w = m.offsetWidth, h = m.offsetHeight, top = above ? y - h - 8 : y;
-  m.style.left = Math.max(8, Math.min(x, innerWidth - w - 8)) + "px"; m.style.top = Math.max(8, Math.min(top, innerHeight - h - 8)) + "px";
-}
-function hideCtx() { $("#ctx").hidden = true; }
-const putChat = (id, patch) => tx("chats", "readwrite", o => { const g = o.get(id); g.onsuccess = () => g.result && o.put({ ...g.result, ...patch }); });
-async function togglePin(c) { await putChat(c.id, { pinned: !c.pinned }); renderList(); }
-async function delAsk(c) { if (await ask(T("delq", 'Delete "{t}"?', { t: c.title }))) { await delChat(c.id); if (c.id === chatId) openChat(null); else renderList(); } }
-function startRename(c) {
-  const b = $(`.row[data-id="${c.id}"] .tt`); if (!b) return;
-  const i = el("input", "edt"); i.value = c.title; b.replaceWith(i); i.focus(); i.select(); let done = false;
-  const end = async ok => { if (done) return; done = true; const t = i.value.trim().slice(0, 60); if (ok && t) { await putChat(c.id, { title: t, auto: false }); if (c.id === chatId) setTitle(t); } renderList(); };
-  i.onkeydown = e => { if (e.key === "Enter") end(true); if (e.key === "Escape") end(false); }; i.onblur = () => end(true);
-}
-const chatMenu = (c, x, y) => showCtx([
-  { icon: "pin", label: c.pinned ? T("unpin", "Unpin") : T("pin", "Pin"), fn: () => togglePin(c) },
-  { icon: "edit", label: T("renameChat", "Rename"), fn: () => startRename(c) },
-  { icon: "trash", label: T("del", "Delete"), danger: true, fn: () => delAsk(c) }], x, y);
-function chatRow(c) {
-  const r = el("div", "row" + (c.id === chatId ? " on" : "")), b = el("button", "tt"), m = el("button"); r.dataset.id = c.id;
-  if (c.pinned) { const p = svg("pin"); p.classList.add("pn"); b.append(p); } b.append(c.title);
-  m.append(svg("dots")); m.setAttribute("aria-label", T("menu", "Options"));
-  b.onclick = () => openChat(c.id); m.onclick = () => { const k = m.getBoundingClientRect(); chatMenu(c, k.left, k.bottom + 4); };
-  r.oncontextmenu = e => { e.preventDefault(); chatMenu(c, e.clientX, e.clientY); }; // right click; long-press does the same on touch
-  let tm; r.ontouchstart = e => { tm = setTimeout(() => { const t = e.touches[0]; chatMenu(c, t.clientX, t.clientY); }, 520); }; r.ontouchend = r.ontouchmove = () => clearTimeout(tm);
-  r.append(b, m); return r;
-}
-async function renderList() {
-  const list = $("#list"), q = $("#sq").value.trim().toLowerCase(); list.innerHTML = "";
-  const all = (await allChats()).filter(c => !q || c.title.toLowerCase().includes(q)), pins = all.filter(c => c.pinned);
-  if (pins.length) { list.append(el("div", "lbl", T("pinned", "Pinned"))); pins.forEach(c => list.append(chatRow(c))); }
-  let last = ""; for (const c of all.filter(c => !c.pinned)) { const g = grp(c.updated); if (g !== last) { list.append(el("div", "lbl", g)); last = g; } list.append(chatRow(c)); }
-}
-async function autoTitle(cid, user, assistant) { // short topic title in the user's language, e.g. "Initial Greetings"
-  try {
-    const r = await fetch(PROXY_ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ task: "title", user, assistant }) });
-    const { title } = await r.json(); if (!title) return;
-    const c = await tx("chats", "readonly", o => o.get(cid)); if (!c?.auto) return; // renamed by the user in the meantime
-    await putChat(cid, { title }); if (chatId === cid) setTitle(title); renderList();
-  } catch {}
-}
-
-/* ---------- Attachments ---------- */
-function addFiles(list) {
-  for (const f of list) {
-    if (pending.length >= MAXF) return toast(T("maxf", "Up to {n} files per message", { n: MAXF }));
-    if (f.size > MAXB) { toast(T("big", "{f} is over 10 MB", { f: f.name })); continue; }
-    if (!(OKTYPE.test(f.type) || isText(f))) { toast(T("uns", "{f}: unsupported type", { f: f.name })); continue; }
-    pending.push(f);
-  }
-  renderTray();
-}
-function renderTray() {
-  const t = $("#tray"); t.innerHTML = "";
-  if (activeSkill) { const c = el("span", "skchip", "✦ " + skName(activeSkill)), x = el("button", "", "✕"); x.setAttribute("aria-label", "Remove"); x.onclick = () => { activeSkill = null; renderTray(); }; c.append(x); t.append(c); }
-  pending.forEach((f, i) => { const w = el("div", "pop"); w.style.position = "relative"; w.append(fileChip({ name: f.name, type: f.type, blob: f })); const x = el("button", "rm", "✕"); x.setAttribute("aria-label", "Remove " + f.name); x.onclick = () => { pending.splice(i, 1); renderTray(); }; w.append(x); t.append(w); });
-  updSend();
-}
-const updSend = () => {
-  const b = $("#send"), m = busy ? "stop" : "send"; b.disabled = !busy && !($("#input").value.trim() || pending.length);
-  if (b.dataset.m !== m) { b.dataset.m = m; b.querySelector("svg").innerHTML = ic(busy ? "stop" : "up"); b.setAttribute("aria-label", busy ? T("stop", "Stop") : T("send", "Send")); }
-};
-
-/* ---------- Sending ---------- */
-async function memorySnippet() {
-  const out = []; for (const c of (await allChats()).filter(c => c.id !== chatId).slice(0, 5)) (await msgsOf(c.id)).filter(m => m.role === "user" && m.text).slice(-2).forEach(m => out.push("- " + m.text.slice(0, 160)));
-  return out.join("\n");
-}
-function gate(files = []) { // quota + size checks shared by send, retry and regenerate
-  const u = usage();
-  if (u.d.length >= LIM.day) return banner(T("eDay", "Daily limit reached. It resets {t}.", { t: fmt(u.dReset) })), false;
-  if (u.w.length >= LIM.win) return banner(T("eWin", "5-hour limit reached. A slot frees {t}.", { t: fmt(u.wReset) })), false;
-  if (files.reduce((a, f) => a + f.size, 0) > MAXTOTAL) return banner(T("eSize", "Attachments total over 12 MB. Remove one and try again.")), false;
-  return true;
-}
-async function send() {
-  const text = $("#input").value.trim(); if (busy || (!text && !pending.length)) return;
-  const files = pending.slice(); if (!gate(files)) return;
-  const sk = activeSkill; activeSkill = null; ls("orenis_draft", ""); $("#input").value = ""; pending = []; renderTray(); autosize(); await submit(text, files, false, sk);
-}
-function stop() { if (ctl) { ctl.userAborted = true; ctl.abort(); } else curSkip?.(); } // cancel the request, or finish the reveal instantly
-function onThought(th, text) { for (const m of String(text).matchAll(/\*\*(.+?)\*\*/g)) th.step(m[1]); } // legacy Worker: headings only, never the body
-function onStep(th, ev) { // real progress events streamed by the Worker
-  if (ev.s === "thought") ev.h ? ev.h.forEach(h => th.step(h)) : onThought(th, ev.t || "");
-  else if (ev.s === "label") th.step(ev.t, true);
-  else if (ev.s === "analyze") th.step(T("analyzing", "Analyzing the results"));
-  else if (ev.s === "search") th.step(ev.t ? T("searchQ", "Searching: {q}", { q: ev.t }) : T("searching", "Searching the web"));
-  else if (ev.s === "read") th.step(T("reading", "Reading {n} sources", { n: ev.t }));
-  else if (ev.s === "doc") th.step(T("drafting", "Drafting the document"));
-  else if (ev.s === "write") th.step(T("writing", "Writing the answer"));
-}
-async function readStream(r, th) {
-  const rd = r.body.getReader(), dec = new TextDecoder(); let buf = "", out = {};
-  for (;;) {
-    const { value, done } = await rd.read(); if (done) break;
-    buf += dec.decode(value, { stream: true }); let i;
-    while ((i = buf.indexOf("\n")) >= 0) {
-      const line = buf.slice(0, i).trim(); buf = buf.slice(i + 1); if (!line) continue;
-      let ev; try { ev = JSON.parse(line); } catch { continue; }
-      if (ev.s) onStep(th, ev); else if (ev.done) out = ev.done; else if (ev.error) out = { error: ev.error, code: ev.code };
-    }
-  }
-  return out;
-}
-async function submit(text, files, regen = false, skill = null) {
-  busy = true; updSend(); const now = Date.now();
-  if (!chatId) { chatId = uid(); const title = (text || files[0].name).slice(0, 40); await tx("chats", "readwrite", o => o.put({ id: chatId, title, created: now, updated: now, auto: true })); setTitle(title); }
-  if ($("#stage").classList.contains("empty")) { feed.innerHTML = ""; setEmpty(false); } // also covers an existing-but-empty chat (e.g. after Edit); it used to keep the welcome screen
-  const cid = chatId; busyChat = cid; $("#export").hidden = false;
-  feed.querySelectorAll(".err,.regen").forEach(e => e.remove());
-  if (!regen) { const um = { chatId, role: "user", text, ts: now, skill, files: files.map(f => ({ name: f.name, type: f.type, blob: f })) }; um.id = await tx("messages", "readwrite", o => o.add(um)); feed.append(bubble(um)); }
-  const th = thEl = thinking(); feed.append(th); scroll();
-  ls("orenis_hits", JSON.stringify([...hits(), now])); // counted at send, refunded on failure
-  $("#live").hidden = false; const c = ctl = new AbortController(), to = setTimeout(() => c.abort(), effort === "max" ? 420000 : 240000);
-  try {
-    const all = await msgsOf(cid), last = all[all.length - 1]; // always rebuilt from storage, so retry and regenerate resend the same message
-    const prior = all.slice(-13, -1).map(m => ({ role: m.role, text: m.text, files: (m.files || []).map(f => ({ name: f.name })) }));
-    let t = last.text, media = [];
-    for (const f of last.files || []) { if (isText(f)) t += `\n\n[File: ${f.name}]\n\`\`\`\n${(await f.blob.text()).slice(0, 20000)}\n\`\`\``; else media.push({ name: f.name, mime: f.type, data: await b64(f.blob) }); }
-    const payload = { messages: [...prior, { role: "user", text: t, files: media }], name: ls("orenis_name"), lang, effort, instructions: ls("orenis_instr") || "", skill: last.skill || null, search: ls("orenis_sk_web") !== "0", docs: ls("orenis_sk_doc") !== "0" };
-    if (ls("orenis_mem") === "1") payload.memory = await memorySnippet();
-    let d, attempt = 0;
-    for (;;) { // transient failures (5xx, network, empty answer) are retried quietly, so users rarely see the error at all
-      try {
-        const r = await fetch(PROXY_ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload), signal: c.signal });
-        d = (r.headers.get("content-type") || "").includes("ndjson") ? await readStream(r, th) : await r.json().catch(() => ({}));
-        if (d.reply) break;
-        const er = new Error((d.error || (r.status === 413 ? T("e413", "Those attachments are too large.") : r.status === 429 ? T("e429", "Orenis is busy. Please try again in a few minutes.") : T("eGen", "Orenis couldn't respond right now. Please try again shortly."))) + (d.code ? ` (${d.code})` : "")); er.code = d.code || (r.status >= 500 ? "E" + r.status : ""); throw er;
-      } catch (e) {
-        const transient = e.name !== "AbortError" && (e instanceof TypeError || /^(E5\d\d|ENET|EEMPTY|EJSON|E429)$/.test(e.code || ""));
-        if (!transient || attempt >= 2 || c.signal.aborted) throw e;
-        attempt++; th.step(T("retrying", "Retrying…")); await sleep(1500 * attempt);
-      }
-    }
-    clearTimeout(to); ctl = null;
-    const am = { chatId: cid, role: "assistant", text: d.reply, ts: Date.now(), searched: !!d.searched, sources: d.sources || [], docs: d.files || [], steps: th._steps.map(x => ({ t: x.t })), secs: Math.max(1, Math.round((Date.now() - th._t0) / 1000)) };
-    await tx("messages", "readwrite", o => o.add(am));
-    if (all.length <= 1) autoTitle(cid, last.text || "", d.reply);
-    if (chatId === cid) { thEl?.remove(); const row = bubble(am, { animate: true, isLast: true }); feed.append(row); curSkip = row._skip; scroll(); await row._done; } // only paint into the chat that asked
-  } catch (e) {
-    ls("orenis_hits", JSON.stringify(hits().filter(x => x !== now))); // failed or stopped requests don't use quota
-    const quiet = e.name === "AbortError" && c.userAborted;
-    if (chatId === cid) { thEl?.remove(); if (!quiet) banner(e.name === "AbortError" ? T("eTo", "The request timed out. Please try again.") : e instanceof TypeError ? T("eNet", "Can't reach Orenis. Check your connection and try again.") : e.message, true); }
-  } finally {
-    clearTimeout(to); busy = false; busyChat = null; thEl = null; ctl = null; curSkip = null; $("#live").hidden = true; updSend();
-    await tx("chats", "readwrite", o => { const g = o.get(cid); g.onsuccess = () => g.result && o.put({ ...g.result, updated: Date.now() }); });
-    renderList(); renderUsage(); if (!mobile()) $("#input").focus();
-  }
-}
-async function regenerate() {
-  if (busy || !chatId || !gate()) return; const ms = await msgsOf(chatId), l = ms[ms.length - 1];
-  if (l?.role === "assistant") await tx("messages", "readwrite", o => o.delete(l.id)); await openChat(chatId); submit(null, null, true);
-}
-async function editFrom(m) { // ChatGPT-style edit: drop this message and everything after it, put it back in the composer
-  if (busy || m.id == null) return; const ms = await msgsOf(chatId);
-  await tx("messages", "readwrite", o => ms.filter(x => x.id >= m.id).forEach(x => o.delete(x.id))); await openChat(chatId);
-  $("#input").value = m.text; activeSkill = m.skill || null; pending = (m.files || []).map(f => new File([f.blob], f.name, { type: f.type })); renderTray(); autosize(); updSend(); $("#input").focus();
-}
-
-/* ---------- Wiring ---------- */
-const mobile = () => innerWidth < 768;
-const closeSide = () => { $("#side").classList.remove("open"); $("#scrim").classList.remove("on"); };
-$("#menu").onclick = () => { if (mobile()) { $("#side").classList.toggle("open"); $("#scrim").classList.toggle("on"); } else $("#side").classList.toggle("hide"); };
-$("#scrim").onclick = closeSide;
-function autosize() { const t = $("#input"); t.style.height = "auto"; t.style.height = Math.min(t.scrollHeight, 192) + "px"; }
-$("#input").addEventListener("input", () => { autosize(); updSend(); });
-$("#input").addEventListener("keydown", e => { if (e.key === "Enter" && !e.shiftKey && !e.isComposing && !matchMedia("(pointer: coarse)").matches) { e.preventDefault(); send(); } /* on phones Enter adds a new line; the send button sends */ });
-$("#input").addEventListener("paste", e => { const f = [...e.clipboardData.files]; if (f.length) { e.preventDefault(); addFiles(f); } });
-$("#send").onclick = () => busy ? stop() : send();
-$("#file").onchange = e => { addFiles(e.target.files); e.target.value = ""; };
-let dragN = 0;
-addEventListener("dragenter", e => { if (e.dataTransfer?.types.includes("Files")) { dragN++; $("#drop").classList.add("on"); } });
-addEventListener("dragleave", () => { if (--dragN <= 0) { dragN = 0; $("#drop").classList.remove("on"); } });
-addEventListener("dragover", e => e.preventDefault());
-addEventListener("drop", e => { e.preventDefault(); dragN = 0; $("#drop").classList.remove("on"); addFiles(e.dataTransfer.files); });
-$("#newChat").onclick = () => openChat(null);
-$("#gear").onclick = () => { renderUsage(); $("#nameEdit").value = ls("orenis_name") || ""; $("#setModal").classList.add("on"); closeSide(); }; $("#closeGear").onclick = () => $("#setModal").classList.remove("on");
-$("#memTog").onchange = e => ls("orenis_mem", e.target.checked ? "1" : "0");
-$("#lang").onchange = e => { lang = e.target.value; ls("orenis_lang", lang); applyLang(); $("#effortLbl").textContent = effName(effort); renderUsage(); openChat(chatId); };
-$("#planBadge").onclick = () => show("#planModal"); $("#planOk").onclick = () => { ls("orenis_plan", "free"); hide("#planModal"); };
-
-$("#wipeBtn").onclick = async () => { if (await ask(T("wipeq", "Delete all chats stored on this device? This can't be undone."))) { for (const c of await allChats()) await delChat(c.id); $("#setModal").classList.remove("on"); openChat(null); } };
-const setName = () => { const n = ls("orenis_name") || ""; $("#meName").textContent = n; $("#ava").textContent = (n[0] || "?").toUpperCase(); $("#nameEdit").value = n; };
-$("#nameOk").onclick = () => { const n = $("#nameIn").value.trim(); if (!n) return $("#nameIn").focus(); ls("orenis_name", n); setName(); hide("#nameModal"); if (!ls("orenis_plan")) show("#planModal"); if (!chatId) welcome(); };
-$("#nameIn").addEventListener("keydown", e => { if (e.key === "Enter") $("#nameOk").click(); });
-addEventListener("keydown", e => { if (e.key === "Escape") { $("#setModal").classList.remove("on"); hide("#planModal"); closeSide(); } });
-
-document.querySelectorAll(".tab").forEach(t => t.onclick = () => { document.querySelectorAll(".tab").forEach(x => x.classList.toggle("on", x === t)); document.querySelectorAll(".pane").forEach(p => p.classList.toggle("on", p.dataset.pane === t.dataset.tab)); });
-$("#setModal").addEventListener("pointerdown", e => { if (e.target.id === "setModal") $("#setModal").classList.remove("on"); });
-$("#instr").value = ls("orenis_instr") || ""; $("#instr").oninput = e => ls("orenis_instr", e.target.value.slice(0, 1500));
-document.querySelectorAll("[data-pre]").forEach(b => b.onclick = () => { const i = $("#instr"), v = i.value.trim(); i.value = (v ? v + "\n" : "") + "- " + b.textContent; ls("orenis_instr", i.value); });
-[["#skWeb", "orenis_sk_web"], ["#skDoc", "orenis_sk_doc"]].forEach(([id, k]) => { $(id).checked = ls(k) !== "0"; $(id).onchange = e => ls(k, e.target.checked ? "1" : "0"); });
-$("#nameEdit").onchange = e => { const n = e.target.value.trim(); if (!n) return setName(); ls("orenis_name", n); setName(); if (!chatId) welcome(); };
-$("#plusBtn").onclick = e => { const r = e.currentTarget.getBoundingClientRect(); showCtx([
-  { icon: "clip", label: T("addFiles", "Add photos & files"), fn: () => $("#file").click() }, { head: T("skills", "Skills") },
-  ...SK.map(([id, icon, k, en]) => ({ icon, label: T(k, en), on: activeSkill === id, fn: () => { activeSkill = id; renderTray(); $("#input").focus(); } }))], r.left, r.top, true); };
-$("#effortLbl").textContent = effName(effort);
-$("#effortBtn").onclick = e => { const r = e.currentTarget.getBoundingClientRect(); showCtx([{ head: T("effort", "Reasoning effort") },
-  ...EFF.map(([id, k, en, dk, den]) => ({ icon: "bolt", label: T(k, en), desc: T(dk, den), on: effort === id, fn: () => { effort = id; ls("orenis_effort", id); $("#effortLbl").textContent = effName(id); } }))], r.right - 240, r.top, true); };
-$("#input").value = ls("orenis_draft") || ""; autosize(); updSend(); $("#input").addEventListener("input", () => ls("orenis_draft", $("#input").value)); // unsent text survives a reload
-addEventListener("offline", () => toast(T("offline", "You're offline"))); addEventListener("online", () => toast(T("online", "Back online")));
-addEventListener("pointerdown", e => { if (!e.target.closest("#ctx")) hideCtx(); }, true);
-addEventListener("keydown", e => { if (e.key === "Escape") hideCtx(); });
-function favicon() { // PNG icon so every browser (Safari included) shows the bloom instead of the default globe
-  try {
-    const c = document.createElement("canvas"); c.width = c.height = 64; const x = c.getContext("2d"), g = x.createLinearGradient(0, 0, 64, 64); g.addColorStop(0, "#5B3A8E"); g.addColorStop(1, "#E8646B"); x.fillStyle = g;
-    [[32, 16, 10, 15], [32, 48, 10, 15], [16, 32, 15, 10], [48, 32, 15, 10]].forEach(([a, b, rx, ry]) => { x.beginPath(); x.ellipse(a, b, rx, ry, 0, 0, 7); x.fill(); });
-    document.querySelectorAll("link[rel~=icon]").forEach(l => l.remove()); const u = c.toDataURL();
-    [["icon", ""], ["apple-touch-icon", ""]].forEach(([rel]) => { const l = document.createElement("link"); l.rel = rel; l.href = u; document.head.append(l); });
-  } catch {}
-}
-favicon();
-$("#sq").oninput = renderList; $("#jump").onclick = () => scroll();
-$("#export").onclick = async () => {
-  const ms = await msgsOf(chatId), c = (await allChats()).find(x => x.id === chatId), name = ls("orenis_name") || "You";
-  const out = `# ${c?.title || "Orenis"}\n\n` + ms.map(m => `**${m.role === "user" ? name : "Orenis"}:**\n\n${m.text}${m.files?.length ? "\n\n_Attachments: " + m.files.map(f => f.name).join(", ") + "_" : ""}`).join("\n\n---\n\n");
-  const a = el("a"); a.href = URL.createObjectURL(new Blob([out], { type: "text/markdown" })); a.download = (c?.title || "orenis").replace(/[^\p{L}\p{N}]+/gu, "-").slice(0, 40) + ".md"; document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 1500); toast(T("exported", "Chat exported"));
-};
-const SR = window.SpeechRecognition || window.webkitSpeechRecognition; let rec = null;
-if (SR) { $("#mic").hidden = false; $("#mic").onclick = () => {
-  if (rec) return rec.stop();
-  rec = new SR(); rec.lang = { en: "en-US", ko: "ko-KR", es: "es-PE" }[lang]; rec.interimResults = true; rec.continuous = true; const base = $("#input").value;
-  rec.onresult = e => { $("#input").value = (base ? base + " " : "") + [...e.results].map(r => r[0].transcript).join(""); autosize(); updSend(); };
-  rec.onend = () => { rec = null; $("#mic").classList.remove("on"); }; rec.onerror = () => rec && rec.stop(); rec.start(); $("#mic").classList.add("on");
-}; }
-addEventListener("keydown", e => {
-  if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") { e.preventDefault(); openChat(null); $("#input").focus(); }
-  else if (e.key === "/" && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) { e.preventDefault(); $("#input").focus(); }
-});
-if (window.visualViewport) visualViewport.addEventListener("resize", () => { // keep the composer above the iOS keyboard
-  const kb = innerHeight - visualViewport.height > 120 && mobile(); document.querySelector(".app").style.height = kb ? visualViewport.height + "px" : ""; if (kb) scrollTo(0, 0);
-});
-(async () => {
-  setTheme(document.documentElement.dataset.theme); setName(); applyLang(); $("#memTog").checked = ls("orenis_mem") === "1";
-  try { db = await openDB(); } catch { welcome(); return banner(T("eStore", "Local storage is unavailable in this browser, so chats can't be saved.")); }
-  await openChat(null);
-  if (!ls("orenis_name")) show("#nameModal"); else if (!ls("orenis_plan")) show("#planModal");
-})();
+const L={ko:{nf:"할 수 있는 일",nh:"작동 방식",nq:"자주 묻는 질문",open:"채팅 열기",badge:"공개 베타 · 무료",h1:"한 번만 물어보세요. 조사하고, 읽고, 만들어 드립니다.",lead:"단계별로 일하며 라이브 웹을 검색하고, 파일을 읽고, 문서를 쓰고, 이미지를 그리고, 출처를 보여줍니다. 대화는 기기 밖으로 나가지 않습니다.",cta:"Orenis 채팅 시작",see:"할 수 있는 일 보기",note:"계정이 필요 없습니다. 무료 플랜은 하루 100개 메시지.",ft:"하나의 어시스턴트, 여섯 가지 일.",fs:"카드를 누르면 그 요청이 입력된 상태로 Orenis가 열립니다.",c1t:"심층 리서치",c1d:"큰 질문을 나눠서 각각 검색하고, 출처를 교차 검증해 인용이 달린 보고서를 씁니다.",c2t:"파일 읽기",c2d:"PDF, 사진, 오디오, 영상, 텍스트, 코드를 올리고 무엇이든 물어보세요.",c3t:"문서 만들기",c3d:"이력서, 보고서, 편지, 학습 자료를 PDF나 Word 파일로 받으세요.",c4t:"이미지 만들기",c4d:"설명하면 그려 드립니다. 한 번에 다운로드.",c5t:"용도별 모드",c5d:"공부 도우미, 코더, 작가, 플래너, 리서처, 또는 직접 만든 모드.",c6t:"내가 관리하는 메모리",c6d:"한 번 말하면 기억합니다. 모든 기억을 언제든 확인하고 지울 수 있어요.",try:"써보기 →",ht:"답만이 아니라 과정도 보여줍니다.",s1t:"어떤 언어로든 질문",s1d:"입력하거나 파일을 올리세요. 얼마나 깊이 생각할지 보통·높음·최대로 고르세요.",s2t:"일하는 모습 보기",s2d:"검색, 읽기, 교차 확인 등 각 단계가 실시간으로 보입니다. 언제든 멈추거나 다시 할 수 있어요.",s3t:"답 확인하기",s3d:"인용과 출처 링크가 함께 와서 중요한 내용은 직접 확인할 수 있습니다.",bb:"공식 베타 테스터",pt:"설계부터 프라이빗. 베타 동안 무료.",p1:"대화와 파일은 서버가 아닌 내 브라우저에 저장됩니다",p2:"계정도 가입도 필요 없음",p3:"클릭 한 번으로 백업·이전",p4:"프로 플랜 구성에 먼저 의견 반영",free:"무료",f1:"하루 100개 메시지",f2:"5시간당 25개",f3:"검색, 파일, 문서, 이미지",soon:"출시 예정",q1:"더 높은 한도",q2:"우선 처리 속도",q3:"더 큰 파일",qt:"궁금한 점, 솔직하게 답합니다.",a1q:"정말 무료인가요?",a1:"베타 기간에는 무료입니다. 하루 100개 메시지, 5시간 창당 최대 25개. 한도가 더 높은 유료 프로 플랜을 준비 중입니다.",a2q:"대화는 어디에 저장되나요?",a2:"이 기기의 브라우저에만 저장됩니다. 브라우저 데이터를 지우면 사라지니 설정 → 사용량·데이터에서 백업하세요.",a3q:"틀릴 수도 있나요?",a3:"네. 모든 AI처럼 실수할 수 있습니다. 출처를 함께 제공하니 확인하시고, 중요한 내용은 꼭 검증하세요.",a4q:"아직 못 하는 건 무엇인가요?",a4:"계정과 기기 간 동기화, 음성 대화는 아직 없습니다. 이미지 생성은 상황에 따라 일시적으로 안 될 수 있습니다.",fin:"진짜 궁금한 걸 물어보세요.",foot:"© Orencraft Labs · 집중력 있는 사용자 중심 AI 도구. 베타 소프트웨어이므로 답변에 오류가 있을 수 있으니 중요한 내용은 확인하세요."},
+es:{nf:"Qué hace",nh:"Cómo funciona",nq:"Preguntas",open:"Abrir chat",badge:"Beta pública · Gratis",h1:"Pregunta una vez. Orenis investiga, lee y crea.",lead:"Trabaja paso a paso, busca en la web en vivo, lee tus archivos, escribe documentos, dibuja imágenes y muestra sus fuentes. Tus chats nunca salen de tu dispositivo.",cta:"Abrir Orenis Chat",see:"Ver qué puede hacer",note:"No necesitas cuenta. 100 mensajes al día en el plan gratuito.",ft:"Un asistente, seis trabajos.",fs:"Toca una tarjeta para abrir Orenis con esa petición lista para enviar.",c1t:"Investigación profunda",c1d:"Divide una pregunta grande en partes, busca cada una, contrasta fuentes y escribe un informe con citas.",c2t:"Lee tus archivos",c2d:"Sube PDFs, fotos, audio, video, texto o código y pregunta lo que quieras.",c3t:"Crea documentos",c3d:"Obtén un PDF o Word listo: currículums, informes, cartas, guías de estudio.",c4t:"Crea imágenes",c4d:"Descríbela y la obtienes. Descarga con un clic.",c5t:"Modos para cada tarea",c5d:"Compañero de estudio, programador, escritor, planificador, investigador o uno diseñado por ti.",c6t:"Memoria bajo tu control",c6d:"Dilo una vez. Revisa, edita o borra cada recuerdo cuando quieras.",try:"Probar →",ht:"Ves el trabajo, no solo la respuesta.",s1t:"Pregunta en cualquier idioma",s1d:"Escribe o sube un archivo. Elige cuánto debe pensar: Media, Alta o Máxima.",s2t:"Míralo trabajar",s2d:"Cada paso aparece en vivo: buscar, leer, contrastar. Detén o repite cuando quieras.",s3t:"Comprueba la respuesta",s3d:"Vienen con citas y enlaces a las fuentes, para verificar lo importante.",bb:"Beta tester oficial",pt:"Privado por diseño. Gratis durante la beta.",p1:"Chats y archivos se quedan en tu navegador, no en nuestros servidores",p2:"Sin cuenta ni registro",p3:"Copia o traslada todo con un clic",p4:"Voz temprana sobre qué incluirá Pro",free:"Gratis",f1:"100 mensajes / día",f2:"25 cada 5 horas",f3:"Búsqueda, archivos, documentos, imágenes",soon:"Pronto",q1:"Límites más altos",q2:"Mayor velocidad",q3:"Archivos más grandes",qt:"Preguntas, respondidas sin rodeos.",a1q:"¿De verdad es gratis?",a1:"Sí durante la beta: 100 mensajes al día, hasta 25 en cualquier ventana de 5 horas. Se planea un plan Pro de pago con límites más altos.",a2q:"¿Dónde se guardan mis chats?",a2:"Solo en tu navegador, en este dispositivo. Borrar los datos del navegador los elimina, así que exporta una copia en Ajustes → Uso y datos.",a3q:"¿Puede equivocarse?",a3:"Sí. Como toda IA puede cometer errores. Cita sus fuentes para que verifiques, pero comprueba lo importante.",a4q:"¿Qué no puede hacer todavía?",a4:"No hay cuentas ni sincronización entre dispositivos, ni conversaciones por voz. La creación de imágenes depende de la disponibilidad y a veces puede no estar disponible.",fin:"Hazle una pregunta de verdad.",foot:"© Orencraft Labs · Herramientas de IA enfocadas y centradas en el usuario. Software en beta: las respuestas pueden tener errores, verifica lo importante."}};
+const ls=(k,v)=>v===undefined?localStorage.getItem(k):localStorage.setItem(k,v);
+let lang=ls("orenis_lang")||(/^ko/i.test(navigator.language)?"ko":/^es/i.test(navigator.language)?"es":"en");
+function applyLang(){document.documentElement.lang=lang;document.getElementById("lang").value=lang;document.querySelectorAll("[data-t]").forEach(e=>{e.dataset.en??=e.textContent;e.textContent=L[lang]?.[e.dataset.t]??e.dataset.en})}
+document.getElementById("lang").onchange=e=>{lang=e.target.value;ls("orenis_lang",lang);applyLang()};
+const P={moon:"M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z",sun:"M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"};
+function setTheme(t){document.documentElement.dataset.theme=t;ls("orenis_theme",t);document.getElementById("ti").innerHTML=`<path d="${P[t==="dark"?"sun":"moon"]}"/>`}
+document.getElementById("theme").onclick=()=>setTheme(document.documentElement.dataset.theme==="dark"?"light":"dark");
+setTheme(document.documentElement.dataset.theme);applyLang();
+(function(){try{const c=document.createElement("canvas");c.width=c.height=64;const x=c.getContext("2d"),g=x.createLinearGradient(0,0,64,64);g.addColorStop(0,"#5B3A8E");g.addColorStop(1,"#E8646B");x.fillStyle=g;[[32,16,10,15],[32,48,10,15],[16,32,15,10],[48,32,15,10]].forEach(([a,b,rx,ry])=>{x.beginPath();x.ellipse(a,b,rx,ry,0,0,7);x.fill()});document.querySelectorAll("link[rel~=icon]").forEach(l=>l.remove());const u=c.toDataURL();["icon","apple-touch-icon"].forEach(rel=>{const l=document.createElement("link");l.rel=rel;l.href=u;document.head.append(l)})}catch(e){}})();
 </script>
 </body>
 </html>
