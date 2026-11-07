@@ -4,123 +4,95 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Orenis · Ask once. It researches, reads and creates.</title>
-<meta name="description" content="Orenis by Orencraft Labs: step-by-step research with sources, files in, documents and images out, modes, memory you control, and chats that stay on your device.">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cdefs%3E%3ClinearGradient id='b0' gradientUnits='userSpaceOnUse' x1='30' y1='24' x2='172' y2='178'%3E%3Cstop offset='0' stop-color='%236C63FF'/%3E%3Cstop offset='0.5' stop-color='%23D45BC0'/%3E%3Cstop offset='1' stop-color='%23FF8A78'/%3E%3C/linearGradient%3E%3ClinearGradient id='l0' gradientUnits='userSpaceOnUse' x1='30' y1='24' x2='172' y2='178'%3E%3Cstop offset='0' stop-color='%239C96FF'/%3E%3Cstop offset='0.5' stop-color='%23E37FD3'/%3E%3Cstop offset='1' stop-color='%23FFB6AB'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M100.00 91.00 C74.80 78.40 74.80 42.40 112.60 19.00 C103.60 40.60 97.30 64.00 100.00 91.00ZM108.56 97.22 C112.76 69.36 146.99 58.23 180.93 86.95 C157.61 85.07 133.40 86.31 108.56 97.22ZM105.29 107.28 C133.08 102.66 154.24 131.79 137.42 172.94 C132.00 150.17 123.34 127.54 105.29 107.28ZM94.71 107.28 C107.69 132.29 86.53 161.41 42.20 158.12 C62.17 145.94 81.02 130.71 94.71 107.28ZM91.44 97.22 C71.67 117.29 37.43 106.17 26.86 62.99 C44.62 78.22 64.93 91.44 91.44 97.22Z' fill='url(%23l0)' stroke='url(%23l0)' stroke-width='5' stroke-linejoin='round'/%3E%3Cpath d='M100.00 91.00 C97.30 64.00 103.60 40.60 112.60 19.00 C136.00 46.00 130.60 78.40 100.00 91.00ZM108.56 97.22 C133.40 86.31 157.61 85.07 180.93 86.95 C162.48 117.55 130.00 122.43 108.56 97.22ZM105.29 107.28 C123.34 127.54 132.00 150.17 137.42 172.94 C102.62 164.85 87.94 135.46 105.29 107.28ZM94.71 107.28 C81.02 130.71 62.17 145.94 42.20 158.12 C39.13 122.53 62.55 99.49 94.71 107.28ZM91.44 97.22 C64.93 91.44 44.62 78.22 26.86 62.99 C59.77 49.08 88.91 64.22 91.44 97.22Z' fill='url(%23b0)' stroke='url(%23b0)' stroke-width='5' stroke-linejoin='round'/%3E%3C/svg%3E">
-<meta name="theme-color" content="#7a4fb8">
+<meta name="description" content="Orenis by OrenCraft Labs: step-by-step research with sources, files in, documents, images and live web pages out. Free, private, no account.">
+<link rel="icon" type="image/svg+xml" href="assets/orenis-logo.svg">
+<meta name="theme-color" content="#FFFFFF">
 <script>document.documentElement.dataset.theme=localStorage.getItem("orenis_theme")||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")</script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-:root{--bg:#fff;--surf:#f3f3f7;--line:#e6e6ec;--tx:#18181b;--mu:#6e6e7a;--acc:#7a4fb8;--grad:linear-gradient(135deg,#5B3A8E,#E8646B);--sh:0 20px 60px -20px #3b247033}
-[data-theme=dark]{--bg:#0f0f12;--surf:#1b1b21;--line:#2a2a33;--tx:#ececf1;--mu:#9b9ba7;--acc:#b199e8;--sh:0 20px 60px -20px #000}
-*{box-sizing:border-box}[hidden]{display:none!important}
-html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.6 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
-a{color:inherit;text-decoration:none}button,select{font:inherit;color:inherit}
-.wrap{max-width:68rem;margin:0 auto;padding:0 1.25rem}
-header{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 85%,transparent);backdrop-filter:blur(12px)}
-.nav{display:flex;align-items:center;gap:.6rem;height:4rem}
-.brand{display:flex;align-items:center;gap:.55rem;font-weight:600;font-size:1.1rem;margin-right:auto}
-.links{display:flex;gap:1.6rem;font-size:.9rem;color:var(--mu);margin-right:1rem}.links a:hover{color:var(--tx)}
-.ibtn{display:grid;place-items:center;width:2.3rem;height:2.3rem;border-radius:.7rem;background:none;border:0;color:var(--mu);cursor:pointer}.ibtn:hover{background:var(--surf);color:var(--tx)}
-.sel{background:var(--surf);border:1px solid var(--line);border-radius:.7rem;padding:.4rem .6rem;font-size:.85rem;cursor:pointer}
-.btn{display:inline-block;border-radius:.9rem;padding:.8rem 1.4rem;font-weight:500;border:1px solid var(--line);transition:background .15s,transform .15s}.btn:hover{background:var(--surf)}
-.btn.p{background:var(--grad);color:#fff;border:0;box-shadow:0 10px 28px -10px #7a4fb899}.btn.p:hover{transform:translateY(-1px);filter:brightness(1.07)}.btn.s{padding:.5rem 1rem;font-size:.88rem}
-.icon{width:1.2rem;height:1.2rem;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
-.hero{display:grid;gap:3rem;padding:3.5rem 0 4.5rem;align-items:center}
-@media(min-width:900px){.hero{grid-template-columns:1.05fr 1fr;padding:5.5rem 0 6.5rem}}
-.badge{display:inline-flex;align-items:center;gap:.5rem;border:1px solid var(--line);border-radius:999px;padding:.25rem .8rem;font-size:.8rem;color:var(--mu)}.badge i{width:.45rem;height:.45rem;border-radius:50%;background:#34d399}
-h1{margin:1.1rem 0 0;font-size:clamp(2.3rem,6.2vw,4.1rem);line-height:1.05;letter-spacing:-.035em;font-weight:600;text-wrap:balance}
-.lead{margin:1.4rem 0 0;max-width:34rem;font-size:1.12rem;color:var(--mu)}
-.cta{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:2rem}.fine{margin-top:1rem;font-size:.8rem;color:var(--mu)}
-.mock{background:var(--bg);border:1px solid var(--line);border-radius:1.6rem;padding:1.2rem;box-shadow:var(--sh);font-size:.92rem}
-.ub{margin-left:auto;width:fit-content;max-width:90%;background:var(--surf);border-radius:1.1rem;padding:.55rem .95rem}.file{display:inline-block;margin-bottom:.3rem;font-size:.78rem;color:var(--mu)}
-.as{display:flex;gap:.7rem;margin-top:1.1rem}.as p{margin:0}.steps{font-size:.8rem;color:var(--mu);margin:0 0 .5rem}.steps div:before{content:"✓ ";color:var(--acc)}
-.pills{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.7rem}.pill{border:1px solid var(--line);border-radius:999px;padding:.1rem .65rem;font-size:.74rem;color:var(--mu)}
-.mc{display:flex;align-items:center;gap:.6rem;margin-top:1.3rem;background:var(--surf);border-radius:1.4rem;padding:.65rem .65rem .65rem 1rem;color:var(--mu)}.mc span{flex:1}
-.mc b{display:grid;place-items:center;width:2rem;height:2rem;border-radius:50%;background:var(--grad);color:#fff}
-section{padding:4.5rem 0;border-top:1px solid var(--line)}
-h2{margin:0;font-size:clamp(1.7rem,4vw,2.4rem);letter-spacing:-.025em;line-height:1.15;font-weight:600;max-width:36rem;text-wrap:balance}
-.sub{margin:.8rem 0 0;color:var(--mu);max-width:36rem}
-.cases{display:grid;gap:1rem;margin-top:2.6rem}@media(min-width:700px){.cases{grid-template-columns:1fr 1fr}}@media(min-width:1000px){.cases{grid-template-columns:repeat(3,1fr)}}
-.case{display:flex;flex-direction:column;gap:.4rem;border:1px solid var(--line);border-radius:1.2rem;padding:1.3rem;transition:.15s}.case:hover{background:var(--surf);border-color:color-mix(in srgb,var(--acc) 50%,var(--line));transform:translateY(-2px)}
-.case .icon{color:var(--acc);width:1.5rem;height:1.5rem}.case h3{margin:.5rem 0 0;font-size:1.05rem;font-weight:600}.case p{margin:0;color:var(--mu);font-size:.92rem}.case em{margin-top:auto;padding-top:.8rem;font-style:normal;font-size:.85rem;color:var(--acc);font-weight:500}
-.steps3{display:grid;gap:2rem;margin-top:2.6rem}@media(min-width:800px){.steps3{grid-template-columns:repeat(3,1fr)}}
-.st b{display:grid;place-items:center;width:2.2rem;height:2.2rem;border-radius:50%;background:var(--grad);color:#fff;font-weight:600}.st h3{margin:.9rem 0 .3rem;font-size:1.05rem}.st p{margin:0;color:var(--mu);font-size:.93rem}
-.priv{display:grid;gap:2.5rem}@media(min-width:900px){.priv{grid-template-columns:1.1fr 1fr;align-items:center}}
-.priv ul{margin:0;padding:0;list-style:none;color:var(--mu)}.priv li{margin:.5rem 0}.priv li:before{content:"✓ ";color:var(--acc);font-weight:600}
-.plans{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}.plans>div+div{border-left:1px solid var(--line);padding-left:1.5rem;opacity:.6}
-.plans h3{margin:0;font-size:1rem;font-weight:600}.plans .big{font-size:2.2rem;font-weight:600;letter-spacing:-.03em;margin:.2rem 0 .6rem}.plans p{margin:.2rem 0;font-size:.88rem;color:var(--mu)}
-details.q{border-bottom:1px solid var(--line);padding:1rem 0}details.q summary{cursor:pointer;font-weight:500;list-style:none;display:flex;justify-content:space-between;gap:1rem}details.q summary::-webkit-details-marker{display:none}
-details.q summary:after{content:"+";color:var(--mu);font-size:1.3rem;line-height:1}details.q[open] summary:after{content:"–"}details.q p{margin:.7rem 0 0;color:var(--mu);max-width:42rem}
-.final{text-align:center}.final h2{margin:0 auto}.final .cta{justify-content:center}
-footer{border-top:1px solid var(--line);padding:2rem 0 calc(2rem + env(safe-area-inset-bottom));font-size:.8rem;color:var(--mu)}
-@media(max-width:560px){.links{display:none}.hero{padding-top:2.2rem}.plans{gap:1rem}.plans>div+div{padding-left:1rem}.nav .btn.s{display:none}}
-@media(prefers-reduced-motion:no-preference){.seq{opacity:0;transform:translateY(8px);animation:in .6s forwards}@keyframes in{to{opacity:1;transform:none}}}
-</style>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="assets/brand.css">
+<link rel="stylesheet" href="assets/landing.css">
 </head>
 <body>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="b0" gradientUnits="userSpaceOnUse" x1="30" y1="24" x2="172" y2="178"><stop offset="0" stop-color="#6C63FF"/><stop offset="0.5" stop-color="#D45BC0"/><stop offset="1" stop-color="#FF8A78"/></linearGradient><linearGradient id="l0" gradientUnits="userSpaceOnUse" x1="30" y1="24" x2="172" y2="178"><stop offset="0" stop-color="#9C96FF"/><stop offset="0.5" stop-color="#E37FD3"/><stop offset="1" stop-color="#FFB6AB"/></linearGradient><linearGradient id="d0" gradientUnits="userSpaceOnUse" x1="30" y1="24" x2="172" y2="178"><stop offset="0" stop-color="#4A3FFF"/><stop offset="0.5" stop-color="#D13AB8"/><stop offset="1" stop-color="#FF6B54"/></linearGradient>
-<symbol id="bloom" viewBox="0 0 200 200"><path d="M100.00 91.00 C74.80 78.40 74.80 42.40 112.60 19.00 C103.60 40.60 97.30 64.00 100.00 91.00ZM108.56 97.22 C112.76 69.36 146.99 58.23 180.93 86.95 C157.61 85.07 133.40 86.31 108.56 97.22ZM105.29 107.28 C133.08 102.66 154.24 131.79 137.42 172.94 C132.00 150.17 123.34 127.54 105.29 107.28ZM94.71 107.28 C107.69 132.29 86.53 161.41 42.20 158.12 C62.17 145.94 81.02 130.71 94.71 107.28ZM91.44 97.22 C71.67 117.29 37.43 106.17 26.86 62.99 C44.62 78.22 64.93 91.44 91.44 97.22Z" fill="url(#l0)" stroke="url(#l0)" stroke-width="5" stroke-linejoin="round"/><path d="M100.00 91.00 C97.30 64.00 103.60 40.60 112.60 19.00 C136.00 46.00 130.60 78.40 100.00 91.00ZM108.56 97.22 C133.40 86.31 157.61 85.07 180.93 86.95 C162.48 117.55 130.00 122.43 108.56 97.22ZM105.29 107.28 C123.34 127.54 132.00 150.17 137.42 172.94 C102.62 164.85 87.94 135.46 105.29 107.28ZM94.71 107.28 C81.02 130.71 62.17 145.94 42.20 158.12 C39.13 122.53 62.55 99.49 94.71 107.28ZM91.44 97.22 C64.93 91.44 44.62 78.22 26.86 62.99 C59.77 49.08 88.91 64.22 91.44 97.22Z" fill="url(#b0)" stroke="url(#b0)" stroke-width="5" stroke-linejoin="round"/></symbol></defs></svg>
-
-<header><div class="wrap nav">
-  <a href="#" class="brand"><svg width="26" height="26"><use href="#bloom"/></svg>Orenis</a>
+<header class="top" id="top"><div class="wrap nav">
+  <a href="#" class="brand"><img class="logo" src="assets/orenis-logo.svg" alt="" width="32" height="32">Orenis</a>
   <nav class="links"><a href="#features" data-t="nf">What it does</a><a href="#how" data-t="nh">How it works</a><a href="#faq" data-t="nq">FAQ</a></nav>
   <select id="lang" class="sel" aria-label="Language"><option value="en">English</option><option value="ko">한국어</option><option value="es">Español</option></select>
   <button id="theme" class="ibtn" aria-label="Theme"><svg class="icon" id="ti" viewBox="0 0 24 24"></svg></button>
-  <a href="chat.html" class="btn s" data-t="open">Open chat</a>
+  <a href="chat.html" class="btn p s" data-t="open">Open chat</a>
 </div></header>
 
 <main>
-<div class="wrap hero">
-  <div>
-    <span class="badge"><i></i><span data-t="badge">Public beta · Free to use</span></span>
-    <h1 data-t="h1">Ask once. Orenis researches, reads and creates.</h1>
-    <p class="lead" data-t="lead">It works step by step, searches the live web, reads your files, writes documents and draws images, and shows its sources. Your chats never leave your device.</p>
-    <div class="cta"><a href="chat.html" class="btn p" data-t="cta">Launch Orenis Chat</a><a href="#features" class="btn" data-t="see">See what it can do</a></div>
-    <p class="fine" data-t="note">No account needed. 100 messages a day on the Free plan.</p>
+<section class="hero" style="border:0;padding-bottom:5.5rem">
+  <div class="hero-bg" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="wrap hero-grid">
+    <div>
+      <button class="lockup" id="lockup" aria-label="Orenis"><svg viewBox="0 0 200 200" aria-hidden="true"><defs><linearGradient id="h-b0" gradientUnits="userSpaceOnUse" x1="30" y1="24" x2="172" y2="178"><stop offset="0" stop-color="#6C63FF"/><stop offset="0.5" stop-color="#D45BC0"/><stop offset="1" stop-color="#FF8A78"/></linearGradient><linearGradient id="h-l0" gradientUnits="userSpaceOnUse" x1="30" y1="24" x2="172" y2="178"><stop offset="0" stop-color="#9C96FF"/><stop offset="0.5" stop-color="#E37FD3"/><stop offset="1" stop-color="#FFB6AB"/></linearGradient><linearGradient id="h-d0" gradientUnits="userSpaceOnUse" x1="30" y1="24" x2="172" y2="178"><stop offset="0" stop-color="#4A3FFF"/><stop offset="0.5" stop-color="#D13AB8"/><stop offset="1" stop-color="#FF6B54"/></linearGradient></defs><g class="petal" style="--i:0"><path d="M108.56 97.22 C112.76 69.36 146.99 58.23 180.93 86.95 C157.61 85.07 133.40 86.31 108.56 97.22Z" fill="url(#h-l0)"/><path d="M108.56 97.22 C133.40 86.31 157.61 85.07 180.93 86.95 C162.48 117.55 130.00 122.43 108.56 97.22Z" fill="url(#h-b0)"/></g><g class="petal" style="--i:1"><path d="M105.29 107.28 C133.08 102.66 154.24 131.79 137.42 172.94 C132.00 150.17 123.34 127.54 105.29 107.28Z" fill="url(#h-l0)"/><path d="M105.29 107.28 C123.34 127.54 132.00 150.17 137.42 172.94 C102.62 164.85 87.94 135.46 105.29 107.28Z" fill="url(#h-b0)"/></g><g class="petal" style="--i:2"><path d="M94.71 107.28 C107.69 132.29 86.53 161.41 42.20 158.12 C62.17 145.94 81.02 130.71 94.71 107.28Z" fill="url(#h-l0)"/><path d="M94.71 107.28 C81.02 130.71 62.17 145.94 42.20 158.12 C39.13 122.53 62.55 99.49 94.71 107.28Z" fill="url(#h-b0)"/></g><g class="petal" style="--i:3"><path d="M91.44 97.22 C71.67 117.29 37.43 106.17 26.86 62.99 C44.62 78.22 64.93 91.44 91.44 97.22Z" fill="url(#h-l0)"/><path d="M91.44 97.22 C64.93 91.44 44.62 78.22 26.86 62.99 C59.77 49.08 88.91 64.22 91.44 97.22Z" fill="url(#h-b0)"/></g><g class="petal" style="--i:4"><path d="M100.00 91.00 C74.80 78.40 74.80 42.40 112.60 19.00 C103.60 40.60 97.30 64.00 100.00 91.00Z" fill="url(#h-l0)"/><path d="M100.00 91.00 C97.30 64.00 103.60 40.60 112.60 19.00 C136.00 46.00 130.60 78.40 100.00 91.00Z" fill="url(#h-b0)"/></g></svg><span class="wm">Orenis</span></button>
+      <div><span class="badge"><i></i><span data-t="badge">Public beta · Free to use</span></span></div>
+      <h1 data-t="h1">Ask once. Orenis researches, reads and creates.</h1>
+      <p class="lead" data-t="lead">It works step by step, searches the live web, reads your files, writes documents, draws images and builds web pages you can edit on the spot. It shows its sources, and your chats stay on your device.</p>
+      <div class="cta"><a href="chat.html" class="btn p" data-t="cta">Launch Orenis Chat</a><a href="#features" class="btn" data-t="see">See what it can do</a></div>
+      <ul class="proof"><li><svg class="icon" viewBox="0 0 24 24"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2 4 4 0 0 1 7 2c0 5.5-7 10-7 10z"/></svg><span data-t="pr1">Free during the beta</span></li><li><svg class="icon" viewBox="0 0 24 24"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21a8 8 0 0 1 16 0"/></svg><span data-t="pr2">No account needed</span></li><li><svg class="icon" viewBox="0 0 24 24"><path d="M5 11h14v10H5zM8 11V7a4 4 0 0 1 8 0v4"/></svg><span data-t="pr3">Chats stay on your device</span></li></ul>
+    </div>
+    <div class="art" role="img" aria-label="Orenis building a pomodoro timer in the canvas next to the chat">
+      <div class="card cvas"><div class="cv-h"><svg class="icon" style="width:1.1rem;height:1.1rem;color:var(--acc)" viewBox="0 0 24 24"><path d="M3 4h18v16H3zM3 9h18M9 9v11"/></svg><span style="margin:0;display:inline;background:none;box-shadow:none;font:600 .85rem var(--font-head);color:var(--tx)" data-t="mTitle">Pomodoro timer</span><span><b data-t="mTabP">Preview</b><b data-t="mTabC">Code</b></span></div>
+        <div class="cv-b"><div class="timer"><div class="r"></div><div class="t">24:17</div><button>Pause</button></div></div>
+        <code class="snip"><span class="k">const</span> left = <span class="a">25</span> * <span class="a">60</span>;
+<span class="k">setInterval</span>(() =&gt; {
+  <span class="a">render</span>(--left);  <span class="c">// ticks every second</span>
+}, <span class="a">1000</span>);</code></div>
+      <div class="card chat"><div class="bub" data-t="mUser">Build me a pomodoro timer</div>
+        <div class="stp"><div data-t="mS1">Planning the layout</div><div data-t="mS2">Writing the page</div><div data-t="mS3">Checking it runs</div></div>
+        <div class="ans"><img src="assets/orenis-logo.svg" alt=""><div><p data-t="mAns">Done: a clean 25-minute timer. Try it on the right, or ask me to change anything.</p><span class="chip"><svg class="icon" viewBox="0 0 24 24"><path d="M3 4h18v16H3zM3 9h18M9 9v11"/></svg><span data-t="mChip">Pomodoro timer · Canvas</span></span></div></div></div>
+    </div>
   </div>
-  <div class="mock" role="img" aria-label="Preview of an Orenis conversation">
-    <div class="ub seq" style="animation-delay:.3s"><span class="file">📄 q3-report.pdf</span><br>¿Cómo se compara con el último dato oficial de inflación?</div>
-    <div class="as seq" style="animation-delay:1.1s"><svg width="26" height="26" style="flex:none"><use href="#bloom"/></svg><div>
-      <div class="steps"><div>Reading q3-report.pdf</div><div>Searching: inflación Perú último dato</div><div>Cross-checking 3 sources</div></div>
-      <p>Tu informe proyecta un 4,1 % de inflación. El dato oficial más reciente es algo menor, así que tu escenario es conservador [1].</p><div class="pills"><span class="pill">🌐 Searched the web</span><span class="pill">inei.gob.pe</span><span class="pill">bcrp.gob.pe</span></div></div></div>
-    <div class="mc seq" style="animation-delay:1.9s"><svg class="icon" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg><span>Ask Orenis anything</span><b><svg class="icon" viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg></b></div>
-  </div>
-</div>
+</section>
 
 <section id="features"><div class="wrap">
-  <h2 data-t="ft">One assistant, six jobs.</h2><p class="sub" data-t="fs">Tap any card to open Orenis with that request ready to send.</p>
+  <span class="eyebrow" data-t="nf">What it does</span>
+  <h2 data-t="ft">One assistant, six jobs.</h2><p class="sub" data-t="fs">Tap a card to open Orenis with that request ready to send.</p>
   <div class="cases">
-    <a class="case" href="chat.html?skill=research&q=Compare%20the%20Samsung%20S26%20Ultra%20and%20the%20Xiaomi%2017%20Ultra%20for%20photography"><svg class="icon" viewBox="0 0 24 24"><path d="M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM21 21l-4.3-4.3"/></svg><h3 data-t="c1t">Deep research</h3><p data-t="c1d">Splits a big question into parts, searches each, cross-checks sources and writes a cited report.</p><em data-t="try">Try it →</em></a>
-    <a class="case" href="chat.html?q=Summarize%20the%20key%20points%20of%20the%20document%20I%27m%20about%20to%20attach%20and%20list%20any%20risks"><svg class="icon" viewBox="0 0 24 24"><path d="M21 12.5 12.5 21a5 5 0 0 1-7-7L14 5.5a3.4 3.4 0 0 1 5 5L10.5 19a1.8 1.8 0 0 1-2.5-2.5L15 9.5"/></svg><h3 data-t="c2t">Read your files</h3><p data-t="c2d">Drop in PDFs, photos, audio, video, text or code, then ask anything about them.</p><em data-t="try">Try it →</em></a>
-    <a class="case" href="chat.html?skill=pdf&q=Write%20a%20one-page%20resume%20for%20a%20junior%20graphic%20designer%20named%20Alex"><svg class="icon" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8zM14 3v5h5"/></svg><h3 data-t="c3t">Create documents</h3><p data-t="c3d">Get a ready PDF or Word file: resumes, reports, letters, study guides.</p><em data-t="try">Try it →</em></a>
-    <a class="case" href="chat.html?skill=image&q=A%20watercolor%20fox%20reading%20a%20book%20under%20a%20paper%20lantern%2C%20soft%20evening%20light"><svg class="icon" viewBox="0 0 24 24"><path d="M4 5h16v14H4zM4 15l5-5 4 4 3-3 4 4M9 9h.01"/></svg><h3 data-t="c4t">Create images</h3><p data-t="c4d">Describe it and get it. Download in one click.</p><em data-t="try">Try it →</em></a>
-    <a class="case" href="chat.html?mode=study&q=Teach%20me%20how%20compound%20interest%20works%2C%20then%20quiz%20me"><svg class="icon" viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2zM4 21V5M9 7h6"/></svg><h3 data-t="c5t">Modes for every job</h3><p data-t="c5d">Study buddy, Coder, Writer, Planner, Researcher, or one you design yourself.</p><em data-t="try">Try it →</em></a>
-    <a class="case" href="chat.html?q=Remember%20that%20I%20prefer%20short%20answers%20with%20bullet%20points"><svg class="icon" viewBox="0 0 24 24"><path d="M9 4a3 3 0 0 0-3 3 3 3 0 0 0-2 5 3 3 0 0 0 3 5 3 3 0 0 0 5 0V4a3 3 0 0 0-3 0zM15 4a3 3 0 0 1 3 3 3 3 0 0 1 2 5 3 3 0 0 1-3 5 3 3 0 0 1-5 0"/></svg><h3 data-t="c6t">Memory you control</h3><p data-t="c6d">Tell it once. Review, edit or delete every memory whenever you like.</p><em data-t="try">Try it →</em></a>
+    <a class="case" href="chat.html?skill=research&q=Compare%20the%20Samsung%20S26%20Ultra%20and%20the%20Xiaomi%2017%20Ultra%20for%20photography"><span class="ic"><svg class="icon" viewBox="0 0 24 24"><path d="M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM21 21l-4.3-4.3"/></svg></span><h3 data-t="c1t">Deep research</h3><p data-t="c1d">Splits a big question into parts, searches each, cross-checks the sources and writes a cited report.</p><em data-t="try">Try it →</em></a>
+    <a class="case" href="chat.html?q=Summarize%20the%20key%20points%20of%20the%20document%20I%27m%20about%20to%20attach%20and%20list%20any%20risks"><span class="ic"><svg class="icon" viewBox="0 0 24 24"><path d="M21 12.5 12.5 21a5 5 0 0 1-7-7L14 5.5a3.4 3.4 0 0 1 5 5L10.5 19a1.8 1.8 0 0 1-2.5-2.5L15 9.5"/></svg></span><h3 data-t="c2t">Read your files</h3><p data-t="c2d">Drop in PDFs, photos, audio, video, text or code, then ask anything about them.</p><em data-t="try">Try it →</em></a>
+    <a class="case" href="chat.html?skill=pdf&q=Write%20a%20one-page%20resume%20for%20a%20junior%20graphic%20designer%20named%20Alex"><span class="ic"><svg class="icon" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8zM14 3v5h5"/></svg></span><h3 data-t="c3t">Create documents</h3><p data-t="c3d">Get a ready PDF or Word file: resumes, reports, letters, study guides.</p><em data-t="try">Try it →</em></a>
+    <a class="case" href="chat.html?q=Build%20a%20pomodoro%20timer%20web%20page%20with%20a%20progress%20ring%20and%20start%2Fpause%20buttons"><span class="ic"><svg class="icon" viewBox="0 0 24 24"><path d="M3 4h18v16H3zM3 9h18M9 9v11"/></svg></span><h3 data-t="c4t">Live canvas</h3><p data-t="c4d">Build web pages and apps, watch them run beside the chat, and edit the code by hand.</p><em data-t="try">Try it →</em></a>
+    <a class="case" href="chat.html?skill=image&q=A%20watercolor%20fox%20reading%20a%20book%20under%20a%20paper%20lantern%2C%20soft%20evening%20light"><span class="ic"><svg class="icon" viewBox="0 0 24 24"><path d="M4 5h16v14H4zM4 15l5-5 4 4 3-3 4 4M9 9h.01"/></svg></span><h3 data-t="c5t">Create images</h3><p data-t="c5d">Describe it and get it. Download in one click.</p><em data-t="try">Try it →</em></a>
+    <a class="case" href="chat.html?mode=study&q=Teach%20me%20how%20compound%20interest%20works%2C%20then%20quiz%20me"><span class="ic"><svg class="icon" viewBox="0 0 24 24"><path d="M9 4a3 3 0 0 0-3 3 3 3 0 0 0-2 5 3 3 0 0 0 3 5 3 3 0 0 0 5 0V4a3 3 0 0 0-3 0zM15 4a3 3 0 0 1 3 3 3 3 0 0 1 2 5 3 3 0 0 1-3 5 3 3 0 0 1-5 0"/></svg></span><h3 data-t="c6t">Modes and memory</h3><p data-t="c6d">Study buddy, Coder, Writer, Planner or your own, plus a memory list you can edit or clear.</p><em data-t="try">Try it →</em></a>
+  </div>
+</div></section>
+
+<section id="demo"><div class="wrap">
+  <span class="eyebrow">Canvas</span>
+  <h2 data-t="dt">Try the canvas right here.</h2><p class="sub" data-t="ds">Edit the code on the left and the page on the right updates as you type. In Orenis you can also just ask for a change in plain language.</p>
+  <div class="demo">
+    <div class="pane"><div class="pane-h"><span data-t="dCode">Code</span><small data-t="dEdit">Editable</small></div><textarea id="demoCode" spellcheck="false" aria-label="Code"></textarea></div>
+    <div class="pane"><div class="pane-h"><span data-t="dPrev">Preview</span><small>sandboxed</small></div><iframe id="demoFrame" sandbox="allow-scripts" title="Preview"></iframe></div>
   </div>
 </div></section>
 
 <section id="how"><div class="wrap">
+  <span class="eyebrow" data-t="nh">How it works</span>
   <h2 data-t="ht">You see the work, not just the answer.</h2>
-  <div class="steps3">
-    <div class="st"><b>1</b><h3 data-t="s1t">Ask in any language</h3><p data-t="s1d">Type, talk or drop a file. Pick how hard it should think: Medium, High or Max.</p></div>
-    <div class="st"><b>2</b><h3 data-t="s2t">Watch it work</h3><p data-t="s2d">Each step appears live: searching, reading, cross-checking. Stop or redo any time.</p></div>
-    <div class="st"><b>3</b><h3 data-t="s3t">Check the answer</h3><p data-t="s3d">Citations and source links come with it, so you can verify what matters.</p></div>
+  <div class="how">
+    <div class="st"><b>1</b><h3 data-t="s1t">Ask in any language</h3><p data-t="s1d">Type, talk or drop a file. Choose how hard it should think: Medium, High or Max.</p></div>
+    <div class="st"><b>2</b><h3 data-t="s2t">Watch it work</h3><p data-t="s2d">Each step shows live: searching, reading, cross-checking, building. Stop or redo whenever you like.</p></div>
+    <div class="st"><b>3</b><h3 data-t="s3t">Check and refine</h3><p data-t="s3d">Citations and source links come with every answer, and canvas work stays editable.</p></div>
   </div>
 </div></section>
 
 <section id="beta"><div class="wrap priv">
-  <div><span class="badge" style="color:var(--acc)">★ <span data-t="bb">Official Beta Tester</span></span>
-    <h2 style="margin-top:1rem" data-t="pt">Private by design. Free while in beta.</h2>
-    <ul style="margin-top:1.2rem"><li data-t="p1">Chats and files stay in your browser, not on our servers</li><li data-t="p2">No account, no sign-up</li><li data-t="p3">Back up or move everything with one click</li><li data-t="p4">Early say in what Pro includes</li></ul>
+  <div><span class="badge sm">★ <span data-t="bb">Official Beta Tester</span></span>
+    <h2 data-t="pt">Private by design. Free while in beta.</h2>
+    <ul><li data-t="p1">Chats and files stay in your browser, not on our servers</li><li data-t="p2">No account, no sign-up</li><li data-t="p3">Back up or move everything with one click</li><li data-t="p4">Early say in what Pro includes</li></ul>
     <div class="cta"><a href="chat.html" class="btn p" data-t="cta">Launch Orenis Chat</a></div></div>
-  <div class="plans"><div><h3 data-t="free">Free</h3><div class="big">$0</div><p data-t="f1">100 messages / day</p><p data-t="f2">25 per 5 hours</p><p data-t="f3">Search, files, documents, images</p></div>
-    <div><h3>Pro</h3><div class="big" data-t="soon">Soon</div><p data-t="q1">Higher limits</p><p data-t="q2">Priority speed</p><p data-t="q3">Larger files</p></div></div>
+  <div class="plans"><div class="plan on"><h3 data-t="free">Free</h3><div class="big">$0</div><p data-t="f1">100 messages / day</p><p data-t="f2">25 per 5 hours</p><p data-t="f3">Search, files, documents, images, canvas</p></div>
+    <div class="plan off"><h3>Pro</h3><div class="big" data-t="soon">Soon</div><p data-t="q1">Higher limits</p><p data-t="q2">Priority speed</p><p data-t="q3">Larger files</p></div></div>
 </div></section>
 
 <section id="faq"><div class="wrap">
   <h2 data-t="qt">Questions, answered straight.</h2>
-  <div style="margin-top:2rem;max-width:46rem">
+  <div style="margin-top:2.2rem;max-width:48rem">
     <details class="q"><summary data-t="a1q">Is it really free?</summary><p data-t="a1">Yes during the beta: 100 messages a day, up to 25 in any 5-hour window. A paid Pro plan with higher limits is planned.</p></details>
     <details class="q"><summary data-t="a2q">Where are my chats stored?</summary><p data-t="a2">Only in your browser on this device. Clearing browser data erases them, so use Settings → Usage &amp; data to export a backup.</p></details>
     <details class="q"><summary data-t="a3q">Can it be wrong?</summary><p data-t="a3">Yes. Like any AI it can make mistakes. It cites its sources so you can check, but verify anything important.</p></details>
@@ -130,20 +102,14 @@ footer{border-top:1px solid var(--line);padding:2rem 0 calc(2rem + env(safe-area
 
 <section class="final"><div class="wrap"><h2 data-t="fin">Give it a real question.</h2><div class="cta"><a href="chat.html" class="btn p" data-t="cta">Launch Orenis Chat</a></div></div></section>
 </main>
-<footer><div class="wrap" data-t="foot">© Orencraft Labs · Focused, user-centric AI tools. Beta software: answers may contain errors, so check anything important.</div></footer>
 
-<script>
-const L={ko:{nf:"할 수 있는 일",nh:"작동 방식",nq:"자주 묻는 질문",open:"채팅 열기",badge:"공개 베타 · 무료",h1:"한 번만 물어보세요. 조사하고, 읽고, 만들어 드립니다.",lead:"단계별로 일하며 라이브 웹을 검색하고, 파일을 읽고, 문서를 쓰고, 이미지를 그리고, 출처를 보여줍니다. 대화는 기기 밖으로 나가지 않습니다.",cta:"Orenis 채팅 시작",see:"할 수 있는 일 보기",note:"계정이 필요 없습니다. 무료 플랜은 하루 100개 메시지.",ft:"하나의 어시스턴트, 여섯 가지 일.",fs:"카드를 누르면 그 요청이 입력된 상태로 Orenis가 열립니다.",c1t:"심층 리서치",c1d:"큰 질문을 나눠서 각각 검색하고, 출처를 교차 검증해 인용이 달린 보고서를 씁니다.",c2t:"파일 읽기",c2d:"PDF, 사진, 오디오, 영상, 텍스트, 코드를 올리고 무엇이든 물어보세요.",c3t:"문서 만들기",c3d:"이력서, 보고서, 편지, 학습 자료를 PDF나 Word 파일로 받으세요.",c4t:"이미지 만들기",c4d:"설명하면 그려 드립니다. 한 번에 다운로드.",c5t:"용도별 모드",c5d:"공부 도우미, 코더, 작가, 플래너, 리서처, 또는 직접 만든 모드.",c6t:"내가 관리하는 메모리",c6d:"한 번 말하면 기억합니다. 모든 기억을 언제든 확인하고 지울 수 있어요.",try:"써보기 →",ht:"답만이 아니라 과정도 보여줍니다.",s1t:"어떤 언어로든 질문",s1d:"입력하거나 파일을 올리세요. 얼마나 깊이 생각할지 보통·높음·최대로 고르세요.",s2t:"일하는 모습 보기",s2d:"검색, 읽기, 교차 확인 등 각 단계가 실시간으로 보입니다. 언제든 멈추거나 다시 할 수 있어요.",s3t:"답 확인하기",s3d:"인용과 출처 링크가 함께 와서 중요한 내용은 직접 확인할 수 있습니다.",bb:"공식 베타 테스터",pt:"설계부터 프라이빗. 베타 동안 무료.",p1:"대화와 파일은 서버가 아닌 내 브라우저에 저장됩니다",p2:"계정도 가입도 필요 없음",p3:"클릭 한 번으로 백업·이전",p4:"프로 플랜 구성에 먼저 의견 반영",free:"무료",f1:"하루 100개 메시지",f2:"5시간당 25개",f3:"검색, 파일, 문서, 이미지",soon:"출시 예정",q1:"더 높은 한도",q2:"우선 처리 속도",q3:"더 큰 파일",qt:"궁금한 점, 솔직하게 답합니다.",a1q:"정말 무료인가요?",a1:"베타 기간에는 무료입니다. 하루 100개 메시지, 5시간 창당 최대 25개. 한도가 더 높은 유료 프로 플랜을 준비 중입니다.",a2q:"대화는 어디에 저장되나요?",a2:"이 기기의 브라우저에만 저장됩니다. 브라우저 데이터를 지우면 사라지니 설정 → 사용량·데이터에서 백업하세요.",a3q:"틀릴 수도 있나요?",a3:"네. 모든 AI처럼 실수할 수 있습니다. 출처를 함께 제공하니 확인하시고, 중요한 내용은 꼭 검증하세요.",a4q:"아직 못 하는 건 무엇인가요?",a4:"계정과 기기 간 동기화, 음성 대화는 아직 없습니다. 이미지 생성은 무료지만 하루 몇 장으로 제한됩니다.",fin:"진짜 궁금한 걸 물어보세요.",foot:"© Orencraft Labs · 집중력 있는 사용자 중심 AI 도구. 베타 소프트웨어이므로 답변에 오류가 있을 수 있으니 중요한 내용은 확인하세요."},
-es:{nf:"Qué hace",nh:"Cómo funciona",nq:"Preguntas",open:"Abrir chat",badge:"Beta pública · Gratis",h1:"Pregunta una vez. Orenis investiga, lee y crea.",lead:"Trabaja paso a paso, busca en la web en vivo, lee tus archivos, escribe documentos, dibuja imágenes y muestra sus fuentes. Tus chats nunca salen de tu dispositivo.",cta:"Abrir Orenis Chat",see:"Ver qué puede hacer",note:"No necesitas cuenta. 100 mensajes al día en el plan gratuito.",ft:"Un asistente, seis trabajos.",fs:"Toca una tarjeta para abrir Orenis con esa petición lista para enviar.",c1t:"Investigación profunda",c1d:"Divide una pregunta grande en partes, busca cada una, contrasta fuentes y escribe un informe con citas.",c2t:"Lee tus archivos",c2d:"Sube PDFs, fotos, audio, video, texto o código y pregunta lo que quieras.",c3t:"Crea documentos",c3d:"Obtén un PDF o Word listo: currículums, informes, cartas, guías de estudio.",c4t:"Crea imágenes",c4d:"Descríbela y la obtienes. Descarga con un clic.",c5t:"Modos para cada tarea",c5d:"Compañero de estudio, programador, escritor, planificador, investigador o uno diseñado por ti.",c6t:"Memoria bajo tu control",c6d:"Dilo una vez. Revisa, edita o borra cada recuerdo cuando quieras.",try:"Probar →",ht:"Ves el trabajo, no solo la respuesta.",s1t:"Pregunta en cualquier idioma",s1d:"Escribe o sube un archivo. Elige cuánto debe pensar: Media, Alta o Máxima.",s2t:"Míralo trabajar",s2d:"Cada paso aparece en vivo: buscar, leer, contrastar. Detén o repite cuando quieras.",s3t:"Comprueba la respuesta",s3d:"Vienen con citas y enlaces a las fuentes, para verificar lo importante.",bb:"Beta tester oficial",pt:"Privado por diseño. Gratis durante la beta.",p1:"Chats y archivos se quedan en tu navegador, no en nuestros servidores",p2:"Sin cuenta ni registro",p3:"Copia o traslada todo con un clic",p4:"Voz temprana sobre qué incluirá Pro",free:"Gratis",f1:"100 mensajes / día",f2:"25 cada 5 horas",f3:"Búsqueda, archivos, documentos, imágenes",soon:"Pronto",q1:"Límites más altos",q2:"Mayor velocidad",q3:"Archivos más grandes",qt:"Preguntas, respondidas sin rodeos.",a1q:"¿De verdad es gratis?",a1:"Sí durante la beta: 100 mensajes al día, hasta 25 en cualquier ventana de 5 horas. Se planea un plan Pro de pago con límites más altos.",a2q:"¿Dónde se guardan mis chats?",a2:"Solo en tu navegador, en este dispositivo. Borrar los datos del navegador los elimina, así que exporta una copia en Ajustes → Uso y datos.",a3q:"¿Puede equivocarse?",a3:"Sí. Como toda IA puede cometer errores. Cita sus fuentes para que verifiques, pero comprueba lo importante.",a4q:"¿Qué no puede hacer todavía?",a4:"No hay cuentas ni sincronización entre dispositivos, ni conversaciones por voz. La creación de imágenes es gratuita pero limitada a unas pocas imágenes al día.",fin:"Hazle una pregunta de verdad.",foot:"© Orencraft Labs · Herramientas de IA enfocadas y centradas en el usuario. Software en beta: las respuestas pueden tener errores, verifica lo importante."}};
-const ls=(k,v)=>v===undefined?localStorage.getItem(k):localStorage.setItem(k,v);
-let lang=ls("orenis_lang")||(/^ko/i.test(navigator.language)?"ko":/^es/i.test(navigator.language)?"es":"en");
-function applyLang(){document.documentElement.lang=lang;document.getElementById("lang").value=lang;document.querySelectorAll("[data-t]").forEach(e=>{e.dataset.en??=e.textContent;e.textContent=L[lang]?.[e.dataset.t]??e.dataset.en})}
-document.getElementById("lang").onchange=e=>{lang=e.target.value;ls("orenis_lang",lang);applyLang()};
-const P={moon:"M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z",sun:"M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"};
-function setTheme(t){document.documentElement.dataset.theme=t;ls("orenis_theme",t);document.getElementById("ti").innerHTML=`<path d="${P[t==="dark"?"sun":"moon"]}"/>`}
-document.getElementById("theme").onclick=()=>setTheme(document.documentElement.dataset.theme==="dark"?"light":"dark");
-setTheme(document.documentElement.dataset.theme);applyLang();
-(function(){try{const c=document.createElement("canvas");c.width=c.height=64;const x=c.getContext("2d");x.scale(0.32,0.32);const gl=x.createLinearGradient(30,24,172,178);gl.addColorStop(0,"#9C96FF");gl.addColorStop(0.5,"#E37FD3");gl.addColorStop(1,"#FFB6AB");const gb=x.createLinearGradient(30,24,172,178);gb.addColorStop(0,"#6C63FF");gb.addColorStop(0.5,"#D45BC0");gb.addColorStop(1,"#FF8A78");const p1=new Path2D("M100.00 91.00 C74.80 78.40 74.80 42.40 112.60 19.00 C103.60 40.60 97.30 64.00 100.00 91.00ZM108.56 97.22 C112.76 69.36 146.99 58.23 180.93 86.95 C157.61 85.07 133.40 86.31 108.56 97.22ZM105.29 107.28 C133.08 102.66 154.24 131.79 137.42 172.94 C132.00 150.17 123.34 127.54 105.29 107.28ZM94.71 107.28 C107.69 132.29 86.53 161.41 42.20 158.12 C62.17 145.94 81.02 130.71 94.71 107.28ZM91.44 97.22 C71.67 117.29 37.43 106.17 26.86 62.99 C44.62 78.22 64.93 91.44 91.44 97.22Z");const p2=new Path2D("M100.00 91.00 C97.30 64.00 103.60 40.60 112.60 19.00 C136.00 46.00 130.60 78.40 100.00 91.00ZM108.56 97.22 C133.40 86.31 157.61 85.07 180.93 86.95 C162.48 117.55 130.00 122.43 108.56 97.22ZM105.29 107.28 C123.34 127.54 132.00 150.17 137.42 172.94 C102.62 164.85 87.94 135.46 105.29 107.28ZM94.71 107.28 C81.02 130.71 62.17 145.94 42.20 158.12 C39.13 122.53 62.55 99.49 94.71 107.28ZM91.44 97.22 C64.93 91.44 44.62 78.22 26.86 62.99 C59.77 49.08 88.91 64.22 91.44 97.22Z");x.lineWidth=5;x.lineJoin="round";x.fillStyle=gl;x.strokeStyle=gl;x.fill(p1);x.stroke(p1);x.fillStyle=gb;x.strokeStyle=gb;x.fill(p2);x.stroke(p2);document.querySelectorAll("link[rel~=icon]").forEach(l=>l.remove());const u=c.toDataURL();["icon","apple-touch-icon"].forEach(rel=>{const l=document.createElement("link");l.rel=rel;l.href=u;document.head.append(l)})}catch(e){}})();
-</script>
+<footer><div class="wrap foot">
+  <img class="logo-lab light" src="assets/orencraft-halftone-black.svg" alt="OrenCraft Labs"><img class="logo-lab dark" src="assets/orencraft-halftone-white.svg" alt="OrenCraft Labs">
+  <p data-t="foot">Orenis by OrenCraft Labs · Focused, user-centric AI tools. Beta software: answers may contain errors, so check anything important.</p>
+</div></footer>
+<div class="dock" id="dock"><a href="chat.html" class="btn p" data-t="cta">Launch Orenis Chat</a></div>
+
+<script src="assets/brand.js"></script>
+<script src="assets/landing.js"></script>
 </body>
 </html>
