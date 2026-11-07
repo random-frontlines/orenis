@@ -1,0 +1,45 @@
+/* Orenis brand layer, shared by every page.
+   Aurora gradient: violet #6C63FF -> pink #D45BC0 -> coral #FF8A78.
+   Fonts: Sora (logo + headings), Pretendard (UI + body, Korean included), JetBrains Mono (code).
+   Contrast: white text on the pure brand colours fails WCAG AA (4.3 / 3.5 / 2.3), so buttons use the deeper
+   --aurora-deep (white text 5.9 / 5.1). The bright gradient is for the logo, glows, borders and large display text. */
+:root{
+  --aurora:linear-gradient(135deg,#6C63FF 0%,#D45BC0 52%,#FF8A78 100%);
+  --aurora-deep:linear-gradient(135deg,#5547F0 0%,#B8379F 100%);
+  --aurora-text:linear-gradient(135deg,#5547F0 0%,#B8379F 55%,#E0533F 100%); /* display text on light: every stop >= 3.8:1 */
+  --font-ui:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Segoe UI","Noto Sans KR",Roboto,sans-serif;
+  --font-head:Sora,"Pretendard Variable",Pretendard,system-ui,sans-serif;
+  --font-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,"Noto Sans Mono CJK KR",monospace;
+
+  /* light: soft dark text instead of pure black on white */
+  --bg:#FFFFFF; --side:#F7F7FB; --surf:#F2F2F8; --surf2:#E9E9F3; --line:#E3E3EE;
+  --tx:#15142A;   /* headings, input text */
+  --tx2:#4A4A5E;  /* body */
+  --mu:#6B6B80;   /* secondary */
+  --acc:#5547F0; --acc-soft:#5547F014;
+  --grad:var(--aurora-deep); --grad-text:var(--aurora-text);
+  --ok:#14804A; --warn:#B45309; --bad:#C2323F;
+  --sh:0 4px 24px #1a102a14; --sh-lg:0 24px 60px -20px #3b247040;
+}
+[data-theme=dark]{
+  --bg:#0E0D16; --side:#13121D; --surf:#1B1A28; --surf2:#252438; --line:#2C2B40;
+  --tx:#F1F0FA; --tx2:#C9C8DA; --mu:#A09FB8;
+  --acc:#9D96FF; --acc-soft:#9D96FF1F;
+  --grad-text:var(--aurora);  /* bright on dark */
+  --ok:#4ADE9A; --warn:#FBBF24; --bad:#FF7A85;
+  --sh:0 4px 28px #00000080; --sh-lg:0 24px 60px -20px #000;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--tx2);font-family:var(--font-ui);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+h1,h2,h3,.brand-font{font-family:var(--font-head);color:var(--tx);letter-spacing:-.02em}
+code,kbd,pre,samp,.mono{font-family:var(--font-mono)}
+a{color:inherit}
+::selection{background:#6C63FF44}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.logo{display:inline-block;flex:none;vertical-align:middle}
+.logo-lab{height:1.9rem;width:auto;flex:none}
+.logo-lab.dark,[data-theme=dark] .logo-lab.light{display:none}
+[data-theme=dark] .logo-lab.dark{display:inline-block}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
