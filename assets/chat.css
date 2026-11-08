@@ -307,3 +307,15 @@ dialog.card:focus{outline:0}
 .send:not(:disabled):hover{@media (prefers-reduced-motion:reduce){transform:none}}
 .sugg .scard:active{@media (prefers-reduced-motion:reduce){transform:none}}
 dialog.card{@media (prefers-reduced-motion:reduce){translate:none;scale:none;transition-duration:.1s}}
+
+/* ---- "/" skills menu (above the composer) ---- */
+.composer{position:relative}
+.slash{position:absolute;left:0;right:0;bottom:calc(100% + .5rem);z-index:30;max-height:min(22rem,50dvh);overflow:auto;padding:.4rem;background:var(--bg);border:1px solid var(--line);border-radius:1.2rem;box-shadow:var(--sh-lg)}
+.sitem{display:flex;align-items:center;gap:.8rem;width:100%;padding:.6rem .75rem;border-radius:.85rem;text-align:left;color:var(--tx)}
+.sitem .icon{flex:none;width:1.3rem;height:1.3rem;color:var(--acc)}
+.sitem .st{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.35}
+.sitem .st b{font:600 .92rem var(--font-ui)}.sitem .st small{font-size:.78rem;color:var(--mu);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sitem .cmd{flex:none;font:500 .72rem var(--font-mono);color:var(--mu)}
+.sitem.on,.sitem:hover{background:var(--surf2)}
+#slashBtn .sl{font:600 1.15rem/1 var(--font-mono);color:var(--tx2)}
+@media (pointer:coarse){.sitem{min-height:3rem}}
