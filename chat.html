@@ -25,7 +25,7 @@
 <div class="app">
   <aside id="side" class="side">
     <div class="brand"><span data-bloom="24"></span>Orenis</div>
-    <button id="newChat" class="item mt-2"><svg class="icon" data-i="plus" viewBox="0 0 24 24"></svg><span data-t="newChat">New chat</span></button>
+    <button id="newChat" class="item mt-2"><svg class="icon" data-i="plus" viewBox="0 0 24 24"></svg><span data-t="newChat">New chat</span><kbd id="kNew" class="kbd" aria-hidden="true"></kbd></button>
     <div class="stabs" role="tablist"><button id="tabChats" class="stab on" role="tab" aria-selected="true" data-view="chats"><span data-t="tChats">Chats</span></button><button id="tabPetals" class="stab" role="tab" aria-selected="false" data-view="petals"><svg class="icon" data-i="petal" viewBox="0 0 24 24"></svg><span data-t="tPetals">Petals</span></button></div>
     <input id="sq" class="sbox" type="search" placeholder="Search chats" aria-label="Search">
     <nav id="list" class="mt-1 flex-1 overflow-y-auto" aria-label="Chats"></nav>
@@ -73,7 +73,7 @@
 
 <div id="drop" class="drop" data-t="drop">Drop files to attach</div><div id="toast" class="toast" role="status"></div><div id="ctx" class="ctx" hidden></div>
 
-<div id="setModal" class="modal"><div class="card set" role="dialog" aria-modal="true" aria-labelledby="setT">
+<dialog id="setModal" class="card set" closedby="any" aria-labelledby="setT">
   <div class="flex items-center justify-between"><h2 id="setT" class="m-0 text-xl font-semibold" data-t="settings">Settings</h2><button id="closeGear" class="ibtn" aria-label="Close"><svg class="icon" data-i="x" viewBox="0 0 24 24"></svg></button></div>
   <div class="tabs" role="tablist"><button class="tab on" data-tab="gen" data-t="tGen">General</button><button class="tab" data-tab="pers" data-t="tPers">Personalization</button><button class="tab" data-tab="mem" data-t="tMem">Memory</button><button class="tab" data-tab="modes" data-t="tModes">Modes</button><button class="tab" data-tab="skills" data-t="tSkills">Skills</button><button class="tab" data-tab="data" data-t="tData">Usage &amp; data</button></div>
   <div class="pane on" data-pane="gen">
@@ -123,21 +123,21 @@
     <button id="wipeBtn" class="btn mt-3 w-full" style="color:#e8646b" data-t="wipe">Delete all chats on this device</button>
   </div>
   <div class="about"><img class="logo-lab light" src="assets/orencraft-halftone-black.svg" alt="OrenCraft Labs"><img class="logo-lab dark" src="assets/orencraft-halftone-white.svg" alt=""><span>Orenis by OrenCraft Labs</span></div>
-</div></div>
+</dialog>
 
-<div id="nameModal" class="modal"><div class="card"><span data-bloom="36"></span><h2 class="mb-0 mt-3 text-2xl font-semibold" data-t="wt">Welcome to Orenis</h2><p class="small mt-1 text-sm" data-t="wq">What should we call you?</p>
-  <input id="nameIn" maxlength="40" data-tp="wph" placeholder="Your name" class="field"><button id="nameOk" class="btn p mt-4 w-full" data-t="cont">Continue</button></div></div>
-<div id="planModal" class="modal"><div class="card" style="max-width:34rem"><h2 class="m-0 text-2xl font-semibold" data-t="pt">Your plan</h2>
+<dialog id="nameModal" class="card" closedby="none" aria-labelledby="nameT"><span data-bloom="36"></span><h2 id="nameT" class="mb-0 mt-3 text-2xl font-semibold" data-t="wt">Welcome to Orenis</h2><p class="small mt-1 text-sm" data-t="wq">What should we call you?</p>
+  <input id="nameIn" maxlength="40" data-tp="wph" placeholder="Your name" class="field"><button id="nameOk" class="btn p mt-4 w-full" data-t="cont">Continue</button></dialog>
+<dialog id="planModal" class="card" closedby="any" style="max-width:34rem" aria-labelledby="planT"><h2 id="planT" class="m-0 text-2xl font-semibold" data-t="pt">Your plan</h2>
   <div class="mt-4 grid gap-3 sm:grid-cols-2">
     <div class="rounded-2xl p-4" style="border:2px solid var(--acc)"><b data-t="plan">Free Plan</b> <span class="pill ml-1" data-t="act">Active</span><p class="small mb-0 mt-2" data-t="pfd">200 messages a day, 50 per 5 hours, web search and file input.</p></div>
     <div class="rounded-2xl border p-4" style="border-color:var(--line);opacity:.55"><b data-t="pro">Pro Plan</b> <span class="pill ml-1" data-t="soon">Coming soon</span><p class="small mb-0 mt-2" data-t="ppd">Higher limits and priority speed.</p><button disabled class="btn mt-2 cursor-not-allowed px-2 py-1 text-xs" data-t="unav">Unavailable</button></div></div>
-  <button id="planOk" class="btn p mt-5 w-full" data-t="cfree">Continue with Free</button></div></div>
-<div id="pickModal" class="modal"><div class="card pick" role="dialog" aria-modal="true" aria-labelledby="pickT">
+  <button id="planOk" class="btn p mt-5 w-full" data-t="cfree">Continue with Free</button></dialog>
+<dialog id="pickModal" class="card pick" closedby="any" aria-labelledby="pickT">
   <div class="flex items-center justify-between"><h2 id="pickT" class="m-0 text-xl font-semibold" data-t="pickT">Add a Petal</h2><button id="pickX" class="ibtn" aria-label="Close"><svg class="icon" data-i="x" viewBox="0 0 24 24"></svg></button></div>
   <p class="small" style="margin:.4rem 0 1rem" data-t="pickD">Orenis will read it, and can change it for you.</p>
   <div id="pickList"></div>
-</div></div>
-<div id="askModal" class="modal"><div class="card"><p id="askTxt" class="m-0"></p><div class="mt-5 flex justify-end gap-2"><button id="askNo" class="btn" data-t="cancel">Cancel</button><button id="askYes" class="btn p" data-t="del">Delete</button></div></div></div>
+</dialog>
+<dialog id="askModal" class="card" closedby="any" aria-labelledby="askTxt"><p id="askTxt" class="m-0"></p><div class="mt-5 flex justify-end gap-2"><button id="askNo" class="btn" data-t="cancel">Cancel</button><button id="askYes" class="btn p" data-t="del">Delete</button></div></dialog>
 <script src="assets/brand.js"></script>
 <script src="assets/petals.js"></script>
 <script src="assets/chat.js"></script>
