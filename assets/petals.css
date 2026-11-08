@@ -40,3 +40,20 @@
 @media (max-width:900px){.cv{position:fixed;inset:0;width:auto;min-width:0;z-index:70;border:0}.cv-rs{display:none}.cv-devs{display:none}.cv-fw{--pw:calc(100% - 1.6rem)!important}}
 @media (pointer:coarse){.cv-b{width:3rem;height:3rem}.cv-t{min-height:3rem}.cv-send{width:3rem;height:3rem}.cv-tools{gap:0}}
 @media (max-width:520px){.cv-kick{display:none}.cv-b{width:2.7rem}}
+
+/* ---- design tools: edit text in place, notes, PDF ---- */
+.cv-tg.on{background:var(--acc-soft);color:var(--acc)}
+.cv-pdf{display:inline-flex;align-items:center;gap:.35rem;margin-left:.3rem;padding:.35rem .75rem;border-radius:.7rem;background:var(--aurora-deep);color:#fff;font:600 .8rem var(--font-ui)}
+.cv-pdf .icon{width:1rem;height:1rem}.cv-pdf:hover{filter:brightness(1.08)}
+.cv-devs:not([hidden])+.cv-pdf{margin-left:.5rem}
+.cv-nt{display:flex;flex-direction:column;gap:.5rem;padding:.7rem .9rem;border-top:1px solid var(--line);background:var(--surf);max-height:11rem;overflow:auto}
+.cv-nf{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem}
+.cv-nl{flex:1 1 100%;font-size:.78rem;color:var(--mu);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cv-ni{flex:1 1 12rem;min-width:0;background:var(--bg);border:1px solid var(--line);border-radius:.7rem;padding:.5rem .75rem;color:var(--tx);font:inherit;font-size:16px}.cv-ni:focus{outline:2px solid var(--acc);outline-offset:1px}
+.cv-nls{display:flex;flex-wrap:wrap;gap:.4rem}
+.cv-chip{display:inline-flex;align-items:center;gap:.45rem;max-width:100%;border:1px solid var(--line);border-radius:999px;padding:.2rem .3rem .2rem .3rem;background:var(--bg);font-size:.8rem;color:var(--tx2)}
+.cv-chip b{display:grid;place-items:center;flex:none;width:1.25rem;height:1.25rem;border-radius:50%;background:var(--acc);color:#fff;font-size:.7rem}
+.cv-chip span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:16rem}
+.cv-chip button{display:grid;place-items:center;width:1.4rem;height:1.4rem;border-radius:50%;color:var(--mu)}.cv-chip button:hover{background:var(--surf2);color:var(--tx)}.cv-chip .icon{width:.8rem;height:.8rem}
+.cv-nb{border:1px solid var(--line);border-radius:.7rem;padding:.45rem .9rem;font-size:.85rem;font-weight:600;color:var(--tx);background:var(--bg)}
+.cv-nb.pri{background:var(--aurora-deep);border-color:transparent;color:#fff}.cv-nb:hover{filter:brightness(1.05)}
