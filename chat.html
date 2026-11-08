@@ -14,7 +14,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
 <link rel="stylesheet" href="assets/brand.css">
 <link rel="stylesheet" href="assets/chat.css">
-<link rel="stylesheet" href="assets/canvas.css">
+<link rel="stylesheet" href="assets/petals.css">
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js"></script>
@@ -26,8 +26,10 @@
   <aside id="side" class="side">
     <div class="brand"><span data-bloom="24"></span>Orenis</div>
     <button id="newChat" class="item mt-2"><svg class="icon" data-i="plus" viewBox="0 0 24 24"></svg><span data-t="newChat">New chat</span></button>
-    <input id="sq" class="sbox" type="search" data-tp="search" placeholder="Search chats" aria-label="Search chats">
+    <div class="stabs" role="tablist"><button id="tabChats" class="stab on" role="tab" aria-selected="true" data-view="chats"><span data-t="tChats">Chats</span></button><button id="tabPetals" class="stab" role="tab" aria-selected="false" data-view="petals"><svg class="icon" data-i="petal" viewBox="0 0 24 24"></svg><span data-t="tPetals">Petals</span></button></div>
+    <input id="sq" class="sbox" type="search" placeholder="Search chats" aria-label="Search">
     <nav id="list" class="mt-1 flex-1 overflow-y-auto" aria-label="Chats"></nav>
+    <nav id="plist" class="mt-1 flex-1 overflow-y-auto" aria-label="Petals" hidden></nav>
     <div class="flex items-center gap-3 border-t pt-3" style="border-color:var(--line)">
       <div id="ava" class="ava">?</div>
       <div class="min-w-0 flex-1"><div id="meName" class="truncate text-sm font-medium"></div><button id="planBadge" class="small hover:underline" data-t="plan">Free Plan</button></div>
@@ -42,7 +44,7 @@
       <h1 id="title" class="m-0 min-w-0 flex-1 truncate text-base font-semibold">Orenis</h1>
       <button id="modeBtn" class="pill modechip" data-ta="mode" aria-label="Mode"><svg class="icon" id="modeIc" viewBox="0 0 24 24"></svg><span id="modeLbl">General</span></button>
       <span id="live" class="pill" hidden><span class="dots"><span></span><span></span><span></span></span><span data-t="working">Working</span></span>
-      <button id="cvBtn" class="ibtn" hidden data-ta="cvTitle" aria-label="Canvas"><svg class="icon" data-i="layout" viewBox="0 0 24 24"></svg></button>
+      <button id="cvBtn" class="ibtn" hidden data-ta="cvTitle" aria-label="Petal"><svg class="icon" data-i="petal" viewBox="0 0 24 24"></svg></button>
       <button id="export" class="ibtn" hidden data-ta="export" aria-label="Export chat"><svg class="icon" data-i="download" viewBox="0 0 24 24"></svg></button>
       <button id="theme" class="ibtn" aria-label="Theme"><svg class="icon" id="themeIcon" viewBox="0 0 24 24"></svg></button>
     </header>
@@ -53,7 +55,7 @@
           <div id="tray" class="tray"></div>
           <textarea id="input" rows="1" maxlength="8000" data-tp="ph" placeholder="Ask Orenis anything" aria-label="Message"></textarea>
           <div class="crow">
-            <button id="plusBtn" class="ibtn" data-ta="plus" aria-label="Add files and skills"><svg class="icon" data-i="plus" viewBox="0 0 24 24"></svg></button>
+            <button id="plusBtn" class="ibtn" data-ta="plus" aria-label="Add files, Petals and skills"><svg class="icon" data-i="plus" viewBox="0 0 24 24"></svg></button>
             <input id="file" type="file" multiple hidden accept="image/*,audio/*,video/*,application/pdf,text/*,.md,.csv,.json,.js,.ts,.py,.html,.css,.txt,.log,.xml,.yaml,.yml">
             <span class="flex-1"></span>
             <button id="effortBtn" class="effort" data-ta="effort" aria-label="Reasoning effort"><svg class="icon" data-i="bolt" viewBox="0 0 24 24"></svg><span id="effortLbl">Medium</span></button>
@@ -105,7 +107,9 @@
     <label class="sw"><span><b data-t="skWeb">Web search</b><br><span class="small" data-t="skWebD">Let Orenis look things up online.</span></span><input id="skWeb" type="checkbox"></label>
     <label class="sw"><span><b data-t="skDoc">Create documents</b><br><span class="small" data-t="skDocD">Let Orenis make PDF, Word or Markdown files.</span></span><input id="skDoc" type="checkbox"></label>
     <label class="sw"><span><b data-t="skImg">Create images</b><br><span class="small" data-t="skImgD">Let Orenis draw images (free, a few per day).</span></span><input id="skImg" type="checkbox"></label>
-    <label class="sw"><span><b data-t="skCanvas">Canvas</b><br><span class="small" data-t="skCanvasD">See and edit HTML and code live in a side panel.</span></span><input id="skCanvas" type="checkbox"></label>
+    <label class="sw"><span><b data-t="skCanvas">Petals</b><br><span class="small" data-t="skCanvasD">Orenis decides when a page, document or code file is better as a Petal: a file you can see, edit and reuse in a side panel.</span></span><input id="skCanvas" type="checkbox"></label>
+    <label class="sw"><span><b data-t="skPy">Run Python</b><br><span class="small" data-t="skPyD">Let Orenis run code in a safe sandbox to calculate, analyse data and draw charts.</span></span><input id="skPy" type="checkbox"></label>
+    <label class="sw"><span><b data-t="skAsk">Ask questions</b><br><span class="small" data-t="skAskD">When a request is unclear, Orenis asks a few quick questions before it starts.</span></span><input id="skAsk" type="checkbox"></label>
   </div>
   <div class="pane" data-pane="data">
     <div class="stats">
@@ -128,9 +132,14 @@
     <div class="rounded-2xl p-4" style="border:2px solid var(--acc)"><b data-t="plan">Free Plan</b> <span class="pill ml-1" data-t="act">Active</span><p class="small mb-0 mt-2" data-t="pfd">100 messages a day, 25 per 5 hours, web search and file input.</p></div>
     <div class="rounded-2xl border p-4" style="border-color:var(--line);opacity:.55"><b data-t="pro">Pro Plan</b> <span class="pill ml-1" data-t="soon">Coming soon</span><p class="small mb-0 mt-2" data-t="ppd">Higher limits and priority speed.</p><button disabled class="btn mt-2 cursor-not-allowed px-2 py-1 text-xs" data-t="unav">Unavailable</button></div></div>
   <button id="planOk" class="btn p mt-5 w-full" data-t="cfree">Continue with Free</button></div></div>
+<div id="pickModal" class="modal"><div class="card pick" role="dialog" aria-modal="true" aria-labelledby="pickT">
+  <div class="flex items-center justify-between"><h2 id="pickT" class="m-0 text-xl font-semibold" data-t="pickT">Add a Petal</h2><button id="pickX" class="ibtn" aria-label="Close"><svg class="icon" data-i="x" viewBox="0 0 24 24"></svg></button></div>
+  <p class="small" style="margin:.4rem 0 1rem" data-t="pickD">Orenis will read it, and can change it for you.</p>
+  <div id="pickList"></div>
+</div></div>
 <div id="askModal" class="modal"><div class="card"><p id="askTxt" class="m-0"></p><div class="mt-5 flex justify-end gap-2"><button id="askNo" class="btn" data-t="cancel">Cancel</button><button id="askYes" class="btn p" data-t="del">Delete</button></div></div></div>
 <script src="assets/brand.js"></script>
-<script src="assets/canvas.js"></script>
+<script src="assets/petals.js"></script>
 <script src="assets/chat.js"></script>
 </body>
 </html>
