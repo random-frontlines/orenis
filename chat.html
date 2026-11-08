@@ -52,10 +52,12 @@
       <main id="feed" class="feed" aria-live="polite"></main>
       <div class="dock"><button id="jump" class="jump" hidden data-ta="down" aria-label="Scroll to bottom"><svg class="icon" data-i="down" viewBox="0 0 24 24"></svg></button><div class="wrap">
         <div class="composer">
+          <div id="slash" class="slash" role="listbox" aria-label="Skills" hidden></div>
           <div id="tray" class="tray"></div>
-          <textarea id="input" rows="1" maxlength="8000" data-tp="ph" placeholder="Ask Orenis anything" aria-label="Message"></textarea>
+          <textarea id="input" rows="1" maxlength="8000" data-tp="ph" placeholder="Ask Orenis anything, or type / for skills" aria-label="Message" aria-controls="slash" aria-autocomplete="list"></textarea>
           <div class="crow">
-            <button id="plusBtn" class="ibtn" data-ta="plus" aria-label="Add files, Petals and skills"><svg class="icon" data-i="plus" viewBox="0 0 24 24"></svg></button>
+            <button id="plusBtn" class="ibtn" data-ta="plus" aria-label="Add files and Petals"><svg class="icon" data-i="plus" viewBox="0 0 24 24"></svg></button>
+            <button id="slashBtn" class="ibtn" data-ta="skills" aria-label="Skills" aria-controls="slash"><span class="sl" aria-hidden="true">/</span></button>
             <input id="file" type="file" multiple hidden accept="image/*,audio/*,video/*,application/pdf,text/*,.md,.csv,.json,.js,.ts,.py,.html,.css,.txt,.log,.xml,.yaml,.yml">
             <span class="flex-1"></span>
             <button id="effortBtn" class="effort" data-ta="effort" aria-label="Reasoning effort"><svg class="icon" data-i="bolt" viewBox="0 0 24 24"></svg><span id="effortLbl">Medium</span></button>
