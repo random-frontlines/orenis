@@ -244,3 +244,14 @@ button,input,textarea,select{font-family:inherit}
 .runc pre{margin:0;padding:.8rem .9rem;overflow:auto;font:.82rem/1.6 var(--font-mono);background:transparent;border:0;color:var(--tx2)}.runc pre code{font:inherit;background:none;padding:0}
 .runout{border-top:1px solid var(--line);background:var(--bg);white-space:pre-wrap;max-height:18rem}.runout.bad{color:var(--bad)}
 .runimg{display:block;max-width:calc(100% - 1.8rem);margin:.2rem .9rem .9rem;border-radius:.7rem;background:#fff;border:1px solid var(--line)}
+
+/* Petal file card in a message: icon tile, name, type. Click it to open the side panel. */
+.pcard{display:flex;align-items:center;max-width:26rem;margin-top:.9rem;border:1px solid var(--line);border-radius:1rem;background:var(--surf);transition:.15s}
+.pcard:hover{border-color:var(--acc);background:var(--surf2)}.pcard.on{border-color:var(--acc);background:var(--acc-soft)}
+.pmain{flex:1;min-width:0;display:flex;align-items:center;gap:.85rem;padding:.7rem .8rem;text-align:left;border-radius:1rem}
+.pci{display:grid;place-items:center;flex:none;width:2.75rem;height:2.75rem;border-radius:.75rem;background:var(--surf2);color:var(--mu)}.pci .icon{width:1.3rem;height:1.3rem}
+.pcard.on .pci,.pcard:hover .pci{color:var(--acc)}
+.pcard .pt b{font:600 1rem/1.3 var(--font-head);color:var(--tx)}.pcard .pt small{font-size:.8rem}
+.pdl{display:grid;place-items:center;flex:none;width:2.25rem;height:2.25rem;margin-right:.5rem;border-radius:.6rem;color:var(--mu);opacity:0;transition:.15s}
+.pcard:hover .pdl,.pcard:focus-within .pdl{opacity:1}.pdl:hover{background:var(--bg);color:var(--tx)}.pdl .icon{width:1.1rem;height:1.1rem}
+@media(hover:none){.pdl{opacity:.8}}
