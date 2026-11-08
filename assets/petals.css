@@ -18,7 +18,7 @@
 .cv-pane{position:relative;flex:1;min-height:0;display:flex;flex-direction:column;background:var(--surf)}
 .cv-fw{position:relative;flex:1;min-height:0;overflow:hidden;--pw:calc(100% - 1.6rem)}
 /* absolutely positioned: it always has a real size, whatever the flex layout around it does (a percentage height collapsed to 0 in some browsers) */
-.cv-frame{position:absolute;top:.8rem;bottom:.8rem;left:50%;transform:translateX(-50%);width:var(--pw);max-width:calc(100% - 1.6rem);background:#fff;border:1px solid var(--line);border-radius:.9rem;box-shadow:var(--sh);transition:width .25s}
+.cv-frame{position:absolute;top:.8rem;height:calc(100% - 1.6rem);min-height:12rem;left:50%;transform:translateX(-50%);width:var(--pw);max-width:calc(100% - 1.6rem);background:#fff;border:1px solid var(--line);border-radius:.9rem;box-shadow:var(--sh);transition:width .25s}
 .cv-note{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:2;width:min(22rem,calc(100% - 3rem));padding:1.1rem 1.2rem;border-radius:1rem;background:var(--bg);border:1px solid var(--line);box-shadow:var(--sh-lg);text-align:center}
 .cv-note p{margin:0 0 .8rem;font-size:.88rem;line-height:1.5;color:var(--tx2)}
 .cv-nbs{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap}.cv-nb{border:1px solid var(--line);border-radius:.7rem;padding:.45rem .9rem;font-size:.85rem;font-weight:600;color:var(--tx);background:var(--surf)}.cv-nb:hover{background:var(--surf2)}
