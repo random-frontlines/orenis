@@ -255,3 +255,55 @@ button,input,textarea,select{font-family:inherit}
 .pdl{display:grid;place-items:center;flex:none;width:2.25rem;height:2.25rem;margin-right:.5rem;border-radius:.6rem;color:var(--mu);opacity:0;transition:.15s}
 .pcard:hover .pdl,.pcard:focus-within .pdl{opacity:1}.pdl:hover{background:var(--bg);color:var(--tx)}.pdl .icon{width:1.1rem;height:1.1rem}
 @media(hover:none){.pdl{opacity:.8}}
+
+/* =====================================================================================================
+   v4: interface polish. Native dialogs, calmer message actions, suggestion cards, motion that respects the user.
+   ===================================================================================================== */
+/* ---- dialogs: the native <dialog> is the card. Top layer, focus trap, Esc and backdrop light-dismiss come from the browser. ---- */
+dialog.card{margin:auto;color:var(--tx);width:calc(100% - 2rem);opacity:0;translate:0 .6rem;scale:.98;
+  transition:opacity .2s ease-out,translate .2s ease-out,scale .2s ease-out,display .2s,overlay .2s;transition-behavior:allow-discrete}
+dialog.card[open]{opacity:1;translate:0 0;scale:1;@starting-style{opacity:0;translate:0 .6rem;scale:.98}}
+dialog.card::backdrop{background:#0000;backdrop-filter:blur(0);transition:background-color .2s,backdrop-filter .2s,display .2s,overlay .2s;transition-behavior:allow-discrete}
+dialog.card[open]::backdrop{background:#000a;backdrop-filter:blur(4px);@starting-style{background:#0000;backdrop-filter:blur(0)}}
+dialog.card:focus{outline:0}
+
+/* ---- message actions: icon only, tooltip as the label, quiet until you hover the message (always shown on touch and on the latest reply) ---- */
+.act{justify-content:center;padding:.35rem;min-width:2rem}.act .icon{width:1.05rem;height:1.05rem}
+@media (hover:hover){
+  .m>.body .acts,.m .body>.acts{transition:opacity .15s}
+  .ma:not(:last-child):not(:hover):not(:focus-within) .acts{opacity:0}
+}
+.acts{gap:.1rem}
+
+/* ---- welcome: greeting, then suggestion cards under the composer ---- */
+.sugg{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.6rem;justify-content:stretch;margin-top:1.1rem}
+.sugg .scard{display:flex;align-items:center;gap:.8rem;min-height:0;border:1px solid var(--line);border-radius:1.1rem;padding:.85rem 1rem;font-size:.9rem;line-height:1.35;text-align:left;color:var(--tx2);background:var(--bg);transition:border-color .15s,background .15s,transform .15s}
+.sugg .scard .icon{flex:none;width:1.35rem;height:1.35rem;color:var(--acc)}
+.sugg .scard:hover{border-color:var(--acc);background:var(--surf);color:var(--tx)}
+.sugg .scard:active{transform:scale(.985)}
+@media (max-width:560px){.sugg{grid-template-columns:1fr}}
+
+/* ---- sidebar: active row accent, shortcut hint ---- */
+.row.on{box-shadow:inset 3px 0 0 var(--acc)}
+.kbd{margin-left:auto;font:500 .7rem var(--font-mono);color:var(--mu);border:1px solid var(--line);border-radius:.4rem;padding:.1rem .4rem;background:var(--bg)}
+@media (pointer:coarse){.kbd{display:none}}
+.ctx button:focus-visible{outline:2px solid var(--acc);outline-offset:-2px;background:var(--surf)}
+
+/* ---- the composer grows with its text on its own (field-sizing); JS only does it where unsupported ---- */
+.composer textarea{field-sizing:content;height:auto;min-block-size:1.5lh;max-block-size:8lh}
+
+/* ---- the Petal panel slides in ---- */
+.cv:not([hidden]){animation:cv-in .28s cubic-bezier(.2,.8,.2,1)}
+@keyframes cv-in{from{opacity:0;translate:1.2rem 0}}
+
+/* ---- very long chats: skip layout and paint for old messages that are far off screen (the newest stay fully rendered) ---- */
+.feed.long>.m:not(:nth-last-child(-n+8)){content-visibility:auto;contain-intrinsic-size:auto 7rem}
+
+/* ---- motion: tone it down for people who ask for less ---- */
+.pop{@media (prefers-reduced-motion:reduce){animation:none}}
+.lg2{@media (prefers-reduced-motion:reduce){animation:none}}
+.dots span{@media (prefers-reduced-motion:reduce){animation:none;opacity:.6}}
+.cv:not([hidden]){@media (prefers-reduced-motion:reduce){animation:none}}
+.send:not(:disabled):hover{@media (prefers-reduced-motion:reduce){transform:none}}
+.sugg .scard:active{@media (prefers-reduced-motion:reduce){transform:none}}
+dialog.card{@media (prefers-reduced-motion:reduce){translate:none;scale:none;transition-duration:.1s}}
