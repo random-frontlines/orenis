@@ -449,7 +449,7 @@ async function submit(text, files, regen = false, skill = null) {
     const pr = d.petals?.length ? await applyPetals(cid, d.petals) : { refs: [], last: null }, runs = (d.runs || []).map(r => ({ code: r.code, output: r.output, ok: r.ok, imgs: (r.images || []).map(i => ({ mime: i.mime, blob: b64ToBlob(i.data, i.mime) })) }));
     const am = { chatId: cid, role: "assistant", text: d.reply, ts: Date.now(), searched: !!d.searched, sources: d.sources || [], docs: d.files || [], imgs, mem, petals: pr.refs, runs, ask: d.ask || null, steps: th._steps.map(x => ({ t: x.t })), secs: Math.max(1, Math.round((Date.now() - th._t0) / 1000)) };
     am.id = await tx("messages", "readwrite", o => o.add(am));
-    if (pr.last && chatId === cid) { chatPetals = await petalsOf(cid); showPetal(chatPetals.find(x => x.id === pr.last.id) || pr.last); $("#cvBtn").hidden = false; }
+    if (pr.last && chatId === cid) { chatPetals = await petalsOf(cid); const np = chatPetals.find(x => x.id === pr.last.id) || pr.last; if (!mobile() || Petals.isOpen()) showPetal(np); $("#cvBtn").hidden = false; }
     if (all.length <= 1) autoTitle(cid, last.text || "", d.reply);
     if (chatId === cid) { // a rendering problem must never be reported as a connection problem, and must never lose the answer
       thEl?.remove(); let row; try { row = bubble(am, { animate: true, isLast: true }); } catch { row = el("div", "m md"); row.textContent = am.text; }
@@ -544,8 +544,8 @@ function openPetal(p) {
   petalId = p.id;
   Petals.open({ ...p, onChange: savePetalEdit,
     onAsk: q => { $("#input").value = q; autosize(); updSend(); send(); },
-    onClose: () => { petalId = null; $("#cvBtn").classList.remove("on"); $("#cvBtn").hidden = !chatPetals.length; if (view === "petals") renderPetalList(); } });
-  $("#cvBtn").hidden = false; $("#cvBtn").classList.add("on"); if (view === "petals") renderPetalList();
+    onClose: () => { petalId = null; markCards(); $("#cvBtn").classList.remove("on"); $("#cvBtn").hidden = !chatPetals.length; if (view === "petals") renderPetalList(); } });
+  $("#cvBtn").hidden = false; $("#cvBtn").classList.add("on"); markCards(); if (view === "petals") renderPetalList();
 }
 const showPetal = p => Petals.isOpen() && Petals.get()?.id === p.id ? Petals.update(p) : openPetal(p); // the model wrote or changed it
 async function savePetalEdit(c) { // your hand edits and title changes
@@ -566,14 +566,17 @@ async function applyPetals(cid, list) { // the model's Petals: a known id replac
   }
   return { refs, last };
 }
-function petalCard(ref) { // the card inside a message
-  const c = el("div", "docc"), h = el("div", "dh"), b = el("div", "dbs"), x = el("button", "dbtn p", T("openP", "Open")), d = el("button", "dbtn", T("download", "Download"));
-  const t = el("span", "pt"); t.append(el("b", "", ref.title), el("small", "", petalTag(ref))); h.append(svg("petal"), t);
+const petalLabel = p => p.type === "markdown" ? "Document \u00b7 MD" : petalExt(p).toUpperCase();
+function petalCard(ref) { // a compact file card inside the message: click it and the Petal opens in the side panel
+  const c = el("div", "pcard" + (ref.id === petalId ? " on" : "")), main = el("button", "pmain"), ico = el("span", "pci"), t = el("span", "pt"), d = el("button", "pdl");
+  c.dataset.id = ref.id; main.type = "button"; ico.append(svg(petalIcon(ref))); t.append(el("b", "", ref.title), el("small", "", petalLabel(ref))); main.append(ico, t);
+  d.type = "button"; d.append(svg("download")); d.title = T("download", "Download"); d.setAttribute("aria-label", T("download", "Download"));
   const load = async () => { let p = chatPetals.find(q => q.id === ref.id) || await getPetal(ref.id); if (!p && ref.legacy) { const cid = await ensureChat(); p = { id: ref.id, chatId: cid, title: ref.title, type: ref.legacy.type || "html", language: ref.legacy.language || "", content: String(ref.legacy.content ?? ""), created: Date.now(), updated: Date.now(), rev: 1 }; await putPetalRec(p); chatPetals = await petalsOf(cid); } return p; };
-  x.onclick = async () => { const p = await load(); p ? openPetal(p) : toast(T("petalGone", "This Petal was deleted")); };
-  d.onclick = async () => { const p = await load(); p ? saveBlob(petalName(p), petalMime(p), p.content) : toast(T("petalGone", "This Petal was deleted")); };
-  b.append(x, d); c.append(h, b); return c;
+  main.onclick = async () => { const p = await load(); if (!p) return toast(T("petalGone", "This Petal was deleted")); Petals.isOpen() && Petals.get()?.id === p.id ? Petals.close() : openPetal(p); };
+  d.onclick = async e => { e.stopPropagation(); const p = await load(); p ? saveBlob(petalName(p), petalMime(p), p.content) : toast(T("petalGone", "This Petal was deleted")); };
+  c.append(main, d); return c;
 }
+const markCards = () => document.querySelectorAll(".pcard").forEach(c => c.classList.toggle("on", c.dataset.id === petalId));
 /* ---- Python runs made by the model: code, output, charts ---- */
 function runCard(r) {
   const c = el("div", "runc"), h = el("div", "runh"), pre = el("pre", "runcode"), code = el("code", "language-python"); code.textContent = r.code || "";
