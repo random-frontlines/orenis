@@ -319,3 +319,6 @@ dialog.card{@media (prefers-reduced-motion:reduce){translate:none;scale:none;tra
 .sitem.on,.sitem:hover{background:var(--surf2)}
 #slashBtn .sl{font:600 1.15rem/1 var(--font-mono);color:var(--tx2)}
 @media (pointer:coarse){.sitem{min-height:3rem}}
+
+/* elapsed time in the thinking row (long Ultra runs) */
+.clk{flex:none;margin-left:auto;padding-top:.3rem;font:500 .78rem var(--font-mono);color:var(--mu);font-variant-numeric:tabular-nums}
