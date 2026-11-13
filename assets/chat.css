@@ -322,3 +322,6 @@ dialog.card{@media (prefers-reduced-motion:reduce){translate:none;scale:none;tra
 
 /* elapsed time in the thinking row (long Ultra runs) */
 .clk{flex:none;margin-left:auto;padding-top:.3rem;font:500 .78rem var(--font-mono);color:var(--mu);font-variant-numeric:tabular-nums}
+
+/* Ultra: what was cross-checked */
+.vbadge{display:flex;align-items:center;gap:.45rem;margin-top:.8rem;font-size:.82rem;color:var(--ok)}.vbadge .icon{flex:none;width:1rem;height:1rem}
